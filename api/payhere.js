@@ -354,4 +354,14 @@ export default async function handler(req, res) {
     }
 
 }
+console.log("PAYHERE DEBUG:", {
+    merchant_id,
+    order_id,
+    amount: amountFormatted,
+    currency,
+    hasMerchantSecret: Boolean(merchant_secret),
+    return_url: payment.return_url,
+    cancel_url: payment.cancel_url,
+    notify_url: payment.notify_url
+});
 
