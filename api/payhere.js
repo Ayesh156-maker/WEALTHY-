@@ -244,9 +244,8 @@ export default async function handler(req, res) {
 
                 "https://ayesh-rho.vercel.app/payment-cancel",
 
-            notify_url:
-
-                "https://leangelo-payment.vercel.app/api/payhere-notify",
+           notify_url:
+    "https://ayesh-rho.vercel.app/api/payhere-notify",
 
             first_name:
 
