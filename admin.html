@@ -1,0 +1,2086 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>LeanGelo | Admin Panel</title>
+
+<style>
+
+/* =====================================================
+   RESET
+===================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+
+/* =====================================================
+   BODY
+===================================================== */
+
+body {
+    background: #050505;
+    color: #fff;
+    min-height: 100vh;
+}
+
+
+/* =====================================================
+   SIDEBAR
+===================================================== */
+
+.sidebar {
+
+    position: fixed;
+
+    left: 0;
+    top: 0;
+
+    width: 250px;
+    height: 100vh;
+
+    background: #090909;
+
+    border-right:
+        1px solid rgba(212,175,55,0.25);
+
+    padding: 30px 20px;
+
+    z-index: 1000;
+}
+
+
+/* =====================================================
+   LOGO
+===================================================== */
+
+.logo {
+
+    font-size: 25px;
+
+    font-weight: 800;
+
+    margin-bottom: 45px;
+
+    letter-spacing: 0.5px;
+
+    color: #d4af37;
+}
+
+
+/* =====================================================
+   NAV BUTTON
+===================================================== */
+
+.nav-btn {
+
+    width: 100%;
+
+    padding: 14px 16px;
+
+    margin-bottom: 12px;
+
+    border: 1px solid
+        rgba(212,175,55,0.15);
+
+    border-radius: 10px;
+
+    background: #111;
+
+    color: #ddd;
+
+    cursor: pointer;
+
+    text-align: left;
+
+    font-size: 14px;
+
+    transition: 0.25s;
+}
+
+
+.nav-btn:hover {
+
+    background:
+        linear-gradient(
+            135deg,
+            #d4af37,
+            #a67c00
+        );
+
+    color: #000;
+
+    border-color: #d4af37;
+
+    transform: translateX(4px);
+}
+
+
+/* =====================================================
+   MAIN
+===================================================== */
+
+.main {
+
+    margin-left: 250px;
+
+    padding: 30px;
+
+    width: calc(100% - 250px);
+}
+
+
+/* =====================================================
+   TOPBAR
+===================================================== */
+
+.topbar {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 15px;
+
+    flex-wrap: wrap;
+
+    margin-bottom: 25px;
+
+    padding-bottom: 20px;
+
+    border-bottom:
+        1px solid
+        rgba(212,175,55,0.15);
+}
+
+
+.title {
+
+    font-size: 27px;
+
+    font-weight: 700;
+
+    color: #d4af37;
+}
+
+
+/* =====================================================
+   ACTION AREA
+===================================================== */
+
+.action-area {
+
+    display: flex;
+
+    gap: 10px;
+
+    flex-wrap: wrap;
+
+    align-items: center;
+}
+
+
+/* =====================================================
+   SELECT ALL BUTTON
+===================================================== */
+
+.select-all-btn {
+
+    padding: 11px 16px;
+
+    border-radius: 9px;
+
+    border:
+        1px solid
+        rgba(212,175,55,0.35);
+
+    background: #111;
+
+    color: #d4af37;
+
+    cursor: pointer;
+
+    font-weight: 600;
+
+    transition: 0.25s;
+}
+
+
+.select-all-btn:hover {
+
+    background: #d4af37;
+
+    color: #000;
+}
+
+
+/* =====================================================
+   DELETE SELECTED
+===================================================== */
+
+.delete-selected-btn {
+
+    display: none;
+
+    padding: 11px 16px;
+
+    border: none;
+
+    border-radius: 9px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #d4af37,
+            #8f6b13
+        );
+
+    color: #000;
+
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition: 0.25s;
+}
+
+
+.delete-selected-btn:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 7px 20px
+        rgba(212,175,55,0.25);
+}
+
+
+/* =====================================================
+   DELETE ALL
+===================================================== */
+
+.delete-all-btn {
+
+    padding: 11px 16px;
+
+    border: none;
+
+    border-radius: 9px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #8b0000,
+            #4d0000
+        );
+
+    color: #fff;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.25s;
+}
+
+
+.delete-all-btn:hover {
+
+    background:
+        linear-gradient(
+            135deg,
+            #c00000,
+            #700000
+        );
+
+    transform: translateY(-2px);
+}
+
+
+/* =====================================================
+   SELECTED COUNT
+===================================================== */
+
+.selected-count {
+
+    display: none;
+
+    color: #d4af37;
+
+    font-size: 13px;
+
+    font-weight: bold;
+}
+
+
+/* =====================================================
+   GRID
+===================================================== */
+
+.grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fill,
+            minmax(300px, 1fr)
+        );
+
+    gap: 22px;
+}
+
+
+/* =====================================================
+   CARD
+===================================================== */
+
+.card {
+
+    position: relative;
+
+    background:
+        linear-gradient(
+            145deg,
+            #111,
+            #080808
+        );
+
+    border:
+        1px solid
+        rgba(212,175,55,0.16);
+
+    border-radius: 16px;
+
+    padding: 16px;
+
+    overflow: hidden;
+
+    transition: 0.3s;
+}
+
+
+.card:hover {
+
+    border-color:
+        rgba(212,175,55,0.55);
+
+    transform:
+        translateY(-4px);
+
+    box-shadow:
+        0 12px 35px
+        rgba(0,0,0,0.45);
+}
+
+
+/* =====================================================
+   SELECT CHECKBOX
+===================================================== */
+
+.product-select {
+
+    position: absolute;
+
+    top: 15px;
+    left: 15px;
+
+    width: 21px;
+    height: 21px;
+
+    accent-color: #d4af37;
+
+    cursor: pointer;
+
+    z-index: 5;
+}
+
+
+/* =====================================================
+   SELECTED CARD
+===================================================== */
+
+.card.selected {
+
+    border-color: #d4af37;
+
+    box-shadow:
+        0 0 0 1px
+        rgba(212,175,55,0.3),
+        0 15px 35px
+        rgba(212,175,55,0.08);
+}
+
+
+/* =====================================================
+   CARD HEADER
+===================================================== */
+
+.card-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    gap: 10px;
+
+    padding-left: 35px;
+
+    margin-bottom: 10px;
+}
+
+
+.card-header h3 {
+
+    color: #fff;
+
+    font-size: 17px;
+
+    line-height: 1.4;
+
+    word-break: break-word;
+}
+
+
+.price {
+
+    color: #d4af37;
+
+    font-weight: 800;
+
+    white-space: nowrap;
+
+    font-size: 15px;
+}
+
+
+/* =====================================================
+   PRODUCT IMAGE
+===================================================== */
+
+.product-image {
+
+    display: block;
+
+    width: 100%;
+
+    height: 210px;
+
+    object-fit: cover;
+
+    border-radius: 12px;
+
+    margin: 12px 0;
+
+    background: #111;
+
+    border:
+        1px solid
+        rgba(255,255,255,0.05);
+}
+
+
+/* =====================================================
+   INFO
+===================================================== */
+
+.info p {
+
+    font-size: 13px;
+
+    margin: 7px 0;
+
+    color: #bbb;
+
+    word-break: break-word;
+}
+
+
+.info strong {
+
+    color: #d4af37;
+}
+
+
+/* =====================================================
+   CATEGORY BADGE
+===================================================== */
+
+.category-badge {
+
+    display: inline-block;
+
+    padding: 6px 10px;
+
+    margin-top: 8px;
+
+    border-radius: 20px;
+
+    font-size: 11px;
+
+    color: #d4af37;
+
+    background:
+        rgba(212,175,55,0.08);
+
+    border:
+        1px solid
+        rgba(212,175,55,0.25);
+}
+
+
+/* =====================================================
+   DELETE SINGLE
+===================================================== */
+
+.delete-btn {
+
+    width: 100%;
+
+    padding: 11px;
+
+    margin-top: 13px;
+
+    border: 1px solid
+        rgba(255,0,0,0.25);
+
+    border-radius: 9px;
+
+    background:
+        rgba(100,0,0,0.35);
+
+    color: #ff6b6b;
+
+    cursor: pointer;
+
+    font-weight: 700;
+
+    transition: 0.25s;
+}
+
+
+.delete-btn:hover {
+
+    background: #a00000;
+
+    color: #fff;
+
+    border-color: #a00000;
+}
+
+
+/* =====================================================
+   EMPTY
+===================================================== */
+
+.empty-products {
+
+    padding: 70px 25px;
+
+    text-align: center;
+
+    border:
+        1px solid
+        rgba(212,175,55,0.15);
+
+    border-radius: 18px;
+
+    background: #0c0c0c;
+}
+
+
+.empty-products h2 {
+
+    color: #d4af37;
+
+    margin-bottom: 10px;
+}
+
+
+.empty-products p {
+
+    color: #777;
+}
+
+
+/* =====================================================
+   ORDERS
+===================================================== */
+
+.cart {
+
+    margin-top: 15px;
+
+    padding: 12px;
+
+    border-radius: 10px;
+
+    background: #050505;
+
+    border:
+        1px solid
+        rgba(212,175,55,0.1);
+}
+
+
+.row {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 10px;
+
+    padding: 8px 0;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,0.06);
+
+    font-size: 13px;
+
+    color: #bbb;
+}
+
+
+.row:last-child {
+
+    border-bottom: none;
+}
+
+
+.empty {
+
+    color: #666;
+
+    font-style: italic;
+
+    padding-top: 8px;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 800px) {
+
+    .sidebar {
+
+        width: 200px;
+
+        padding: 25px 15px;
+    }
+
+    .main {
+
+        margin-left: 200px;
+
+        width:
+            calc(100% - 200px);
+
+        padding: 20px;
+    }
+
+    .grid {
+
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .sidebar {
+
+        position: relative;
+
+        width: 100%;
+
+        height: auto;
+
+        border-right: none;
+
+        border-bottom:
+            1px solid
+            rgba(212,175,55,0.2);
+    }
+
+    body {
+
+        display: block;
+    }
+
+    .main {
+
+        margin-left: 0;
+
+        width: 100%;
+
+        padding: 18px;
+    }
+
+    .logo {
+
+        margin-bottom: 20px;
+    }
+
+    .topbar {
+
+        align-items: flex-start;
+    }
+
+    .action-area {
+
+        width: 100%;
+    }
+
+    .action-area button {
+
+        flex: 1;
+    }
+
+}
+
+
+/* =====================================================
+   GOLD DIVIDER
+===================================================== */
+
+.gold-line {
+
+    height: 1px;
+
+    width: 100%;
+
+    margin: 10px 0 20px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            #d4af37,
+            transparent
+        );
+
+    opacity: 0.35;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<div class="sidebar">
+
+    <div class="logo">
+        LeanGelo Admin
+    </div>
+
+    <button
+        class="nav-btn"
+        onclick="loadOrders()"
+    >
+        📦 Orders
+    </button>
+
+    <button
+        class="nav-btn"
+        onclick="loadProducts()"
+    >
+        🛍 Products
+    </button>
+
+</div>
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<div class="main">
+
+
+    <div class="topbar">
+
+        <div class="title">
+            Dashboard
+        </div>
+
+
+        <div
+            class="action-area"
+            id="productActions"
+        >
+
+            <span
+                class="selected-count"
+                id="selectedCount"
+            >
+                0 Selected
+            </span>
+
+
+            <button
+                class="select-all-btn"
+                id="selectAllButton"
+                onclick="toggleSelectAll()"
+                style="display:none;"
+            >
+                ☑ Select All
+            </button>
+
+
+            <button
+                class="delete-selected-btn"
+                id="deleteSelectedButton"
+                onclick="deleteSelectedProducts()"
+            >
+                🗑 Delete Selected
+            </button>
+
+
+            <button
+                class="delete-all-btn"
+                id="deleteAllButton"
+                onclick="deleteAllProducts()"
+                style="display:none;"
+            >
+                🗑 Delete All
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="gold-line"></div>
+
+
+    <div id="output">
+
+        <div class="empty-products">
+
+            <h2>
+                LeanGelo Admin Panel
+            </h2>
+
+            <p>
+                Select Orders or Products from the sidebar.
+            </p>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+<script type="module">
+
+
+/* =====================================================
+   FIREBASE IMPORTS
+===================================================== */
+
+import {
+    initializeApp
+} from
+"https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+
+
+import {
+    getFirestore,
+    collection,
+    getDocs,
+    deleteDoc,
+    doc
+} from
+"https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+
+
+
+/* =====================================================
+   FIREBASE CONFIG
+===================================================== */
+
+const firebaseConfig = {
+
+    apiKey:
+        "AIzaSyBASJQed83D5iCtGOYES8LfqAv5M0iwUaM",
+
+    authDomain:
+        "mylamborghini.firebaseapp.com",
+
+    projectId:
+        "mylamborghini",
+
+    storageBucket:
+        "mylamborghini.appspot.com",
+
+    messagingSenderId:
+        "817085836076",
+
+    appId:
+        "1:817085836076:web:dafa36f41d1ec24a5c5a89"
+
+};
+
+
+
+/* =====================================================
+   INITIALIZE FIREBASE
+===================================================== */
+
+const app =
+    initializeApp(firebaseConfig);
+
+
+const db =
+    getFirestore(app);
+
+
+
+/* =====================================================
+   DOM ELEMENTS
+===================================================== */
+
+const output =
+    document.getElementById("output");
+
+
+const deleteAllButton =
+    document.getElementById("deleteAllButton");
+
+
+const deleteSelectedButton =
+    document.getElementById("deleteSelectedButton");
+
+
+const selectAllButton =
+    document.getElementById("selectAllButton");
+
+
+const selectedCount =
+    document.getElementById("selectedCount");
+
+
+/* =====================================================
+   SELECTED PRODUCTS
+===================================================== */
+
+let selectedProducts = new Set();
+
+
+let allProductIds = [];
+
+
+
+/* =====================================================
+   UPDATE SELECTION UI
+===================================================== */
+
+function updateSelectionUI() {
+
+    const count =
+        selectedProducts.size;
+
+
+    selectedCount.innerText =
+        `${count} Selected`;
+
+
+    if (count > 0) {
+
+        selectedCount.style.display =
+            "inline-block";
+
+        deleteSelectedButton.style.display =
+            "block";
+
+    } else {
+
+        selectedCount.style.display =
+            "none";
+
+        deleteSelectedButton.style.display =
+            "none";
+
+    }
+
+
+    if (
+        allProductIds.length > 0 &&
+        count === allProductIds.length
+    ) {
+
+        selectAllButton.innerText =
+            "☐ Deselect All";
+
+    } else {
+
+        selectAllButton.innerText =
+            "☑ Select All";
+
+    }
+
+}
+
+
+
+/* =====================================================
+   CHECKBOX CHANGE
+===================================================== */
+
+window.handleProductSelection =
+function (id, checkbox) {
+
+    if (checkbox.checked) {
+
+        selectedProducts.add(id);
+
+    } else {
+
+        selectedProducts.delete(id);
+
+    }
+
+
+    const card =
+        document.querySelector(
+            `[data-product-id="${id}"]`
+        );
+
+
+    if (card) {
+
+        card.classList.toggle(
+            "selected",
+            checkbox.checked
+        );
+
+    }
+
+
+    updateSelectionUI();
+
+};
+
+
+
+/* =====================================================
+   SELECT ALL / DESELECT ALL
+===================================================== */
+
+window.toggleSelectAll =
+function () {
+
+    if (
+        allProductIds.length === 0
+    ) {
+
+        return;
+
+    }
+
+
+    const allSelected =
+        selectedProducts.size ===
+        allProductIds.length;
+
+
+    document
+        .querySelectorAll(
+            ".product-select"
+        )
+        .forEach(
+            checkbox => {
+
+                checkbox.checked =
+                    !allSelected;
+
+                const id =
+                    checkbox.dataset.id;
+
+
+                const card =
+                    checkbox.closest(
+                        ".card"
+                    );
+
+
+                if (!allSelected) {
+
+                    selectedProducts.add(id);
+
+                } else {
+
+                    selectedProducts.delete(id);
+
+                }
+
+
+                if (card) {
+
+                    card.classList.toggle(
+                        "selected",
+                        !allSelected
+                    );
+
+                }
+
+            }
+        );
+
+
+    updateSelectionUI();
+
+};
+
+
+
+/* =====================================================
+   LOAD ORDERS
+===================================================== */
+
+window.loadOrders =
+async function () {
+
+    deleteAllButton.style.display =
+        "none";
+
+    deleteSelectedButton.style.display =
+        "none";
+
+    selectAllButton.style.display =
+        "none";
+
+    selectedCount.style.display =
+        "none";
+
+
+    try {
+
+        const snap =
+            await getDocs(
+                collection(
+                    db,
+                    "orders"
+                )
+            );
+
+
+        let html =
+            `<div class="grid">`;
+
+
+        if (snap.empty) {
+
+            html = `
+
+                <div class="empty-products">
+
+                    <h2>
+                        📦 No Orders
+                    </h2>
+
+                    <p>
+                        There are no orders yet.
+                    </p>
+
+                </div>
+
+            `;
+
+        } else {
+
+            snap.forEach(
+                docSnap => {
+
+                    const d =
+                        docSnap.data();
+
+
+                    let cartHTML =
+                        "";
+
+
+                    if (
+                        d.cart &&
+                        Array.isArray(d.cart) &&
+                        d.cart.length > 0
+                    ) {
+
+                        d.cart.forEach(
+                            item => {
+
+                                cartHTML += `
+
+                                    <div class="row">
+
+                                        <span>
+                                            ${escapeHTML(
+                                                item.name ||
+                                                "Product"
+                                            )}
+                                        </span>
+
+                                        <span>
+                                            Rs ${Number(
+                                                item.price ||
+                                                0
+                                            )}
+                                        </span>
+
+                                    </div>
+
+                                `;
+
+                            }
+                        );
+
+                    } else {
+
+                        cartHTML = `
+
+                            <div class="empty">
+                                No items
+                            </div>
+
+                        `;
+
+                    }
+
+
+                    html += `
+
+                        <div class="card">
+
+                            <div class="card-header">
+
+                                <h3>
+                                    ${escapeHTML(
+                                        d.fullname ||
+                                        "Customer"
+                                    )}
+                                </h3>
+
+                                <div class="price">
+                                    Rs ${Number(
+                                        d.total ||
+                                        0
+                                    )}
+                                </div>
+
+                            </div>
+
+
+                            <div class="info">
+
+                                <p>
+                                    📞
+                                    ${escapeHTML(
+                                        d.phone ||
+                                        "-"
+                                    )}
+                                </p>
+
+                                <p>
+                                    📍
+                                    ${escapeHTML(
+                                        d.address ||
+                                        "-"
+                                    )}
+                                </p>
+
+                                <p>
+                                    👤
+                                    ${escapeHTML(
+                                        d.username ||
+                                        d.userName ||
+                                        "-"
+                                    )}
+                                </p>
+
+                                <p>
+                                    📧
+                                    ${escapeHTML(
+                                        d.userEmail ||
+                                        "-"
+                                    )}
+                                </p>
+
+                                <p>
+                                    🕒
+                                    ${escapeHTML(
+                                        d.lastLogin ||
+                                        "-"
+                                    )}
+                                </p>
+
+                            </div>
+
+
+                            <div class="cart">
+
+                                <b>
+                                    🛒 Items
+                                </b>
+
+                                ${cartHTML}
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }
+            );
+
+
+            html += `</div>`;
+
+        }
+
+
+        output.innerHTML =
+            html;
+
+
+    } catch (error) {
+
+        console.error(
+            "Orders loading error:",
+            error
+        );
+
+
+        output.innerHTML = `
+
+            <div class="empty-products">
+
+                <h2>
+                    ❌ Error
+                </h2>
+
+                <p>
+                    Failed to load orders.
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+};
+
+
+
+/* =====================================================
+   LOAD PRODUCTS
+===================================================== */
+
+window.loadProducts =
+async function () {
+
+    deleteAllButton.style.display =
+        "block";
+
+    selectAllButton.style.display =
+        "block";
+
+
+    selectedProducts.clear();
+
+    allProductIds = [];
+
+
+    updateSelectionUI();
+
+
+    try {
+
+        const snap =
+            await getDocs(
+                collection(
+                    db,
+                    "products"
+                )
+            );
+
+
+        if (snap.empty) {
+
+            output.innerHTML = `
+
+                <div class="empty-products">
+
+                    <h2>
+                        🛍 No Products
+                    </h2>
+
+                    <p>
+                        There are no products in the marketplace.
+                    </p>
+
+                </div>
+
+            `;
+
+
+            deleteAllButton.style.display =
+                "none";
+
+            selectAllButton.style.display =
+                "none";
+
+            return;
+
+        }
+
+
+        allProductIds =
+            snap.docs.map(
+                docSnap =>
+                    docSnap.id
+            );
+
+
+        let html =
+            `<div class="grid">`;
+
+
+        snap.forEach(
+            docSnap => {
+
+                const p =
+                    docSnap.data();
+
+
+                const productName =
+                    p.brand ||
+                    p.name ||
+                    "Product";
+
+
+                const image =
+                    p.imageUrl ||
+                    p.image ||
+                    p.originalImage ||
+                    "";
+
+
+                const category =
+                    p.category ||
+                    "Unknown";
+
+
+                const price =
+                    Number(
+                        p.price ||
+                        0
+                    );
+
+
+                html += `
+
+                    <div
+                        class="card"
+                        data-product-id="${docSnap.id}"
+                    >
+
+                        <!-- CHECKBOX -->
+
+                        <input
+
+                            type="checkbox"
+
+                            class="product-select"
+
+                            data-id="${docSnap.id}"
+
+                            onchange="
+                                handleProductSelection(
+                                    '${docSnap.id}',
+                                    this
+                                )
+                            "
+
+                        >
+
+
+                        <!-- HEADER -->
+
+                        <div class="card-header">
+
+                            <h3>
+                                ${escapeHTML(
+                                    productName
+                                )}
+                            </h3>
+
+                            <div class="price">
+                                Rs ${price}
+                            </div>
+
+                        </div>
+
+
+                        <!-- IMAGE -->
+
+                        ${
+                            image
+                            ?
+
+                            `<img
+                                class="product-image"
+                                src="${escapeAttribute(image)}"
+                                alt="${escapeAttribute(productName)}"
+                                onerror="
+                                    this.onerror=null;
+                                    this.style.display='none';
+                                "
+                            >`
+
+                            :
+
+                            `<div
+                                class="product-image"
+                                style="
+                                    display:flex;
+                                    align-items:center;
+                                    justify-content:center;
+                                    color:#666;
+                                "
+                            >
+                                No Image
+                            </div>`
+                        }
+
+
+                        <!-- INFO -->
+
+                        <div class="info">
+
+                            <p>
+                                <strong>
+                                    📦 Product ID:
+                                </strong>
+
+                                ${escapeHTML(
+                                    docSnap.id
+                                )}
+                            </p>
+
+
+                            <p>
+                                <strong>
+                                    📂 Category:
+                                </strong>
+
+                                ${escapeHTML(
+                                    category
+                                )}
+                            </p>
+
+
+                            <p>
+                                <strong>
+                                    📧 Seller:
+                                </strong>
+
+                                ${escapeHTML(
+                                    p.email ||
+                                    p.sellerEmail ||
+                                    "-"
+                                )}
+                            </p>
+
+
+                            <p>
+                                <strong>
+                                    💰 Price:
+                                </strong>
+
+                                Rs ${price}
+                            </p>
+
+
+                            <span class="category-badge">
+
+                                ${escapeHTML(
+                                    category
+                                )}
+
+                            </span>
+
+                        </div>
+
+
+                        <!-- DELETE SINGLE -->
+
+                        <button
+
+                            class="delete-btn"
+
+                            onclick="
+                                deleteProduct(
+                                    '${docSnap.id}'
+                                )
+                            "
+
+                        >
+
+                            🗑 Delete Product
+
+                        </button>
+
+                    </div>
+
+                `;
+
+            }
+        );
+
+
+        html +=
+            `</div>`;
+
+
+        output.innerHTML =
+            html;
+
+
+        updateSelectionUI();
+
+
+    } catch (error) {
+
+        console.error(
+            "Products loading error:",
+            error
+        );
+
+
+        output.innerHTML = `
+
+            <div class="empty-products">
+
+                <h2>
+                    ❌ Error
+                </h2>
+
+                <p>
+                    Failed to load products.
+                </p>
+
+                <p style="
+                    margin-top:10px;
+                    color:#d4af37;
+                ">
+                    ${escapeHTML(
+                        error.message
+                    )}
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+};
+
+
+
+/* =====================================================
+   DELETE SINGLE PRODUCT
+===================================================== */
+
+window.deleteProduct =
+async function (id) {
+
+    if (!id) {
+
+        showToast(
+            "Product ID missing."
+        );
+
+        return;
+
+    }
+
+
+    const confirmDelete =
+        confirm(
+            "Are you sure you want to delete this product?"
+        );
+
+
+    if (!confirmDelete) {
+
+        return;
+
+    }
+
+
+    try {
+
+        await deleteDoc(
+            doc(
+                db,
+                "products",
+                id
+            )
+        );
+
+
+        selectedProducts.delete(id);
+
+
+        showToast(
+            "Product deleted successfully ✅"
+        );
+
+
+        await loadProducts();
+
+
+    } catch (error) {
+
+        console.error(
+            "Delete product error:",
+            error
+        );
+
+
+        showToast(
+            "Failed to delete product.\n\n" +
+            error.message
+        );
+
+    }
+
+};
+
+
+
+/* =====================================================
+   DELETE SELECTED PRODUCTS
+===================================================== */
+
+window.deleteSelectedProducts =
+async function () {
+
+    const ids =
+        Array.from(
+            selectedProducts
+        );
+
+
+    if (ids.length === 0) {
+
+        showToast(
+            "Please select at least one product."
+        );
+
+        return;
+
+    }
+
+
+    const confirmDelete =
+        confirm(
+            `Are you sure you want to delete ${ids.length} selected product(s)?\n\nThis action cannot be undone.`
+        );
+
+
+    if (!confirmDelete) {
+
+        return;
+
+    }
+
+
+    try {
+
+        deleteSelectedButton.disabled =
+            true;
+
+
+        selectAllButton.disabled =
+            true;
+
+
+        deleteAllButton.disabled =
+            true;
+
+
+        let deletedCount =
+            0;
+
+
+        for (
+            const id of ids
+        ) {
+
+            await deleteDoc(
+                doc(
+                    db,
+                    "products",
+                    id
+                )
+            );
+
+
+            deletedCount++;
+
+        }
+
+
+        showToast(
+            `✅ ${deletedCount} product(s) deleted successfully.`
+        );
+
+
+        selectedProducts.clear();
+
+
+        await loadProducts();
+
+
+    } catch (error) {
+
+        console.error(
+            "Delete selected products error:",
+            error
+        );
+
+
+        showToast(
+            "Failed to delete selected products.\n\n" +
+            error.message
+        );
+
+
+        deleteSelectedButton.disabled =
+            false;
+
+        selectAllButton.disabled =
+            false;
+
+        deleteAllButton.disabled =
+            false;
+
+    }
+
+};
+
+
+
+/* =====================================================
+   DELETE ALL PRODUCTS
+===================================================== */
+
+window.deleteAllProducts =
+async function () {
+
+    try {
+
+        const snap =
+            await getDocs(
+                collection(
+                    db,
+                    "products"
+                )
+            );
+
+
+        if (snap.empty) {
+
+            showToast(
+                "There are no products to delete."
+            );
+
+            return;
+
+        }
+
+
+        const total =
+            snap.size;
+
+
+        const firstConfirm =
+            confirm(
+                `⚠️ WARNING!\n\nYou are about to delete ALL ${total} products.\n\nThis action cannot be undone.\n\nDo you want to continue?`
+            );
+
+
+        if (!firstConfirm) {
+
+            return;
+
+        }
+
+
+        const secondConfirm =
+            confirm(
+                `🚨 FINAL CONFIRMATION 🚨\n\nDELETE ALL ${total} PRODUCTS?\n\nPress OK to permanently delete them.`
+            );
+
+
+        if (!secondConfirm) {
+
+            return;
+
+        }
+
+
+        deleteAllButton.disabled =
+            true;
+
+
+        let deletedCount =
+            0;
+
+
+        for (
+            const docSnap of snap.docs
+        ) {
+
+            await deleteDoc(
+                doc(
+                    db,
+                    "products",
+                    docSnap.id
+                )
+            );
+
+
+            deletedCount++;
+
+        }
+
+
+        selectedProducts.clear();
+
+
+        showToast(
+            `✅ All ${deletedCount} products deleted successfully.`
+        );
+
+
+        await loadProducts();
+
+
+    } catch (error) {
+
+        console.error(
+            "Delete all products error:",
+            error
+        );
+
+
+        deleteAllButton.disabled =
+            false;
+
+
+        showToast(
+            "Failed to delete all products.\n\n" +
+            error.message
+        );
+
+    }
+
+};
+
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHTML(value) {
+
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+/* =====================================================
+   ESCAPE ATTRIBUTE
+===================================================== */
+
+function escapeAttribute(value) {
+
+    return escapeHTML(value);
+
+}
+
+
+
+/* =====================================================
+   AUTO LOAD PRODUCTS
+===================================================== */
+
+loadProducts();
+
+
+</script>
+
+
+<script src="toast.js"></script>
+</body>
+
+</html>
