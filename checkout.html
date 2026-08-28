@@ -1204,7 +1204,21 @@ async function prepareCart() {
     return cleanCart;
 
 }
+const payment = data.payment;
 
+console.log(
+    "PAYHERE PAYMENT OBJECT:",
+    payment
+);
+
+if (!payment) {
+
+    throw new Error(
+        data.message ||
+        "PayHere payment data was not returned by the backend."
+    );
+
+}
 
 // =====================================================
 // CHECK DIGITAL PRODUCT
