@@ -1,0 +1,1284 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>My Orders | LeanGelo</title>
+
+
+    <!-- FONT AWESOME -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background:
+                #0b0b0b;
+
+            color:
+                #ffffff;
+
+            min-height:
+                100vh;
+
+        }
+
+
+        /* =================================================
+           PAGE
+        ================================================= */
+
+        .page {
+
+            width:
+                min(1200px, 94%);
+
+            margin:
+                auto;
+
+            padding:
+                35px 0 60px;
+
+        }
+
+
+        /* =================================================
+           HEADER
+        ================================================= */
+
+        .top-header {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                space-between;
+
+            margin-bottom:
+                45px;
+
+        }
+
+
+        .logo {
+
+            font-size:
+                28px;
+
+            font-weight:
+                800;
+
+            letter-spacing:
+                1px;
+
+            color:
+                #d4af37;
+
+        }
+
+
+        .back-btn {
+
+            text-decoration:
+                none;
+
+            color:
+                #d4af37;
+
+            border:
+                1px solid #d4af37;
+
+            padding:
+                10px 18px;
+
+            border-radius:
+                10px;
+
+            font-size:
+                14px;
+
+            transition:
+                0.25s;
+
+        }
+
+
+        .back-btn:hover {
+
+            background:
+                #d4af37;
+
+            color:
+                #000000;
+
+        }
+
+
+        /* =================================================
+           TITLE
+        ================================================= */
+
+        .page-title {
+
+            font-size:
+                42px;
+
+            font-weight:
+                800;
+
+            margin-bottom:
+                10px;
+
+        }
+
+
+        .page-subtitle {
+
+            color:
+                #999999;
+
+            font-size:
+                16px;
+
+            margin-bottom:
+                30px;
+
+        }
+
+
+        /* =================================================
+           STATS
+        ================================================= */
+
+        .stats {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap:
+                18px;
+
+            margin-bottom:
+                35px;
+
+        }
+
+
+        .stat-card {
+
+            background:
+                #141414;
+
+            border:
+                1px solid #292929;
+
+            border-radius:
+                16px;
+
+            padding:
+                22px;
+
+        }
+
+
+        .stat-icon {
+
+            width:
+                42px;
+
+            height:
+                42px;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            border-radius:
+                12px;
+
+            background:
+                rgba(212,175,55,0.12);
+
+            color:
+                #d4af37;
+
+            margin-bottom:
+                12px;
+
+        }
+
+
+        .stat-label {
+
+            color:
+                #999999;
+
+            font-size:
+                14px;
+
+            margin-bottom:
+                7px;
+
+        }
+
+
+        .stat-number {
+
+            font-size:
+                28px;
+
+            font-weight:
+                800;
+
+        }
+
+
+        /* =================================================
+           SECTION
+        ================================================= */
+
+        .section {
+
+            background:
+                #111111;
+
+            border:
+                1px solid #272727;
+
+            border-radius:
+                18px;
+
+            padding:
+                25px;
+
+            margin-bottom:
+                30px;
+
+        }
+
+
+        .section-header {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                space-between;
+
+            margin-bottom:
+                22px;
+
+        }
+
+
+        .section-title {
+
+            font-size:
+                22px;
+
+            font-weight:
+                700;
+
+        }
+
+
+        .section-title i {
+
+            color:
+                #d4af37;
+
+            margin-right:
+                8px;
+
+        }
+
+
+        /* =================================================
+           RECENT ORDERS TABLE
+        ================================================= */
+
+        .table-wrapper {
+
+            width:
+                100%;
+
+            overflow-x:
+                auto;
+
+        }
+
+
+        .orders-table {
+
+            width:
+                100%;
+
+            border-collapse:
+                collapse;
+
+            min-width:
+                650px;
+
+        }
+
+
+        .orders-table th {
+
+            text-align:
+                left;
+
+            padding:
+                14px;
+
+            color:
+                #888888;
+
+            font-size:
+                13px;
+
+            border-bottom:
+                1px solid #292929;
+
+        }
+
+
+        .orders-table td {
+
+            padding:
+                17px 14px;
+
+            border-bottom:
+                1px solid #202020;
+
+            font-size:
+                14px;
+
+            vertical-align:
+                top;
+
+        }
+
+
+        .orders-table tr:last-child td {
+
+            border-bottom:
+                none;
+
+        }
+
+
+        .order-status {
+
+            display:
+                inline-block;
+
+            padding:
+                6px 10px;
+
+            border-radius:
+                20px;
+
+            background:
+                rgba(212,175,55,0.12);
+
+            color:
+                #d4af37;
+
+            font-size:
+                12px;
+
+        }
+
+
+        /* =================================================
+           RECENT CHATS
+        ================================================= */
+
+        #recentChats {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap:
+                15px;
+
+        }
+
+
+        .chat-card {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                space-between;
+
+            gap:
+                15px;
+
+            background:
+                #181818;
+
+            border:
+                1px solid #292929;
+
+            border-radius:
+                14px;
+
+            padding:
+                17px;
+
+        }
+
+
+        .chat-info {
+
+            min-width:
+                0;
+
+        }
+
+
+        .chat-info h3 {
+
+            font-size:
+                15px;
+
+            margin-bottom:
+                6px;
+
+        }
+
+
+        .chat-info p {
+
+            color:
+                #888888;
+
+            font-size:
+                13px;
+
+            overflow:
+                hidden;
+
+            text-overflow:
+                ellipsis;
+
+            white-space:
+                nowrap;
+
+            max-width:
+                260px;
+
+        }
+
+
+        .chat-btn {
+
+            border:
+                1px solid #d4af37;
+
+            background:
+                transparent;
+
+            color:
+                #d4af37;
+
+            padding:
+                9px 13px;
+
+            border-radius:
+                9px;
+
+            cursor:
+                pointer;
+
+            white-space:
+                nowrap;
+
+            transition:
+                0.25s;
+
+        }
+
+
+        .chat-btn:hover {
+
+            background:
+                #d4af37;
+
+            color:
+                #000000;
+
+        }
+
+
+        /* =================================================
+           ALL ORDERS
+        ================================================= */
+
+        .category-section {
+
+            margin-bottom:
+                35px;
+
+        }
+
+
+        .category-title {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            gap:
+                10px;
+
+            margin-bottom:
+                18px;
+
+        }
+
+
+        .category-icon {
+
+            font-size:
+                22px;
+
+        }
+
+
+        .category-name {
+
+            font-size:
+                21px;
+
+            font-weight:
+                700;
+
+        }
+
+
+        .category-count {
+
+            min-width:
+                27px;
+
+            height:
+                27px;
+
+            padding:
+                0 8px;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            border-radius:
+                50px;
+
+            background:
+                #d4af37;
+
+            color:
+                #000000;
+
+            font-size:
+                12px;
+
+            font-weight:
+                800;
+
+        }
+
+
+        .orders-grid {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap:
+                18px;
+
+        }
+
+
+        /* =================================================
+           ORDER CARD
+        ================================================= */
+
+        .order-card {
+
+            background:
+                #171717;
+
+            border:
+                1px solid #292929;
+
+            border-radius:
+                16px;
+
+            padding:
+                16px;
+
+            transition:
+                transform 0.25s,
+                border-color 0.25s;
+
+        }
+
+
+        .order-card:hover {
+
+            transform:
+                translateY(-4px);
+
+            border-color:
+                #d4af37;
+
+        }
+
+
+        .order-top {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                space-between;
+
+            gap:
+                10px;
+
+            margin-bottom:
+                15px;
+
+        }
+
+
+        .order-id {
+
+            color:
+                #888888;
+
+            font-size:
+                12px;
+
+        }
+
+
+        .status {
+
+            color:
+                #d4af37;
+
+            background:
+                rgba(212,175,55,0.1);
+
+            padding:
+                5px 9px;
+
+            border-radius:
+                20px;
+
+            font-size:
+                11px;
+
+        }
+
+
+        .order-product {
+
+            display:
+                flex;
+
+            gap:
+                14px;
+
+        }
+
+
+        .product-image {
+
+            width:
+                105px;
+
+            height:
+                105px;
+
+            object-fit:
+                cover;
+
+            border-radius:
+                12px;
+
+            background:
+                #222222;
+
+            flex-shrink:
+                0;
+
+        }
+
+
+        .product-info {
+
+            min-width:
+                0;
+
+        }
+
+
+        .product-name {
+
+            font-size:
+                16px;
+
+            font-weight:
+                700;
+
+            margin-bottom:
+                7px;
+
+            word-break:
+                break-word;
+
+        }
+
+
+        .product-category {
+
+            color:
+                #888888;
+
+            font-size:
+                12px;
+
+            margin-bottom:
+                8px;
+
+        }
+
+
+        .product-price {
+
+            color:
+                #d4af37;
+
+            font-weight:
+                700;
+
+            font-size:
+                14px;
+
+            margin-bottom:
+                7px;
+
+        }
+
+
+        .order-date {
+
+            color:
+                #777777;
+
+            font-size:
+                11px;
+
+        }
+
+
+        /* =================================================
+           LOADING
+        ================================================= */
+
+        .loading {
+
+            text-align:
+                center;
+
+            padding:
+                60px 20px;
+
+            color:
+                #999999;
+
+        }
+
+
+        .loading::before {
+
+            content:
+                "⏳";
+
+            display:
+                block;
+
+            font-size:
+                32px;
+
+            margin-bottom:
+                12px;
+
+        }
+
+
+        /* =================================================
+           EMPTY
+        ================================================= */
+
+        .empty {
+
+            text-align:
+                center;
+
+            padding:
+                70px 20px;
+
+            background:
+                #111111;
+
+            border:
+                1px solid #272727;
+
+            border-radius:
+                18px;
+
+        }
+
+
+        .empty-icon {
+
+            font-size:
+                45px;
+
+            margin-bottom:
+                15px;
+
+        }
+
+
+        .empty h2 {
+
+            margin-bottom:
+                8px;
+
+        }
+
+
+        .empty p {
+
+            color:
+                #888888;
+
+        }
+
+
+        /* =================================================
+           RESPONSIVE
+        ================================================= */
+
+        @media (max-width: 900px) {
+
+            .orders-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+            }
+
+
+            #recentChats {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+        }
+
+
+        @media (max-width: 650px) {
+
+            .page {
+
+                width:
+                    92%;
+
+                padding-top:
+                    22px;
+
+            }
+
+
+            .top-header {
+
+                margin-bottom:
+                    30px;
+
+            }
+
+
+            .logo {
+
+                font-size:
+                    23px;
+
+            }
+
+
+            .page-title {
+
+                font-size:
+                    31px;
+
+            }
+
+
+            .page-subtitle {
+
+                font-size:
+                    14px;
+
+                line-height:
+                    1.5;
+
+            }
+
+
+            .stats {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+
+            .section {
+
+                padding:
+                    17px;
+
+            }
+
+
+            .orders-grid {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+
+            .order-product {
+
+                align-items:
+                    flex-start;
+
+            }
+
+
+            .product-image {
+
+                width:
+                    90px;
+
+                height:
+                    90px;
+
+            }
+
+
+            .chat-card {
+
+                align-items:
+                    flex-start;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="page">
+
+
+    <!-- =================================================
+         HEADER
+    ================================================= -->
+
+    <div class="top-header">
+
+        <div class="logo">
+            LeanGelo
+        </div>
+
+
+        <a
+            href="landing.html"
+            class="back-btn"
+        >
+
+            ← Back
+
+        </a>
+
+    </div>
+
+
+    <!-- =================================================
+         PAGE TITLE
+    ================================================= -->
+
+    <h1 class="page-title">
+        My Orders
+    </h1>
+
+
+    <p class="page-subtitle">
+        View and manage your LeanGelo purchases
+    </p>
+
+
+    <!-- =================================================
+         STATS
+    ================================================= -->
+
+    <div class="stats">
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+
+                <i class="fas fa-box"></i>
+
+            </div>
+
+
+            <div class="stat-label">
+                Total Orders
+            </div>
+
+
+            <div
+                class="stat-number"
+                id="totalOrders"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+
+                <i class="fas fa-comments"></i>
+
+            </div>
+
+
+            <div class="stat-label">
+                Recent Chats
+            </div>
+
+
+            <div
+                class="stat-number"
+                id="chatCount"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+
+                <i class="fas fa-crown"></i>
+
+            </div>
+
+
+            <div class="stat-label">
+                LeanGelo
+            </div>
+
+
+            <div class="stat-number">
+                Buyer
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =================================================
+         RECENT CHATS
+    ================================================= -->
+
+    <div class="section">
+
+
+        <div class="section-header">
+
+            <div class="section-title">
+
+                <i class="fas fa-comments"></i>
+
+                Recent Pending Artwotks
+
+            </div>
+
+        </div>
+
+
+        <div id="recentChats">
+
+            <p style="color:#888;">
+                Loading chats...
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =================================================
+         ALL ORDERS
+    ================================================= -->
+
+    <div class="section">
+
+
+        <div class="section-header">
+
+            <div class="section-title">
+
+                <i class="fas fa-layer-group"></i>
+
+                All Purchased Products
+
+            </div>
+
+        </div>
+
+
+        <div id="ordersContainer">
+
+            <div class="loading">
+
+                Loading your orders...
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+<!-- =================================================
+     FIREBASE / ORDERS JS
+================================================== -->
+
+<script
+    type="module"
+    src="orders-buyer.js"
+></script>
+
+
+<!-- =================================================
+     CHAT COUNT
+================================================== -->
+
+<script>
+
+    /*
+       Recent chat count is updated by
+       orders-buyer.js when chats are loaded.
+    */
+
+</script>
+
+
+<script src="toast.js"></script>
+</body>
+
+</html>
+

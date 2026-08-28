@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>LeanGelo AI Studio</title>
+
+<link rel="stylesheet" href="ai-studio.css">
+
+</head>
+
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<nav class="navbar">
+
+
+<div class="logo">
+
+<h2>
+LeanGelo <span>AI</span>
+</h2>
+
+</div>
+
+
+
+<div class="profile">
+
+
+<img src="profile.png" class="profile-img">
+
+
+
+<div class="user-area">
+
+
+<div class="auth-buttons">
+
+
+<button id="loginBtn">
+Login
+</button>
+
+
+<button id="logoutBtn" style="display:none;">
+Logout
+</button>
+
+
+</div>
+
+
+
+<h4 id="userName"></h4>
+
+
+
+<p class="credit-box">
+
+AI Credits :
+
+<span id="credits">
+5
+</span>
+
+</p>
+
+
+</div>
+
+
+</div>
+
+
+</nav>
+
+
+
+
+
+<!-- AI CREATOR SECTION -->
+
+
+<section class="ai-container">
+
+
+
+<h1>
+Create Luxury AI Artwork
+</h1>
+
+
+
+<p class="subtitle">
+Turn your imagination into premium wall art
+</p>
+
+
+
+
+
+<textarea
+
+id="prompt"
+
+placeholder="Describe your artwork...">
+
+</textarea>
+
+
+
+
+
+<button 
+class="generate-btn"
+onclick="generateImage()">
+
+✨ Generate Artwork
+
+</button>
+
+
+
+
+
+
+<!-- LOADER -->
+
+
+<div id="loader">
+
+
+<div class="spinner"></div>
+
+
+<p>
+Creating your masterpiece...
+</p>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- RESULT -->
+
+
+<div id="result">
+
+
+</div>
+
+
+
+
+
+
+</section>
+
+
+
+
+
+<script type="module" src="ai-studio.js"></script>
+
+
+<script src="toast.js"></script>
+</body>
+
+
+</html>

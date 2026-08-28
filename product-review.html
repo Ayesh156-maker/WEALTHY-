@@ -1,0 +1,2167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>LeanGelo | Review Product</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            min-height: 100vh;
+
+            font-family:
+                "Inter",
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            color: #f3e5ab;
+
+            background:
+
+                radial-gradient(
+                    circle at 50% 0%,
+                    rgba(212,175,55,0.10),
+                    transparent 35%
+                ),
+
+                linear-gradient(
+                    135deg,
+                    #050505,
+                    #0a0a0a 45%,
+                    #020202
+                );
+
+            padding: 40px 20px;
+        }
+
+
+        .page {
+
+            width: min(
+                1100px,
+                calc(100% - 20px)
+            );
+
+            margin: auto;
+        }
+
+
+        .top-bar {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 35px;
+        }
+
+
+        .brand {
+
+            font-family: Georgia, serif;
+
+            font-size: 25px;
+
+            font-weight: bold;
+
+            color: #f3d77a;
+
+            letter-spacing: 1px;
+        }
+
+
+        .step {
+
+            padding: 8px 15px;
+
+            border:
+                1px solid
+                rgba(212,175,55,0.35);
+
+            border-radius: 30px;
+
+            color: #d4af37;
+
+            font-size: 12px;
+
+            font-weight: 700;
+        }
+
+
+        .review-card {
+
+            position: relative;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #141414,
+                    #070707
+                );
+
+            border:
+                1px solid
+                rgba(212,175,55,0.35);
+
+            border-radius: 18px;
+
+            padding: 38px;
+
+            box-shadow:
+                0 30px 80px
+                rgba(0,0,0,0.8);
+
+            overflow: hidden;
+        }
+
+
+        .header {
+
+            margin-bottom: 30px;
+        }
+
+
+        .header h1 {
+
+            margin: 0 0 8px;
+
+            font-family: Georgia, serif;
+
+            font-size: 32px;
+
+            color: #f3d77a;
+        }
+
+
+        .header p {
+
+            margin: 0;
+
+            color:
+                rgba(245,230,179,0.5);
+
+            font-size: 14px;
+        }
+
+
+        .review-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1fr)
+                minmax(320px, 0.8fr);
+
+            gap: 30px;
+
+            align-items: start;
+        }
+
+
+        .image-card,
+        .info-card {
+
+            background: #090909;
+
+            border:
+                1px solid
+                rgba(212,175,55,0.22);
+
+            border-radius: 14px;
+
+            padding: 20px;
+        }
+
+
+        .section-title {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            margin-bottom: 14px;
+
+            color: #d9c27a;
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+            letter-spacing: 1.4px;
+
+            text-transform: uppercase;
+        }
+
+
+        .section-title::before {
+
+            content: "";
+
+            width: 3px;
+
+            height: 17px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #ffe57f,
+                    #d4af37,
+                    #aa771c
+                );
+        }
+
+
+        .image-wrapper {
+
+            width: 100%;
+
+            min-height: 440px;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            background: #050505;
+
+            border:
+                1px solid
+                rgba(212,175,55,0.18);
+
+            border-radius: 10px;
+
+            overflow: hidden;
+        }
+
+
+        #productImage {
+
+            display: none;
+
+            width: 100%;
+
+            height: 440px;
+
+            object-fit: contain;
+
+            background: #050505;
+        }
+
+
+        .no-image {
+
+            text-align: center;
+
+            padding: 30px;
+
+            color:
+                rgba(245,230,179,0.4);
+        }
+
+
+        .no-image-icon {
+
+            font-size: 45px;
+
+            color: #d4af37;
+
+            margin-bottom: 15px;
+        }
+
+
+        .no-image h3 {
+
+            margin: 0 0 8px;
+
+            color: #f3d77a;
+        }
+
+
+        .no-image p {
+
+            margin: 0;
+
+            font-size: 12px;
+
+            line-height: 1.6;
+        }
+
+
+        .product-title {
+
+            margin: 0 0 22px;
+
+            font-family: Georgia, serif;
+
+            font-size: 25px;
+
+            color: #f3d77a;
+
+            word-break: break-word;
+        }
+
+
+        .info-item {
+
+            padding: 15px 0;
+
+            border-bottom:
+                1px solid
+                rgba(255,255,255,0.05);
+        }
+
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+
+        .info-label {
+
+            display: block;
+
+            margin-bottom: 6px;
+
+            color:
+                rgba(245,230,179,0.42);
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            letter-spacing: 1px;
+
+            text-transform: uppercase;
+        }
+
+
+        .info-value {
+
+            color: #f3e5ab;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            word-break: break-word;
+        }
+
+
+        .price {
+
+            color: #f3d77a;
+
+            font-size: 23px;
+        }
+
+
+        .category-badge {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            padding: 7px 12px;
+
+            border:
+                1px solid
+                rgba(212,175,55,0.35);
+
+            border-radius: 20px;
+
+            background:
+                rgba(212,175,55,0.06);
+
+            color: #d4af37;
+
+            font-size: 11px;
+
+            font-weight: 800;
+        }
+
+
+        .description {
+
+            color:
+                rgba(245,230,179,0.65);
+
+            font-size: 13px;
+
+            line-height: 1.7;
+
+            white-space: pre-wrap;
+
+            font-weight: 400;
+        }
+
+
+        .check-card {
+
+            margin-top: 25px;
+
+            padding: 18px;
+
+            border:
+                1px solid
+                rgba(212,175,55,0.18);
+
+            border-radius: 10px;
+
+            background:
+                rgba(212,175,55,0.025);
+        }
+
+
+        .check-title {
+
+            margin-bottom: 13px;
+
+            color: #d9c27a;
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            letter-spacing: 1px;
+
+            text-transform: uppercase;
+        }
+
+
+        .check-item {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            padding: 8px 0;
+
+            color:
+                rgba(245,230,179,0.65);
+
+            font-size: 12px;
+        }
+
+
+        .check-icon {
+
+            width: 20px;
+
+            height: 20px;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            border-radius: 50%;
+
+            background:
+                rgba(212,175,55,0.12);
+
+            border:
+                1px solid
+                rgba(212,175,55,0.3);
+
+            color: #d4af37;
+
+            font-size: 11px;
+        }
+
+
+        .warning {
+
+            display: none;
+
+            margin-top: 18px;
+
+            padding: 13px 15px;
+
+            border-left:
+                2px solid
+                #d4af37;
+
+            background:
+                rgba(212,175,55,0.04);
+
+            color:
+                rgba(245,230,179,0.65);
+
+            font-size: 11px;
+
+            line-height: 1.6;
+        }
+
+
+        .actions {
+
+            display: flex;
+
+            gap: 13px;
+
+            margin-top: 30px;
+        }
+
+
+        .btn {
+
+            flex: 1;
+
+            min-height: 55px;
+
+            border-radius: 8px;
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+            letter-spacing: 1px;
+
+            cursor: pointer;
+
+            transition: 0.25s ease;
+        }
+
+
+        .btn-secondary {
+
+            background: #0c0c0c;
+
+            color: #d4af37;
+
+            border:
+                1px solid
+                rgba(212,175,55,0.4);
+        }
+
+
+        .btn-primary {
+
+            border:
+                1px solid #d4af37;
+
+            color: #050505;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #b8860b,
+                    #d4af37,
+                    #f3d77a,
+                    #d4af37,
+                    #b8860b
+                );
+        }
+
+
+        .btn:hover {
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        .btn:disabled {
+
+            opacity: 0.45;
+
+            cursor: not-allowed;
+
+            transform: none;
+        }
+
+
+        .publishing {
+
+            display: none;
+
+            margin-top: 20px;
+
+            padding: 18px;
+
+            border:
+                1px solid
+                rgba(212,175,55,0.25);
+
+            border-radius: 10px;
+        }
+
+
+        .publishing-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            margin-bottom: 10px;
+
+            color:
+                rgba(245,230,179,0.6);
+
+            font-size: 11px;
+        }
+
+
+        .publishing-bar {
+
+            width: 100%;
+
+            height: 6px;
+
+            border-radius: 10px;
+
+            overflow: hidden;
+
+            background: #191919;
+        }
+
+
+        .publishing-fill {
+
+            width: 0%;
+
+            height: 100%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #aa771c,
+                    #d4af37,
+                    #ffe57f
+                );
+
+            transition: width 0.3s ease;
+        }
+
+
+        .success {
+
+            display: none;
+
+            text-align: center;
+
+            padding: 60px 20px;
+        }
+
+
+        .success-icon {
+
+            width: 80px;
+
+            height: 80px;
+
+            margin:
+                0 auto 20px;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            border:
+                1px solid
+                #d4af37;
+
+            border-radius: 50%;
+
+            color: #f3d77a;
+
+            font-size: 35px;
+        }
+
+
+        .success h2 {
+
+            margin: 0 0 10px;
+
+            font-family: Georgia, serif;
+
+            color: #f3d77a;
+
+            font-size: 29px;
+        }
+
+
+        .success p {
+
+            margin:
+                0 auto 25px;
+
+            max-width: 500px;
+
+            color:
+                rgba(245,230,179,0.55);
+
+            font-size: 13px;
+
+            line-height: 1.7;
+        }
+
+
+        .success-id {
+
+            display: inline-block;
+
+            padding: 9px 14px;
+
+            border:
+                1px solid
+                rgba(212,175,55,0.25);
+
+            border-radius: 7px;
+
+            color: #d4af37;
+
+            background:
+                rgba(212,175,55,0.04);
+
+            font-size: 11px;
+
+            margin-bottom: 25px;
+        }
+
+
+        @media (max-width: 850px) {
+
+            body {
+                padding: 20px 12px;
+            }
+
+            .review-card {
+                padding: 25px 18px;
+            }
+
+            .review-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .image-wrapper {
+                min-height: 350px;
+            }
+
+            #productImage {
+                height: 350px;
+            }
+
+        }
+
+
+        @media (max-width: 480px) {
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .image-wrapper {
+                min-height: 280px;
+            }
+
+            #productImage {
+                height: 280px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="page">
+
+
+    <div class="top-bar">
+
+        <div class="brand">
+            LEANGELO
+        </div>
+
+        <div class="step">
+            STEP 3 / 3
+        </div>
+
+    </div>
+
+
+    <div class="review-card">
+
+
+        <div id="reviewContent">
+
+
+            <div class="header">
+
+                <h1>
+                    Review Your Product
+                </h1>
+
+                <p>
+                    Check everything carefully before publishing your product.
+                </p>
+
+            </div>
+
+
+            <div class="review-grid">
+
+
+                <!-- IMAGE -->
+
+                <div class="image-card">
+
+                    <div class="section-title">
+                        Product Image
+                    </div>
+
+
+                    <div class="image-wrapper">
+
+                        <div
+                            class="no-image"
+                            id="noImage"
+                        >
+
+                            <div class="no-image-icon">
+                                🖼
+                            </div>
+
+                            <h3>
+                                No Image Found
+                            </h3>
+
+                            <p>
+                                Please go back and upload
+                                your product image.
+                            </p>
+
+                        </div>
+
+
+                        <img
+                            id="productImage"
+                            alt="Product Image"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- PRODUCT INFORMATION -->
+
+                <div>
+
+                    <div class="info-card">
+
+                        <div class="section-title">
+                            Product Information
+                        </div>
+
+
+                        <h2
+                            class="product-title"
+                            id="productName"
+                        >
+                            Product Name
+                        </h2>
+
+
+                        <div class="info-item">
+
+                            <span class="info-label">
+                                Seller Name
+                            </span>
+
+                            <div
+                                class="info-value"
+                                id="sellerName"
+                            >
+                                —
+                            </div>
+
+                        </div>
+
+
+                        <div class="info-item">
+
+                            <span class="info-label">
+                                Phone Number
+                            </span>
+
+                            <div
+                                class="info-value"
+                                id="sellerPhone"
+                            >
+                                —
+                            </div>
+
+                        </div>
+
+
+                        <div class="info-item">
+
+                            <span class="info-label">
+                                Price
+                            </span>
+
+                            <div
+                                class="info-value price"
+                                id="productPrice"
+                            >
+                                —
+                            </div>
+
+                        </div>
+
+
+                        <div class="info-item">
+
+                            <span class="info-label">
+                                Main Category
+                            </span>
+
+                            <span
+                                class="category-badge"
+                                id="productCategory"
+                            >
+                                —
+                            </span>
+
+                        </div>
+
+
+                        <div class="info-item">
+
+                            <span class="info-label">
+                                Subcategory
+                            </span>
+
+                            <span
+                                class="category-badge"
+                                id="productSubcategory"
+                            >
+                                —
+                            </span>
+
+                        </div>
+
+
+                        <div class="info-item">
+
+                            <span class="info-label">
+                                Product Type
+                            </span>
+
+                            <span
+                                class="category-badge"
+                                id="productType"
+                            >
+                                —
+                            </span>
+
+                        </div>
+
+
+                        <div class="info-item">
+
+                            <span class="info-label">
+                                Tags
+                            </span>
+
+                            <div
+                                class="info-value"
+                                id="productTags"
+                            >
+                                —
+                            </div>
+
+                        </div>
+
+
+                        <div
+                            class="info-item"
+                            id="digitalFileInfo"
+                            style="display:none;"
+                        >
+
+                            <span class="info-label">
+                                Digital File
+                            </span>
+
+                            <div
+                                class="info-value"
+                                id="digitalFileName"
+                            >
+                                —
+                            </div>
+
+                        </div>
+
+
+                        <div class="info-item">
+
+                            <span class="info-label">
+                                Description
+                            </span>
+
+                            <div
+                                class="info-value description"
+                                id="productDescription"
+                            >
+                                —
+                            </div>
+
+                        </div>
+
+
+                        <div class="info-item">
+
+                            <span class="info-label">
+                                Product ID
+                            </span>
+
+                            <div
+                                class="info-value"
+                                id="productId"
+                            >
+                                —
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- CHECKLIST -->
+
+                    <div class="check-card">
+
+                        <div class="check-title">
+                            Publishing Checklist
+                        </div>
+
+
+                        <div class="check-item">
+
+                            <span class="check-icon">
+                                ✓
+                            </span>
+
+                            Product information added
+
+                        </div>
+
+
+                        <div class="check-item">
+
+                            <span class="check-icon">
+                                ✓
+                            </span>
+
+                            Product image uploaded
+
+                        </div>
+
+
+                        <div class="check-item">
+
+                            <span class="check-icon">
+                                ✓
+                            </span>
+
+                            Cloudinary image URL verified
+
+                        </div>
+
+
+                        <div class="check-item">
+
+                            <span class="check-icon">
+                                ✓
+                            </span>
+
+                            Ready for publishing
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="warning"
+                        id="warning"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PUBLISHING -->
+
+            <div
+                class="publishing"
+                id="publishing"
+            >
+
+                <div class="publishing-header">
+
+                    <span id="publishingStatus">
+                        Publishing product...
+                    </span>
+
+                    <span id="publishingPercent">
+                        0%
+                    </span>
+
+                </div>
+
+
+                <div class="publishing-bar">
+
+                    <div
+                        class="publishing-fill"
+                        id="publishingFill"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ACTIONS -->
+
+            <div class="actions">
+
+                <button
+                    class="btn btn-secondary"
+                    id="backBtn"
+                    type="button"
+                >
+                    ← BACK TO IMAGE
+                </button>
+
+
+                <button
+                    class="btn btn-primary"
+                    id="publishBtn"
+                    type="button"
+                    disabled
+                >
+                    PUBLISH PRODUCT
+                </button>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- SUCCESS -->
+
+        <div
+            class="success"
+            id="success"
+        >
+
+            <div class="success-icon">
+                ✓
+            </div>
+
+
+            <h2>
+                Product Published!
+            </h2>
+
+
+            <p>
+                Your product has been successfully published
+                to the LeanGelo marketplace.
+            </p>
+
+
+            <div
+                class="success-id"
+                id="successId"
+            >
+                Product ID: —
+            </div>
+
+
+            <br>
+
+
+            <button
+                class="btn btn-primary"
+                id="dashboardBtn"
+                type="button"
+                style="max-width:300px;"
+            >
+                GO TO SELLER DASHBOARD →
+            </button>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<script type="module">
+
+/* =====================================================
+   FIREBASE
+===================================================== */
+
+import {
+    initializeApp
+}
+from
+"https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+
+
+import {
+    getFirestore,
+    doc,
+    getDoc,
+    updateDoc,
+    serverTimestamp
+}
+from
+"https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+
+
+/* =====================================================
+   FIREBASE CONFIG
+===================================================== */
+
+const firebaseConfig = {
+
+    apiKey:
+        "AIzaSyBASJQed83D5iCtGOYES8LfqAv5M0iwUaM",
+
+    authDomain:
+        "mylamborghini.firebaseapp.com",
+
+    projectId:
+        "mylamborghini"
+
+};
+
+
+const app =
+    initializeApp(firebaseConfig);
+
+
+const db =
+    getFirestore(app);
+
+
+/* =====================================================
+   PRODUCT ID
+===================================================== */
+
+const productId =
+    sessionStorage.getItem(
+        "newProductId"
+    );
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const productName =
+    document.getElementById(
+        "productName"
+    );
+
+
+const sellerName =
+    document.getElementById(
+        "sellerName"
+    );
+
+
+const sellerPhone =
+    document.getElementById(
+        "sellerPhone"
+    );
+
+
+const productPrice =
+    document.getElementById(
+        "productPrice"
+    );
+
+
+const productCategory =
+    document.getElementById(
+        "productCategory"
+    );
+
+
+const productSubcategory =
+    document.getElementById(
+        "productSubcategory"
+    );
+
+
+const productType =
+    document.getElementById(
+        "productType"
+    );
+
+
+const productTags =
+    document.getElementById(
+        "productTags"
+    );
+
+
+const digitalFileInfo =
+    document.getElementById(
+        "digitalFileInfo"
+    );
+
+
+const digitalFileName =
+    document.getElementById(
+        "digitalFileName"
+    );
+
+
+const productDescription =
+    document.getElementById(
+        "productDescription"
+    );
+
+
+const productIdElement =
+    document.getElementById(
+        "productId"
+    );
+
+
+const productImage =
+    document.getElementById(
+        "productImage"
+    );
+
+
+const noImage =
+    document.getElementById(
+        "noImage"
+    );
+
+
+const warning =
+    document.getElementById(
+        "warning"
+    );
+
+
+const publishBtn =
+    document.getElementById(
+        "publishBtn"
+    );
+
+
+const backBtn =
+    document.getElementById(
+        "backBtn"
+    );
+
+
+const reviewContent =
+    document.getElementById(
+        "reviewContent"
+    );
+
+
+const success =
+    document.getElementById(
+        "success"
+    );
+
+
+const successId =
+    document.getElementById(
+        "successId"
+    );
+
+
+const publishing =
+    document.getElementById(
+        "publishing"
+    );
+
+
+const publishingStatus =
+    document.getElementById(
+        "publishingStatus"
+    );
+
+
+const publishingPercent =
+    document.getElementById(
+        "publishingPercent"
+    );
+
+
+const publishingFill =
+    document.getElementById(
+        "publishingFill"
+    );
+
+
+const dashboardBtn =
+    document.getElementById(
+        "dashboardBtn"
+    );
+
+
+/* =====================================================
+   PRODUCT DATA
+===================================================== */
+
+let productData = null;
+
+
+/* =====================================================
+   SESSION CHECK
+===================================================== */
+
+if (!productId) {
+
+    showWarning(
+        "Product session not found. Please start from Add Product."
+    );
+
+    publishBtn.disabled =
+        true;
+
+}
+
+
+/* =====================================================
+   LOAD PRODUCT
+===================================================== */
+
+async function loadProduct() {
+
+    if (!productId) {
+        return;
+    }
+
+
+    try {
+
+        const productRef =
+            doc(
+                db,
+                "products",
+                productId
+            );
+
+
+        const snapshot =
+            await getDoc(
+                productRef
+            );
+
+
+        if (
+            !snapshot.exists()
+        ) {
+
+            showWarning(
+                "Product was not found in Firebase."
+            );
+
+            publishBtn.disabled =
+                true;
+
+            return;
+
+        }
+
+
+        productData = {
+
+            id:
+                snapshot.id,
+
+            ...snapshot.data()
+
+        };
+
+
+        console.log(
+            "PRODUCT:",
+            productData
+        );
+
+
+        displayProduct();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "LOAD PRODUCT ERROR:",
+            error
+        );
+
+
+        showWarning(
+            "Unable to load product: " +
+            error.message
+        );
+
+
+        publishBtn.disabled =
+            true;
+
+    }
+
+}
+
+
+/* =====================================================
+   DISPLAY PRODUCT
+===================================================== */
+
+function displayProduct() {
+
+    if (!productData) {
+        return;
+    }
+
+
+    /* NAME */
+
+    productName.textContent =
+        productData.brand ||
+        productData.productName ||
+        productData.name ||
+        "Untitled Product";
+
+
+    /* SELLER */
+
+    sellerName.textContent =
+        productData.sellerName ||
+        "Not available";
+
+
+    /* PHONE */
+
+    sellerPhone.textContent =
+        productData.phone ||
+        "Not available";
+
+
+    /* PRICE */
+
+    const price =
+        productData.price;
+
+
+    if (
+        price !== undefined &&
+        price !== null &&
+        price !== ""
+    ) {
+
+        productPrice.textContent =
+            "LKR " +
+            Number(price).toLocaleString(
+                "en-LK",
+                {
+                    minimumFractionDigits:
+                        2,
+
+                    maximumFractionDigits:
+                        2
+                }
+            );
+
+    }
+
+    else {
+
+        productPrice.textContent =
+            "Price not set";
+
+    }
+
+
+    /* CATEGORY */
+
+    productCategory.textContent =
+        formatCategory(
+            productData.category
+        );
+
+
+    /* SUBCATEGORY */
+
+    productSubcategory.textContent =
+        formatCategory(
+            productData.subcategory
+        );
+
+
+    /* PRODUCT TYPE */
+
+    if (
+        productData.categoryType ===
+        "digital"
+    ) {
+
+        productType.textContent =
+            "Digital Product";
+
+    }
+
+    else {
+
+        productType.textContent =
+            "Physical Product";
+
+    }
+
+
+    /* TAGS */
+
+    productTags.textContent =
+        productData.tags ||
+        "No tags added";
+
+
+    /* DIGITAL FILE */
+
+    if (
+        productData.categoryType ===
+        "digital"
+    ) {
+
+        digitalFileInfo.style.display =
+            "block";
+
+
+        digitalFileName.textContent =
+            productData.digitalFileName ||
+            "Digital file selected";
+
+    }
+
+    else {
+
+        digitalFileInfo.style.display =
+            "none";
+
+    }
+
+
+    /* DESCRIPTION */
+
+    productDescription.textContent =
+        productData.description ||
+        "No description provided.";
+
+
+    /* ID */
+
+    productIdElement.textContent =
+        productData.id;
+
+
+    /* IMAGE */
+
+    loadProductImage();
+
+}
+
+
+/* =====================================================
+   FORMAT CATEGORY
+===================================================== */
+
+function formatCategory(
+    category
+) {
+
+    if (!category) {
+        return "Not selected";
+    }
+
+
+    return String(category)
+        .replace(
+            /-/g,
+            " "
+        )
+        .replace(
+            /\b\w/g,
+            letter =>
+                letter.toUpperCase()
+        );
+
+}
+
+
+/* =====================================================
+   LOAD IMAGE
+===================================================== */
+
+function loadProductImage() {
+
+    const imageSource =
+        productData.imageUrl ||
+        productData.imageURL ||
+        productData.image ||
+        sessionStorage.getItem(
+            "productImageUrl"
+        ) ||
+        "";
+
+
+    if (
+        imageSource &&
+        imageSource.startsWith("http")
+    ) {
+
+        productImage.src =
+            imageSource;
+
+
+        productImage.style.display =
+            "block";
+
+
+        noImage.style.display =
+            "none";
+
+
+        productImage.onload =
+            () => {
+
+                publishBtn.disabled =
+                    false;
+
+            };
+
+
+        productImage.onerror =
+            () => {
+
+                productImage.style.display =
+                    "none";
+
+
+                noImage.style.display =
+                    "block";
+
+
+                showWarning(
+                    "Product image could not be loaded."
+                );
+
+
+                publishBtn.disabled =
+                    true;
+
+            };
+
+    }
+
+    else {
+
+        productImage.style.display =
+            "none";
+
+
+        noImage.style.display =
+            "block";
+
+
+        showWarning(
+            "Product image is missing. Please go back and upload an image."
+        );
+
+
+        publishBtn.disabled =
+            true;
+
+    }
+
+}
+
+
+/* =====================================================
+   BACK
+===================================================== */
+
+backBtn.addEventListener(
+    "click",
+    () => {
+
+        window.location.href =
+            "product-image-upload.html";
+
+    }
+);
+
+
+/* =====================================================
+   PUBLISH
+===================================================== */
+
+publishBtn.addEventListener(
+    "click",
+    publishProduct
+);
+
+
+/* =====================================================
+   PUBLISH PRODUCT
+===================================================== */
+
+async function publishProduct() {
+
+    if (!productData) {
+
+        showWarning(
+            "Product information has not loaded yet."
+        );
+
+        return;
+
+    }
+
+
+    const imageSource =
+        productData.imageUrl ||
+        productData.imageURL ||
+        productData.image ||
+        sessionStorage.getItem(
+            "productImageUrl"
+        );
+
+
+    if (!imageSource) {
+
+        showWarning(
+            "Product image is missing."
+        );
+
+        return;
+
+    }
+
+
+    publishBtn.disabled =
+        true;
+
+
+    backBtn.disabled =
+        true;
+
+
+    publishing.style.display =
+        "block";
+
+
+    try {
+
+        /* =================================================
+           20%
+        ================================================= */
+
+        updateProgress(
+            20,
+            "Validating product..."
+        );
+
+
+        await delay(300);
+
+
+        /* =================================================
+           40%
+        ================================================= */
+
+        updateProgress(
+            40,
+            "Preparing product..."
+        );
+
+
+        await delay(300);
+
+
+        /* =================================================
+           FIRESTORE
+        ================================================= */
+
+        const productRef =
+            doc(
+                db,
+                "products",
+                productId
+            );
+
+
+        await updateDoc(
+            productRef,
+            {
+
+                imageUrl:
+                    imageSource,
+
+                imageUploaded:
+                    true,
+
+                productStep:
+                    3,
+
+                status:
+                    "published",
+
+                publishedAt:
+                    serverTimestamp(),
+
+                updatedAt:
+                    serverTimestamp()
+
+            }
+        );
+
+
+        /* =================================================
+           80%
+        ================================================= */
+
+        updateProgress(
+            80,
+            "Finalizing product..."
+        );
+
+
+        await delay(400);
+
+
+        /* =================================================
+           100%
+        ================================================= */
+
+        updateProgress(
+            100,
+            "Published successfully!"
+        );
+
+
+        sessionStorage.setItem(
+            "productPublished",
+            "true"
+        );
+
+
+        sessionStorage.setItem(
+            "publishedProductId",
+            productId
+        );
+
+
+        /* =================================================
+           SUCCESS
+        ================================================= */
+
+        await delay(500);
+
+
+        showSuccess();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "PUBLISH ERROR:",
+            error
+        );
+
+
+        publishing.style.display =
+            "none";
+
+
+        publishBtn.disabled =
+            false;
+
+
+        backBtn.disabled =
+            false;
+
+
+        showWarning(
+            "Failed to publish product: " +
+            error.message
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   PROGRESS
+===================================================== */
+
+function updateProgress(
+    percent,
+    status
+) {
+
+    publishingPercent.textContent =
+        percent + "%";
+
+
+    publishingFill.style.width =
+        percent + "%";
+
+
+    publishingStatus.textContent =
+        status;
+
+}
+
+
+/* =====================================================
+   DELAY
+===================================================== */
+
+function delay(
+    milliseconds
+) {
+
+    return new Promise(
+        resolve =>
+            setTimeout(
+                resolve,
+                milliseconds
+            )
+    );
+
+}
+
+
+/* =====================================================
+   SUCCESS
+===================================================== */
+
+function showSuccess() {
+
+    reviewContent.style.display =
+        "none";
+
+
+    success.style.display =
+        "block";
+
+
+    successId.textContent =
+        "Product ID: " +
+        productId;
+
+}
+
+
+/* =====================================================
+   DASHBOARD
+===================================================== */
+
+dashboardBtn.addEventListener(
+    "click",
+    () => {
+
+        window.location.href =
+            "dashboard.html";
+
+    }
+);
+
+
+/* =====================================================
+   WARNING
+===================================================== */
+
+function showWarning(
+    message
+) {
+
+    warning.textContent =
+        message;
+
+
+    warning.style.display =
+        "block";
+
+}
+
+
+function hideWarning() {
+
+    warning.style.display =
+        "none";
+
+}
+
+
+/* =====================================================
+   START
+===================================================== */
+
+loadProduct();
+
+</script>
+
+
+<script src="toast.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,3600 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>LeanGelo | Add Product</title>
+
+<link
+    rel="stylesheet"
+    href="seller-form.css"
+>
+
+<style>
+
+.section-title{
+    margin-top:25px;
+    margin-bottom:12px;
+}
+
+.hidden{
+    display:none !important;
+}
+
+.spec-note{
+    font-size:12px;
+    opacity:.65;
+    margin-top:5px;
+    margin-bottom:12px;
+}
+
+/* =====================================================
+   CATEGORY / SUBCATEGORY
+===================================================== */
+
+#category,
+#subcategory{
+    width:100%;
+}
+
+#subcategoryWrapper{
+    display:block !important;
+    visibility:visible !important;
+    opacity:1 !important;
+    margin-top:15px;
+}
+
+#subcategoryWrapper.hidden{
+    display:block !important;
+}
+
+#subcategory:disabled{
+    opacity:.6;
+}
+
+
+/* =====================================================
+   LOADING SCREEN
+===================================================== */
+
+#loadingScreen{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.88);
+    z-index:9999;
+    display:none;
+    align-items:center;
+    justify-content:center;
+}
+
+.loaderBox{
+    text-align:center;
+    padding:30px;
+}
+
+.neonSpinner{
+    width:55px;
+    height:55px;
+    border:4px solid rgba(255,255,255,.15);
+    border-top:4px solid #d4af37;
+    border-radius:50%;
+    animation:spin 1s linear infinite;
+    margin:0 auto 20px;
+}
+
+@keyframes spin{
+    to{
+        transform:rotate(360deg);
+    }
+}
+.section-title{
+    margin-top:25px;
+    margin-bottom:12px;
+}
+
+.hidden{
+    display:none !important;
+}
+
+.spec-note{
+    font-size:12px;
+    opacity:.65;
+    margin-top:5px;
+    margin-bottom:12px;
+}
+
+/* =========================================
+   SUBCATEGORY FORCE DISPLAY
+========================================= */
+
+#subcategoryWrapper{
+    display:block !important;
+    visibility:visible !important;
+    opacity:1 !important;
+    height:auto !important;
+    max-height:none !important;
+    overflow:visible !important;
+}
+
+#subcategory{
+    display:block !important;
+    visibility:visible !important;
+    opacity:1 !important;
+    width:100% !important;
+}
+
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="form-container">
+
+
+<h1 style="text-align:center;">
+    Add Product 🚀
+</h1>
+
+
+<!-- =====================================================
+     SELLER INFORMATION
+====================================================== -->
+
+<label class="field-label">
+    Full Name
+</label>
+
+<input
+    type="text"
+    id="name"
+    placeholder="Enter your full name"
+    required
+>
+
+
+<label class="field-label">
+    Phone Number
+</label>
+
+<input
+    type="tel"
+    id="phone"
+    placeholder="Enter phone number"
+    required
+>
+
+
+<!-- =====================================================
+     PRODUCT INFORMATION
+====================================================== -->
+
+<label class="field-label">
+    Product Name
+</label>
+
+<input
+    type="text"
+    id="brand"
+    placeholder="Enter product name"
+    required
+>
+
+
+<label class="field-label">
+    Price
+</label>
+
+<input
+    type="number"
+    id="price"
+    placeholder="Enter product price"
+    min="0"
+    step="0.01"
+    required
+>
+
+
+<label class="field-label">
+    Tags
+</label>
+
+<input
+    type="text"
+    id="tags"
+    placeholder="Example: luxury, modern, art"
+>
+
+
+<!-- =====================================================
+     PRODUCT TYPE
+====================================================== -->
+
+<label class="field-label">
+    Product Type
+</label>
+
+<select
+    id="productType"
+    required
+>
+
+    <option value="">
+        Select Product Type
+    </option>
+
+    <option value="digital">
+        Digital Product
+    </option>
+
+    <option value="non-digital">
+        Physical / Non-Digital Product
+    </option>
+
+</select>
+
+
+<!-- =====================================================
+     MAIN CATEGORY
+====================================================== -->
+
+<label class="field-label">
+    Main Category
+</label>
+
+<select
+    id="category"
+    required
+    disabled
+>
+
+    <option value="">
+        Select Product Type First
+    </option>
+
+</select>
+
+
+<!-- =====================================================
+     SUBCATEGORY
+====================================================== -->
+
+<div id="subcategoryWrapper">
+
+    <label class="field-label">
+        Subcategory
+    </label>
+
+    <select
+        id="subcategory"
+        required
+        disabled
+    >
+
+        <option value="">
+            Select Main Category First
+        </option>
+
+    </select>
+
+</div>
+
+
+<!-- =====================================================
+     DIGITAL PRODUCT DETAILS
+====================================================== -->
+
+<div
+    id="digitalDetails"
+    class="hidden"
+>
+
+<h3 class="section-title">
+    💻 Digital Product Details
+</h3>
+
+
+<label class="field-label">
+    Width (px)
+</label>
+
+<input
+    type="number"
+    id="digitalWidth"
+    min="1"
+    placeholder="Example: 1920"
+>
+
+
+<p class="spec-note">
+    Enter digital artwork width in pixels.
+</p>
+
+
+<label class="field-label">
+    Height (px)
+</label>
+
+<input
+    type="number"
+    id="digitalHeight"
+    min="1"
+    placeholder="Example: 1080"
+>
+
+
+<p class="spec-note">
+    Enter digital artwork height in pixels.
+</p>
+
+</div>
+
+
+<!-- =====================================================
+     PHYSICAL PRODUCT DETAILS
+====================================================== -->
+
+<div
+    id="physicalDetails"
+    class="hidden"
+>
+
+
+<!-- =====================================================
+     INVENTORY
+====================================================== -->
+
+<div id="inventorySection">
+
+<h3 class="section-title">
+    📦 Inventory
+</h3>
+
+
+<label class="field-label">
+    SKU
+</label>
+
+<input
+    type="text"
+    id="sku"
+    readonly
+    placeholder="Auto Generated"
+>
+
+
+<label class="field-label">
+    Stock Quantity
+</label>
+
+<input
+    type="number"
+    id="stock"
+    value="1"
+    min="0"
+>
+
+
+<label class="field-label">
+    Minimum Order Quantity
+</label>
+
+<input
+    type="number"
+    id="minOrder"
+    value="1"
+    min="1"
+>
+
+</div>
+
+
+<!-- =====================================================
+     PHYSICAL SPECIFICATIONS
+====================================================== -->
+
+<h3 class="section-title">
+    📐 Product Specifications
+</h3>
+
+
+<!-- =====================================================
+     MATERIALS
+===================================================== -->
+
+<label class="field-label">
+    Available Materials (Maximum 15)
+</label>
+
+<div class="material-picker" id="materialPicker">
+
+    <button
+        type="button"
+        class="material-picker-button"
+        id="materialPickerButton"
+    >
+
+        <span id="selectedMaterialText">
+            Select Materials
+        </span>
+
+        <span id="selectedMaterialCount">
+            0 selected
+        </span>
+
+        <span>
+            ▼
+        </span>
+
+    </button>
+
+
+    <div
+        class="material-dropdown"
+        id="materialDropdown"
+    >
+
+        <div class="material-search-box">
+
+            <input
+                type="text"
+                id="materialSearch"
+                placeholder="Search material..."
+            >
+
+        </div>
+<div class="custom-material-box">
+
+    <input
+        type="text"
+        id="customMaterialInput"
+        placeholder="Type your own material..."
+        maxlength="50"
+    >
+
+    <button
+        type="button"
+        id="addCustomMaterialBtn"
+    >
+        + Add
+    </button>
+
+</div>
+
+        <div
+            class="material-limit"
+            id="materialLimit"
+        >
+            Maximum 15 materials
+        </div>
+
+
+        <div
+            class="material-list"
+            id="materialList"
+        >
+
+            Loading materials...
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<p class="spec-note">
+    Select up to 15 materials for this product.
+</p>
+
+<label class="field-label">
+    Length (cm)
+</label>
+
+<input
+    type="number"
+    id="length"
+    min="0"
+>
+
+
+<label class="field-label">
+    Width (cm)
+</label>
+
+<input
+    type="number"
+    id="physicalWidth"
+    min="0"
+>
+
+
+<label class="field-label">
+    Height (cm)
+</label>
+
+<input
+    type="number"
+    id="physicalHeight"
+    min="0"
+>
+
+
+<label class="field-label">
+    Weight (kg)
+</label>
+
+<input
+    type="number"
+    id="weight"
+    min="0"
+    step="0.01"
+>
+
+
+
+
+<label class="field-label">
+    Finish
+</label>
+
+<select id="finish">
+
+    <option value="">
+        Select Finish
+    </option>
+
+    <option>Matte</option>
+    <option>Glossy</option>
+    <option>Metallic</option>
+    <option>Wood Finish</option>
+
+</select>
+
+
+<label class="field-label">
+    Frame Included
+</label>
+
+<select id="frame">
+
+    <option>No</option>
+    <option>Yes</option>
+
+</select>
+
+
+<label class="field-label">
+    Handmade
+</label>
+
+<select id="handmade">
+
+    <option>Yes</option>
+    <option>No</option>
+
+</select>
+
+
+<!-- =====================================================
+     VARIANTS
+====================================================== -->
+
+<div id="variantSection">
+
+<h3 class="section-title">
+    🎨 Variants
+</h3>
+
+
+<label class="field-label">
+    Available Colors(OPTIONAL)
+</label>
+
+<div class="color-picker" id="colorPicker">
+
+    <button
+        type="button"
+        class="color-picker-button"
+        id="colorPickerButton"
+    >
+        <span>
+            Select Colors
+        </span>
+
+        <span id="selectedColorCount">
+            0 selected
+        </span>
+
+        <span class="color-arrow">
+            ▼
+        </span>
+    </button>
+
+    <div
+        class="color-dropdown"
+        id="colorDropdown"
+    >
+
+        <div class="color-search-box">
+
+            <input
+                type="text"
+                id="colorSearch"
+                placeholder="Search color..."
+            >
+
+        </div>
+
+        <div
+            class="color-list"
+            id="colorList"
+        >
+
+            <div class="color-loading">
+                Loading colors...
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<p class="spec-note">
+    Select one or more colors for this product.
+</p>
+
+<label class="field-label">
+    Available Sizes
+</label>
+
+<div class="size-picker" id="sizePicker">
+
+    <button
+        type="button"
+        class="size-picker-button"
+        id="sizePickerButton"
+    >
+        <span id="selectedSizeText">
+            Select Sizes
+        </span>
+
+        <span id="selectedSizeCount">
+            0 selected
+        </span>
+
+        <span class="size-arrow">
+            ▼
+        </span>
+    </button>
+
+    <div
+        class="size-dropdown"
+        id="sizeDropdown"
+    >
+
+        <div class="size-search-box">
+
+            <input
+                type="text"
+                id="sizeSearch"
+                placeholder="Search size..."
+            >
+
+        </div>
+
+        <div
+            class="size-list"
+            id="sizeList"
+        >
+
+            <!-- Sizes loaded here -->
+
+        </div>
+
+    </div>
+
+</div>
+
+<p class="spec-note">
+    Select one or more available sizes.
+</p>
+
+<label class="field-label">
+    Customizable
+</label>
+
+<select id="customizable">
+
+    <option>No</option>
+    <option>Yes</option>
+
+</select>
+
+</div>
+
+
+<!-- =====================================================
+     SHIPPING
+====================================================== -->
+
+<div id="shippingSection">
+
+<h3 class="section-title">
+    🚚 Shipping
+</h3>
+
+
+<label class="field-label">
+    Shipping Time
+</label>
+
+<select id="shipping">
+
+    <option>1-3 Days</option>
+    <option>3-5 Days</option>
+    <option>5-7 Days</option>
+    <option>1-2 Weeks</option>
+
+</select>
+
+
+<label class="field-label">
+    Country of Origin
+</label>
+
+<select
+    id="country"
+    required
+>
+
+    <option value="">
+        Select Country
+    </option>
+
+</select>
+
+
+<label class="field-label">
+    Free Shipping
+</label>
+
+<select id="freeShipping">
+
+    <option>No</option>
+    <option>Yes</option>
+
+</select>
+
+</div>
+
+
+</div>
+
+
+
+
+<!-- =====================================================
+     DIGITAL FILE
+===================================================== -->
+
+<div
+    id="digitalFileContainer"
+    class="hidden"
+>
+
+    <h3 class="section-title">
+        📁 Digital Product File
+    </h3>
+
+    <label class="field-label">
+        Upload Digital Product File
+    </label>
+
+    <input
+        type="file"
+        id="digitalFile"
+        accept=".jpg,.jpeg,.png,.webp,.pdf,.zip,.psd,.ai,.svg,.mp4,.mov"
+    >
+
+    <p class="spec-note">
+        Upload the original file that the customer will receive after purchase.
+    </p>
+
+</div>
+<label class="field-label">
+    Product Description
+</label>
+
+<textarea
+    id="description"
+    placeholder="Write a short description about your product..."
+    maxlength="1000"
+></textarea>
+
+<div id="descriptionCounter">
+    0 / 1000 characters
+</div>
+
+
+<!-- =====================================================
+     CONTINUE
+====================================================== -->
+
+<button
+    class="btn"
+    id="submitBtn"
+    type="button"
+>
+
+Continue →
+
+</button>
+
+
+<p class="note">
+    Next step: Upload your product image ⚡
+</p>
+
+</div>
+
+
+<!-- =====================================================
+     LOADING SCREEN
+====================================================== -->
+
+<div
+    id="loadingScreen"
+>
+
+<div class="loaderBox">
+
+<div class="neonSpinner"></div>
+
+<h2>
+    Saving Product...
+</h2>
+
+<p>
+    Please wait 🚀
+</p>
+
+<div id="uploadPercent">
+    0%
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     FIREBASE
+====================================================== -->
+
+<script type="module">
+
+
+/* =====================================================
+   FIREBASE IMPORTS
+===================================================== */
+
+import {
+    initializeApp
+}
+from
+"https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+
+
+import {
+    getAuth
+}
+from
+"https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+
+
+import {
+    getFirestore,
+    collection,
+    addDoc,
+    serverTimestamp
+}
+from
+"https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+
+
+/* =====================================================
+   FIREBASE CONFIG
+===================================================== */
+
+const firebaseConfig = {
+
+    apiKey:
+        "AIzaSyBASJQed83D5iCtGOYES8LfqAv5M0iwUaM",
+
+    authDomain:
+        "mylamborghini.firebaseapp.com",
+
+    projectId:
+        "mylamborghini"
+
+};
+
+
+const app =
+    initializeApp(firebaseConfig);
+
+
+const db =
+    getFirestore(app);
+
+
+const auth =
+    getAuth(app);
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const productTypeSelect =
+    document.getElementById("productType");
+const categorySelect =
+    document.getElementById("category");
+const descriptionInput =
+    document.getElementById("description");
+
+const descriptionCounter =
+    document.getElementById("descriptionCounter");
+const subcategorySelect =
+    document.getElementById("subcategory");
+const colorPickerButton =
+    document.getElementById("colorPickerButton");
+
+const colorDropdown =
+    document.getElementById("colorDropdown");
+
+const colorList =
+    document.getElementById("colorList");
+
+const colorSearch =
+    document.getElementById("colorSearch");
+
+const selectedColorCount =
+    document.getElementById("selectedColorCount");
+const subcategoryWrapper =
+    document.getElementById("subcategoryWrapper");
+
+const digitalDetails =
+    document.getElementById("digitalDetails");
+
+const physicalDetails =
+    document.getElementById("physicalDetails");
+
+const digitalContainer =
+    document.getElementById("digitalFileContainer");
+
+const digitalFileInput =
+    document.getElementById("digitalFile");
+
+const submitBtn =
+    document.getElementById("submitBtn");
+
+const loadingScreen =
+    document.getElementById("loadingScreen");
+
+const uploadPercent =
+    document.getElementById("uploadPercent");
+
+const skuInput =
+    document.getElementById("sku");
+
+const countrySelect =
+    document.getElementById("country");
+
+
+/* =====================================================
+   SKU GENERATOR
+===================================================== */
+
+function generateSKU(){
+
+    const chars =
+        "ABCDEFGHJKLMNPQRSTUVWXYZ123456789";
+
+    let sku = "LG-";
+
+    for(let i = 0; i < 8; i++){
+
+        sku +=
+            chars[
+                Math.floor(
+                    Math.random() * chars.length
+                )
+            ];
+
+    }
+
+    return sku;
+}
+
+
+/* =====================================================
+   DIGITAL CATEGORY DATA
+===================================================== */
+
+const digitalCategoryData = {
+
+    "Digital Art":[
+        "AI Art",
+        "Digital Paintings",
+        "Digital Illustrations",
+        "Digital Drawings",
+        "Digital Sketches",
+        "3D Digital Art",
+        "Digital Concept Art",
+        "Digital Character Art",
+        "Digital Fantasy Art",
+        "Digital Surreal Art"
+    ],
+
+    "Printable Art":[
+        "Printable Wall Art",
+        "Printable Posters",
+        "Printable Quotes",
+        "Printable Nursery Art",
+        "Printable Minimal Art",
+        "Printable Luxury Art",
+        "Printable Line Art",
+        "Printable Abstract Art"
+    ],
+
+    "Digital Illustrations":[
+        "Character Illustration",
+        "Cartoon Illustration",
+        "Anime Illustration",
+        "Fantasy Illustration",
+        "Children's Illustration",
+        "Editorial Illustration",
+        "Fashion Illustration",
+        "Book Illustration",
+        "Vector Illustration",
+        "Line Art"
+    ],
+
+    "Digital Typography":[
+        "Quotes",
+        "Motivational Typography",
+        "Inspirational Typography",
+        "Luxury Typography",
+        "Minimal Typography",
+        "Modern Typography",
+        "Arabic Typography",
+        "Calligraphy Typography"
+    ],
+
+    "Digital Posters":[
+        "Motivational Posters",
+        "Movie Posters",
+        "Celebrity Posters",
+        "Sports Posters",
+        "Music Posters",
+        "Minimal Posters",
+        "Luxury Posters",
+        "Gaming Posters"
+    ],
+
+    "Digital Photography":[
+        "Digital Portraits",
+        "Digital Landscapes",
+        "Digital Nature",
+        "Digital Wildlife",
+        "Digital Travel",
+        "Digital Architecture",
+        "Digital Fashion",
+        "Digital Street Photography"
+    ],
+
+    "3D Art & Models":[
+        "3D Models",
+        "3D Characters",
+        "3D Objects",
+        "3D Environments",
+        "3D Interior Design",
+        "3D Product Design",
+        "3D Architecture",
+        "3D Sculptures"
+    ],
+
+    "Graphics & Design":[
+        "Icons",
+        "Logos",
+        "Vector Graphics",
+        "Patterns",
+        "Textures",
+        "Brushes",
+        "Clipart",
+        "Graphic Elements",
+        "Backgrounds"
+    ],
+
+    "Templates":[
+        "Social Media Templates",
+        "Poster Templates",
+        "Business Templates",
+        "Presentation Templates",
+        "Resume Templates",
+        "Invitation Templates",
+        "Website Templates",
+        "Canva Templates"
+    ],
+
+    "Fonts & Typography":[
+        "Fonts",
+        "Display Fonts",
+        "Handwritten Fonts",
+        "Luxury Fonts",
+        "Minimal Fonts",
+        "Calligraphy Fonts",
+        "Arabic Fonts"
+    ],
+
+    "Digital Crafts":[
+        "Digital Patterns",
+        "Sewing Patterns",
+        "Craft Templates",
+        "Laser Cut Files",
+        "SVG Designs",
+        "Cricut Designs",
+        "Embroidery Designs"
+    ],
+
+    "Digital Resources":[
+        "Presets",
+        "LUTs",
+        "Lightroom Presets",
+        "Photoshop Actions",
+        "Brush Packs",
+        "Texture Packs",
+        "Stock Graphics",
+        "Stock Images"
+    ]
+
+};
+
+
+/* =====================================================
+   NON DIGITAL CATEGORY DATA
+===================================================== */
+
+const nonDigitalCategoryData = {
+
+    "Wall Art":[
+        "Canvas Art",
+        "Framed Art",
+        "Modern Wall Art",
+        "Luxury Wall Art",
+        "Minimal Wall Art",
+        "Handmade Wall Art",
+        "Wood Wall Art",
+        "Metal Wall Art",
+        "3D Wall Art",
+        "Decorative Wall Art"
+    ],
+
+    "Paintings":[
+        "Oil Painting",
+        "Acrylic Painting",
+        "Watercolor Painting",
+        "Gouache Painting",
+        "Canvas Painting",
+        "Abstract Painting",
+        "Landscape Painting",
+        "Portrait Painting",
+        "Modern Painting",
+        "Traditional Painting"
+    ],
+
+    "Drawings":[
+        "Pencil Drawing",
+        "Charcoal Drawing",
+        "Ink Drawing",
+        "Colored Pencil",
+        "Pastel Drawing",
+        "Graphite Drawing",
+        "Sketch",
+        "Portrait Drawing",
+        "Figure Drawing"
+    ],
+
+    "Illustrations":[
+        "Hand Drawn Illustration",
+        "Character Illustration",
+        "Cartoon",
+        "Anime",
+        "Fantasy",
+        "Children's Illustration",
+        "Book Illustration",
+        "Fashion Illustration",
+        "Line Art"
+    ],
+
+    "Sculpture":[
+        "Stone Sculpture",
+        "Wood Sculpture",
+        "Metal Sculpture",
+        "Clay Sculpture",
+        "Ceramic Sculpture",
+        "Bronze Sculpture",
+        "Resin Sculpture",
+        "Marble Sculpture",
+        "Abstract Sculpture",
+        "Figurative Sculpture",
+        "Miniature Sculpture"
+    ],
+
+    "Photography":[
+        "Nature Photography",
+        "Landscape Photography",
+        "Wildlife Photography",
+        "Travel Photography",
+        "Architecture Photography",
+        "Portrait Photography",
+        "Street Photography",
+        "Fashion Photography",
+        "Event Photography",
+        "Fine Art Photography"
+    ],
+
+    "Posters":[
+        "Motivational Posters",
+        "Movie Posters",
+        "Celebrity Posters",
+        "Sports Posters",
+        "Music Posters",
+        "Minimal Posters",
+        "Luxury Posters",
+        "Vintage Posters",
+        "Gaming Posters"
+    ],
+
+    "Prints":[
+        "Art Prints",
+        "Fine Art Prints",
+        "Photo Prints",
+        "Giclée Prints",
+        "Limited Edition Prints",
+        "Poster Prints",
+        "Canvas Prints",
+        "Metal Prints"
+    ],
+
+    "Crafts":[
+        "Handmade Crafts",
+        "Paper Crafts",
+        "Wood Crafts",
+        "Fabric Crafts",
+        "Clay Crafts",
+        "Resin Crafts",
+        "Decorative Crafts",
+        "Traditional Crafts"
+    ],
+
+    "Wood Art":[
+        "Wood Carving",
+        "Wood Burning",
+        "Wood Engraving",
+        "Wood Wall Art",
+        "Wood Sculpture",
+        "Wooden Decor",
+        "Handcrafted Wood Art"
+    ],
+
+    "Metal Art":[
+        "Metal Sculpture",
+        "Metal Wall Art",
+        "Metal Craft",
+        "Iron Art",
+        "Steel Art",
+        "Copper Art",
+        "Aluminium Art"
+    ],
+
+    "Ceramic Art":[
+        "Ceramic Sculpture",
+        "Ceramic Wall Art",
+        "Ceramic Decor",
+        "Pottery",
+        "Handmade Ceramics",
+        "Ceramic Figures"
+    ],
+
+    "Glass Art":[
+        "Glass Sculpture",
+        "Stained Glass",
+        "Glass Painting",
+        "Glass Decor",
+        "Blown Glass",
+        "Handmade Glass Art"
+    ],
+
+    "Textile Art":[
+        "Embroidery",
+        "Weaving",
+        "Tapestry",
+        "Fabric Art",
+        "Quilting",
+        "Thread Art",
+        "Macramé"
+    ],
+
+    "Calligraphy":[
+        "Hand Lettering",
+        "Traditional Calligraphy",
+        "Modern Calligraphy",
+        "Arabic Calligraphy",
+        "Decorative Calligraphy",
+        "Ink Calligraphy"
+    ],
+
+    "Portrait Art":[
+        "Handmade Portrait",
+        "Pencil Portrait",
+        "Oil Portrait",
+        "Acrylic Portrait",
+        "Charcoal Portrait",
+        "Family Portrait",
+        "Pet Portrait"
+    ],
+
+    "Custom Art":[
+        "Custom Portraits",
+        "Name Art",
+        "Personalized Posters",
+        "Custom Wall Art",
+        "Couple Art",
+        "Pet Portraits",
+        "Custom Paintings",
+        "Custom Illustrations"
+    ],
+
+    "Decorative Art":[
+        "Home Decor Art",
+        "Table Decor",
+        "Decorative Objects",
+        "Luxury Decor",
+        "Modern Decor",
+        "Minimal Decor",
+        "Art Collectibles"
+    ],
+
+    "Art Collectibles":[
+        "Limited Edition Art",
+        "Artist Collectibles",
+        "Signed Artwork",
+        "Rare Artwork",
+        "Art Figurines",
+        "Miniature Art"
+    ],
+
+    "Traditional Art":[
+        "Traditional Paintings",
+        "Traditional Drawings",
+        "Cultural Art",
+        "Folk Art",
+        "Heritage Art",
+        "Traditional Crafts"
+    ]
+
+};
+
+
+/* =====================================================
+   GET CATEGORY DATA
+===================================================== */
+
+function getCategoryData(type){
+
+    if(type === "digital"){
+        return digitalCategoryData;
+    }
+
+    if(type === "non-digital"){
+        return nonDigitalCategoryData;
+    }
+
+    return {};
+
+}
+
+
+
+
+/* =====================================================
+   PRODUCT TYPE CHANGE
+===================================================== */productTypeSelect.addEventListener("change", function () {
+
+    const type = this.value;
+
+    console.log("Product Type:", type);
+
+    /* =================================================
+       GENERATE SKU
+    ================================================= */
+
+    skuInput.value = generateSKU();
+
+
+    /* =================================================
+       RESET CATEGORY
+    ================================================= */
+
+    categorySelect.innerHTML = `
+        <option value="">
+            Select Main Category
+        </option>
+    `;
+
+    categorySelect.disabled = true;
+
+
+    /* =================================================
+       RESET SUBCATEGORY
+    ================================================= */
+
+    subcategorySelect.innerHTML = `
+        <option value="">
+            Select Main Category First
+        </option>
+    `;
+
+    subcategorySelect.disabled = true;
+
+
+    /* =================================================
+       HIDE BOTH PRODUCT DETAILS FIRST
+    ================================================= */
+
+    digitalDetails.classList.add("hidden");
+
+    physicalDetails.classList.add("hidden");
+
+    digitalContainer.classList.add("hidden");
+
+
+    /* =================================================
+       RESET DIGITAL FILE
+    ================================================= */
+
+    digitalFileInput.required = false;
+
+    digitalFileInput.value = "";
+
+
+    /* =================================================
+       NO PRODUCT TYPE
+    ================================================= */
+
+    if (!type) {
+        return;
+    }
+
+
+    /* =================================================
+       GET CATEGORY DATA
+    ================================================= */
+
+    const data = getCategoryData(type);
+
+
+    /* =================================================
+       LOAD MAIN CATEGORIES
+    ================================================= */
+
+    Object.keys(data).forEach(category => {
+
+        const option =
+            document.createElement("option");
+
+        option.value = category;
+
+        option.textContent = category;
+
+        categorySelect.appendChild(option);
+
+    });
+
+
+    categorySelect.disabled = false;
+
+
+    /* =================================================
+       DIGITAL PRODUCT
+    ================================================= */
+
+    if (type === "digital") {
+
+        console.log("Digital product selected");
+
+
+        digitalDetails.classList.remove("hidden");
+
+        digitalContainer.classList.remove("hidden");
+
+        digitalFileInput.required = true;
+
+    }
+
+
+    /* =================================================
+       NON-DIGITAL PRODUCT
+    ================================================= */
+
+    if (type === "non-digital") {
+
+        console.log("Non-digital product selected");
+
+        physicalDetails.classList.remove("hidden");
+
+    }
+
+});
+
+/* =====================================================
+   MAIN CATEGORY CHANGE
+===================================================== */
+
+categorySelect.addEventListener(
+    "change",
+    function(){
+
+        const type =
+            productTypeSelect.value;
+
+
+        const selectedCategory =
+            this.value;
+
+
+        const data =
+            getCategoryData(type);
+
+
+        /* ALWAYS VISIBLE */
+
+        subcategoryWrapper.style.display =
+            "block";
+
+        subcategoryWrapper.style.visibility =
+            "visible";
+
+        subcategoryWrapper.style.opacity =
+            "1";
+
+
+        /* RESET */
+
+        subcategorySelect.innerHTML = `
+            <option value="">
+                Select Subcategory
+            </option>
+        `;
+
+
+        subcategorySelect.disabled =
+            true;
+
+
+        /* NO CATEGORY */
+
+        if(
+            !selectedCategory ||
+            !data[selectedCategory]
+        ){
+
+            return;
+
+        }
+
+
+        /* =================================================
+           LOAD SUBCATEGORIES
+        ================================================= */
+
+        const subcategories =
+            data[selectedCategory];
+
+
+        subcategories.forEach(
+            subcategory => {
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+
+                option.value =
+                    subcategory;
+
+
+                option.textContent =
+                    subcategory;
+
+
+                subcategorySelect.appendChild(
+                    option
+                );
+
+            }
+        );
+
+
+        /* ENABLE */
+
+        subcategorySelect.disabled =
+            false;
+
+
+        /*
+         * DEBUG
+         */
+
+        console.log(
+            "Main Category:",
+            selectedCategory
+        );
+
+        console.log(
+            "Subcategories:",
+            subcategories
+        );
+
+    }
+);
+
+
+/* =====================================================
+   SUBCATEGORY CHANGE
+===================================================== */
+
+subcategorySelect.addEventListener(
+    "change",
+    function(){
+
+        console.log(
+            "Selected Subcategory:",
+            this.value
+        );
+
+    }
+);
+
+
+/* =====================================================
+   COUNTRIES
+===================================================== */
+
+/*
+ * API එක use නොකර fixed country list එකක්
+ * use කරනවා.
+ *
+ * ඒ නිසා:
+ *
+ * Failed to fetch
+ * CORS
+ * Network error
+ *
+ * වගේ errors එන්නේ නැහැ.
+ */
+
+const countries = [
+
+    "Afghanistan",
+    "Albania",
+    "Algeria",
+    "Argentina",
+    "Australia",
+    "Austria",
+    "Bangladesh",
+    "Belgium",
+    "Brazil",
+    "Canada",
+    "China",
+    "Colombia",
+    "Denmark",
+    "Egypt",
+    "Finland",
+    "France",
+    "Germany",
+    "Greece",
+    "Hong Kong",
+    "India",
+    "Indonesia",
+    "Ireland",
+    "Israel",
+    "Italy",
+    "Japan",
+    "Kenya",
+    "Malaysia",
+    "Maldives",
+    "Mexico",
+    "Netherlands",
+    "New Zealand",
+    "Nigeria",
+    "Norway",
+    "Pakistan",
+    "Philippines",
+    "Poland",
+    "Portugal",
+    "Qatar",
+    "Russia",
+    "Saudi Arabia",
+    "Singapore",
+    "South Africa",
+    "South Korea",
+    "Spain",
+    "Sri Lanka",
+    "Sweden",
+    "Switzerland",
+    "Thailand",
+    "Turkey",
+    "Ukraine",
+    "United Arab Emirates",
+    "United Kingdom",
+    "United States",
+    "Vietnam"
+
+];
+
+
+function loadCountries(){
+
+    countrySelect.innerHTML = `
+        <option value="">
+            Select Country
+        </option>
+    `;
+
+
+    countries
+        .sort(
+            (a,b) =>
+                a.localeCompare(b)
+        )
+        .forEach(
+            country => {
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+
+                option.value =
+                    country;
+
+
+                option.textContent =
+                    country;
+
+
+                countrySelect.appendChild(
+                    option
+                );
+
+            }
+        );
+
+}
+
+
+loadCountries();
+
+
+/* =====================================================
+   SAFE VALUE
+===================================================== */
+
+function getValue(id){
+
+    const element =
+        document.getElementById(id);
+
+
+    if(!element){
+        return "";
+    }
+
+
+    return element.value.trim();
+
+}
+
+
+/* =====================================================
+   SAFE NUMBER
+===================================================== */
+
+function getNumber(id){
+
+    const value =
+        getValue(id);
+
+
+    if(value === ""){
+        return 0;
+    }
+
+
+    const number =
+        Number(value);
+
+
+    return isNaN(number)
+        ? 0
+        : number;
+
+}
+
+
+/* =====================================================
+   SUBMIT PRODUCT
+===================================================== */
+
+submitBtn.addEventListener(
+    "click",
+    async function(){
+
+        /* =================================================
+           BASIC
+        ================================================= */
+
+        const name =
+            getValue("name");
+
+
+        const phone =
+            getValue("phone");
+
+
+        const brand =
+            getValue("brand");
+
+
+        const price =
+            getNumber("price");
+
+
+        const tags =
+            getValue("tags");
+
+
+        const description =
+            getValue("description");
+
+
+        const productType =
+            productTypeSelect.value;
+
+
+        const selectedCategory =
+            categorySelect.value;
+
+
+        const selectedSubcategory =
+            subcategorySelect.value;
+
+
+        const digitalFile =
+            digitalFileInput.files[0];
+
+
+        /* =================================================
+           VALIDATION
+        ================================================= */
+
+        if(
+            !name ||
+            !phone ||
+            !brand
+        ){
+
+            showToast(
+                "Please enter your name, phone number and product name."
+            );
+
+            return;
+
+        }
+
+
+        if(
+            price <= 0
+        ){
+
+            showToast(
+                "Please enter a valid product price."
+            );
+
+            return;
+
+        }
+
+
+        if(!productType){
+
+            showToast(
+                "Please select Digital or Non-Digital Product."
+            );
+
+            productTypeSelect.focus();
+
+            return;
+
+        }
+
+
+        if(!selectedCategory){
+
+            showToast(
+                "Please select a main category."
+            );
+
+            categorySelect.focus();
+
+            return;
+
+        }
+
+
+        if(!selectedSubcategory){
+
+            showToast(
+                "Please select a subcategory."
+            );
+
+            subcategorySelect.focus();
+
+            return;
+
+        }
+
+
+        /* =================================================
+           DIGITAL FILE
+        ================================================= */
+
+        if(
+            productType === "digital" &&
+            !digitalFile
+        ){
+
+            showToast(
+                "Please select your digital product file."
+            );
+
+            digitalFileInput.focus();
+
+            return;
+
+        }
+
+
+        /* =================================================
+           AUTH
+        ================================================= */
+
+        const user =
+            auth.currentUser;
+
+
+        if(!user){
+
+            showToast(
+                "Please login before adding a product."
+            );
+
+            return;
+
+        }
+
+
+        /* =================================================
+           LOADING
+        ================================================= */
+
+        loadingScreen.style.display =
+            "flex";
+
+
+        submitBtn.disabled =
+            true;
+
+
+        uploadPercent.textContent =
+            "Saving product information...";
+
+
+        try{
+
+
+            /* =================================================
+               PRODUCT DATA
+            ================================================= */
+
+            const productData = {
+
+                sellerId:
+                    user.uid,
+
+                sellerEmail:
+                    (
+                        user.email || ""
+                    ).toLowerCase(),
+
+                sellerName:
+                    name,
+
+                phone:
+                    phone,
+
+                brand:
+                    brand,
+
+                price:
+                    price,
+
+                tags:
+                    tags,
+
+                description:
+                    description,
+
+
+                /* =================================================
+                   PRODUCT TYPE
+                ================================================= */
+
+                categoryType:
+                    productType,
+
+                categoryGroup:
+                    productType === "digital"
+                        ? "Digital"
+                        : "Non-Digital",
+
+
+                /* =================================================
+                   CATEGORY
+                ================================================= */
+
+                category:
+                    selectedCategory,
+
+                subcategory:
+                    selectedSubcategory,
+
+
+                /* =================================================
+                   DIGITAL FILE
+                ================================================= */
+
+                digitalFileName:
+                    digitalFile
+                        ? digitalFile.name
+                        : "",
+
+                digitalFileUrl:
+                    "",
+
+
+                /* =================================================
+                   IMAGE
+                ================================================= */
+
+                imageUrl:
+                    "",
+
+
+                /* =================================================
+                   STATS
+                ================================================= */
+
+                orders:
+                    0,
+
+                views:
+                    0,
+
+                earnings:
+                    0,
+
+                rating:
+                    0,
+
+                reviewCount:
+                    0,
+
+
+                /* =================================================
+                   STATUS
+                ================================================= */
+
+                status:
+                    "draft",
+
+                productStep:
+                    1,
+
+                imageUploaded:
+                    false,
+
+
+                /* =================================================
+                   INVENTORY
+                ================================================= */
+
+                sku:
+                    getValue("sku"),
+
+                stock:
+                    getNumber("stock"),
+
+                minOrder:
+                    getNumber("minOrder"),
+
+
+                /* =================================================
+                   DIGITAL DETAILS
+                ================================================= */
+
+                digitalColor:
+                    productType === "digital"
+                        ? getValue("digitalColor")
+                        : "",
+
+                digitalWidth:
+                    productType === "digital"
+                        ? getNumber("digitalWidth")
+                        : 0,
+
+                digitalHeight:
+                    productType === "digital"
+                        ? getNumber("digitalHeight")
+                        : 0,
+
+
+                /* =================================================
+                   PHYSICAL DETAILS
+                ================================================= */
+
+                material:
+                    productType === "non-digital"
+                        ? getValue("material")
+                        : "",
+
+                length:
+                    productType === "non-digital"
+                        ? getNumber("length")
+                        : 0,
+
+                width:
+                    productType === "non-digital"
+                        ? getNumber("physicalWidth")
+                        : 0,
+
+                height:
+                    productType === "non-digital"
+                        ? getNumber("physicalHeight")
+                        : 0,
+
+                weight:
+                    productType === "non-digital"
+                        ? getNumber("weight")
+                        : 0,
+
+
+                finish:
+                    productType === "non-digital"
+                        ? getValue("finish")
+                        : "",
+
+                frame:
+                    productType === "non-digital"
+                        ? getValue("frame")
+                        : "",
+
+                handmade:
+                    productType === "non-digital"
+                        ? getValue("handmade")
+                        : "",
+
+
+                /* =================================================
+                   VARIANTS
+                ================================================= */
+
+                variantColors:
+                    productType === "non-digital"
+                        ? getValue("variantColors")
+                        : "",
+
+                variantSizes:
+                    productType === "non-digital"
+                        ? getValue("variantSizes")
+                        : "",
+
+                customizable:
+                    productType === "non-digital"
+                        ? getValue("customizable")
+                        : "",
+
+
+                /* =================================================
+                   SHIPPING
+                ================================================= */
+
+                shipping:
+                    productType === "non-digital"
+                        ? getValue("shipping")
+                        : "",
+
+                country:
+                    productType === "non-digital"
+                        ? getValue("country")
+                        : "",
+
+                freeShipping:
+                    productType === "non-digital"
+                        ? getValue("freeShipping")
+                        : "",
+
+
+                /* =================================================
+                   TIMESTAMP
+                ================================================= */
+
+                createdAt:
+                    serverTimestamp(),
+
+                updatedAt:
+                    serverTimestamp()
+
+            };
+
+
+            /* =================================================
+               FIRESTORE
+            ================================================= */
+
+            uploadPercent.textContent =
+                "Creating product...";
+
+
+            const docRef =
+                await addDoc(
+                    collection(
+                        db,
+                        "products"
+                    ),
+                    productData
+                );
+
+
+            /* =================================================
+               SAVE PRODUCT ID
+            ================================================= */
+
+            sessionStorage.setItem(
+                "newProductId",
+                docRef.id
+            );
+
+
+            /* =================================================
+               SESSION PRODUCT
+            ================================================= */
+
+            const sessionProduct = {
+
+                ...productData,
+
+                id:
+                    docRef.id
+
+            };
+
+
+            delete sessionProduct.createdAt;
+
+            delete sessionProduct.updatedAt;
+
+
+            sessionStorage.setItem(
+                "newProduct",
+                JSON.stringify(
+                    sessionProduct
+                )
+            );
+
+
+            /* =================================================
+               COMPLETE
+            ================================================= */
+
+            uploadPercent.textContent =
+                "Complete!";
+
+
+            /* =================================================
+               NEXT PAGE
+            ================================================= */
+
+            window.location.href =
+                "product-image-upload.html";
+
+
+        }
+
+        catch(error){
+
+            console.error(
+                "Product Error:",
+                error
+            );
+
+
+            showToast(
+                "Error creating product: " +
+                error.message
+            );
+
+        }
+
+        finally{
+
+            loadingScreen.style.display =
+                "none";
+
+
+            submitBtn.disabled =
+                false;
+
+        }
+
+    }
+);
+/* =====================================================
+   COLOR DATABASE
+===================================================== */
+
+let allColors = [];
+
+let selectedColors = [];
+
+
+/* =====================================================
+   LOAD COLORS
+===================================================== */
+
+async function loadColors(){
+
+    colorList.innerHTML = `
+        <div class="color-loading">
+            Loading colors...
+        </div>
+    `;
+
+    try{
+
+        const response = await fetch(
+            "https://raw.githubusercontent.com/bahamas10/css-color-names/master/css-color-names.json"
+        );
+
+        if(!response.ok){
+
+            throw new Error(
+                "Color API request failed"
+            );
+
+        }
+
+        const colors =
+            await response.json();
+
+
+        allColors =
+            Object.entries(colors)
+            .map(([name, hex]) => ({
+                name: name,
+                hex: hex
+            }))
+            .sort((a,b) =>
+                a.name.localeCompare(b.name)
+            );
+
+
+        renderColors(allColors);
+
+
+        console.log(
+            "Colors loaded:",
+            allColors.length
+        );
+
+    }
+    catch(error){
+
+        console.error(
+            "Color loading error:",
+            error
+        );
+
+        colorList.innerHTML = `
+            <div class="no-colors">
+                Failed to load colors.
+            </div>
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   RENDER COLORS
+===================================================== */
+
+function renderColors(colors){
+
+    colorList.innerHTML = "";
+
+    if(!colors.length){
+
+        colorList.innerHTML = `
+            <div class="no-colors">
+                No colors found.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    colors.forEach(color => {
+
+        const label =
+            document.createElement("label");
+
+        label.className =
+            "color-option";
+
+
+        const checkbox =
+            document.createElement("input");
+
+        checkbox.type =
+            "checkbox";
+
+        checkbox.value =
+            color.name;
+
+
+        checkbox.checked =
+            selectedColors.some(
+                item =>
+                    item.name === color.name
+            );
+
+
+        checkbox.addEventListener(
+            "change",
+            function(){
+
+                if(this.checked){
+
+                    selectedColors.push({
+                        name: color.name,
+                        hex: color.hex
+                    });
+
+                }
+                else{
+
+                    selectedColors =
+                        selectedColors.filter(
+                            item =>
+                                item.name !== color.name
+                        );
+
+                }
+
+
+                updateColorCount();
+
+            }
+        );
+
+
+        const swatch =
+            document.createElement("span");
+
+        swatch.className =
+            "color-swatch";
+
+        swatch.style.backgroundColor =
+            color.hex;
+
+
+        const name =
+            document.createElement("span");
+
+        name.className =
+            "color-name";
+
+        name.textContent =
+            color.name;
+
+
+        const hex =
+            document.createElement("span");
+
+        hex.className =
+            "color-hex";
+
+        hex.textContent =
+            color.hex;
+
+
+        label.appendChild(
+            checkbox
+        );
+
+        label.appendChild(
+            swatch
+        );
+
+        label.appendChild(
+            name
+        );
+
+        label.appendChild(
+            hex
+        );
+
+
+        colorList.appendChild(
+            label
+        );
+
+    });
+
+}
+
+
+/* =====================================================
+   COLOR SEARCH
+===================================================== */
+
+colorSearch.addEventListener(
+    "input",
+    function(){
+
+        const search =
+            this.value
+            .toLowerCase()
+            .trim();
+
+
+        const filtered =
+            allColors.filter(
+                color =>
+                    color.name
+                    .toLowerCase()
+                    .includes(search)
+            );
+
+
+        renderColors(filtered);
+
+    }
+);
+
+
+/* =====================================================
+   OPEN / CLOSE COLOR DROPDOWN
+===================================================== */
+
+colorPickerButton.addEventListener(
+    "click",
+    function(){
+
+        colorDropdown.classList.toggle(
+            "show"
+        );
+
+    }
+);
+
+
+/* =====================================================
+   CLOSE WHEN CLICK OUTSIDE
+===================================================== */
+
+document.addEventListener(
+    "click",
+    function(event){
+
+        const picker =
+            document.getElementById(
+                "colorPicker"
+            );
+
+
+        if(
+            !picker.contains(event.target)
+        ){
+
+            colorDropdown.classList.remove(
+                "show"
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   UPDATE SELECTED COUNT
+===================================================== */
+
+function updateColorCount(){
+
+    const count =
+        selectedColors.length;
+
+
+    selectedColorCount.textContent =
+        `${count} selected`;
+
+
+    if(count === 0){
+
+        colorPickerButton
+            .querySelector("span:first-child")
+            .textContent =
+                "Select Colors";
+
+        return;
+
+    }
+
+
+    const names =
+        selectedColors
+        .slice(0,3)
+        .map(color => color.name)
+        .join(", ");
+
+
+    if(count > 3){
+
+        colorPickerButton
+            .querySelector("span:first-child")
+            .textContent =
+                `${names} +${count - 3} more`;
+
+    }
+    else{
+
+        colorPickerButton
+            .querySelector("span:first-child")
+            .textContent =
+                names;
+
+    }
+
+}
+
+
+/* =====================================================
+   START COLOR LOADING
+===================================================== */
+
+loadColors();
+/* =====================================================
+   SIZE PICKER
+===================================================== */
+
+const availableSizes = [
+
+    "XS",
+    "S",
+    "M",
+    "L",
+    "XL",
+    "XXL",
+    "XXXL",
+
+    "A5",
+    "A4",
+    "A3",
+    "A2",
+    "A1",
+    "A0",
+
+    "20 × 30 cm",
+    "30 × 40 cm",
+    "40 × 50 cm",
+    "50 × 70 cm",
+    "60 × 90 cm",
+    "70 × 100 cm",
+    "80 × 120 cm",
+    "90 × 120 cm",
+    "100 × 150 cm",
+
+    "12 × 18 inch",
+    "16 × 20 inch",
+    "18 × 24 inch",
+    "20 × 24 inch",
+    "24 × 36 inch",
+    "30 × 40 inch",
+
+    "Small",
+    "Medium",
+    "Large",
+
+    "Custom Size"
+
+];
+
+
+let selectedSizes = [];
+
+
+const sizePickerButton =
+    document.getElementById(
+        "sizePickerButton"
+    );
+
+const sizeDropdown =
+    document.getElementById(
+        "sizeDropdown"
+    );
+
+const sizeList =
+    document.getElementById(
+        "sizeList"
+    );
+
+const sizeSearch =
+    document.getElementById(
+        "sizeSearch"
+    );
+
+const selectedSizeText =
+    document.getElementById(
+        "selectedSizeText"
+    );
+
+const selectedSizeCount =
+    document.getElementById(
+        "selectedSizeCount"
+    );
+
+
+/* =====================================================
+   RENDER SIZES
+===================================================== */
+
+function renderSizes(sizes){
+
+    sizeList.innerHTML = "";
+
+
+    sizes.forEach(size => {
+
+        const label =
+            document.createElement(
+                "label"
+            );
+
+        label.className =
+            "size-option";
+
+
+        const checkbox =
+            document.createElement(
+                "input"
+            );
+
+        checkbox.type =
+            "checkbox";
+
+        checkbox.value =
+            size;
+
+
+        checkbox.checked =
+            selectedSizes.includes(size);
+
+
+        checkbox.addEventListener(
+            "change",
+            function(){
+
+                if(this.checked){
+
+                    if(
+                        !selectedSizes.includes(size)
+                    ){
+
+                        selectedSizes.push(size);
+
+                    }
+
+                }
+                else{
+
+                    selectedSizes =
+                        selectedSizes.filter(
+                            item =>
+                                item !== size
+                        );
+
+                }
+
+
+                updateSizeDisplay();
+
+            }
+        );
+
+
+        const name =
+            document.createElement(
+                "span"
+            );
+
+        name.className =
+            "size-name";
+
+        name.textContent =
+            size;
+
+
+        label.appendChild(
+            checkbox
+        );
+
+        label.appendChild(
+            name
+        );
+
+
+        sizeList.appendChild(
+            label
+        );
+
+    });
+
+}
+
+
+/* =====================================================
+   UPDATE SIZE DISPLAY
+===================================================== */
+
+function updateSizeDisplay(){
+
+    const count =
+        selectedSizes.length;
+
+
+    selectedSizeCount.textContent =
+        `${count} selected`;
+
+
+    if(count === 0){
+
+        selectedSizeText.textContent =
+            "Select Sizes";
+
+        return;
+
+    }
+
+
+    const names =
+        selectedSizes
+        .slice(0,3)
+        .join(", ");
+
+
+    if(count > 3){
+
+        selectedSizeText.textContent =
+            `${names} +${count - 3} more`;
+
+    }
+    else{
+
+        selectedSizeText.textContent =
+            names;
+
+    }
+
+}
+
+
+/* =====================================================
+   SIZE SEARCH
+===================================================== */
+
+sizeSearch.addEventListener(
+    "input",
+    function(){
+
+        const search =
+            this.value
+            .toLowerCase()
+            .trim();
+
+
+        const filtered =
+            availableSizes.filter(
+                size =>
+                    size
+                    .toLowerCase()
+                    .includes(search)
+            );
+
+
+        renderSizes(filtered);
+
+    }
+);
+
+
+/* =====================================================
+   OPEN / CLOSE SIZE DROPDOWN
+===================================================== */
+
+sizePickerButton.addEventListener(
+    "click",
+    function(){
+
+        sizeDropdown.classList.toggle(
+            "show"
+        );
+
+    }
+);
+
+
+/* =====================================================
+   CLOSE SIZE DROPDOWN OUTSIDE
+===================================================== */
+
+document.addEventListener(
+    "click",
+    function(event){
+
+        const picker =
+            document.getElementById(
+                "sizePicker"
+            );
+
+
+        if(
+            !picker.contains(event.target)
+        ){
+
+            sizeDropdown.classList.remove(
+                "show"
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
+renderSizes(
+    availableSizes
+);
+/* =====================================================
+   MATERIAL PICKER
+===================================================== */
+
+/* =====================================================
+   MATERIAL PICKER
+===================================================== */
+
+const materialPickerButton =
+    document.getElementById("materialPickerButton");
+
+const materialDropdown =
+    document.getElementById("materialDropdown");
+
+const materialList =
+    document.getElementById("materialList");
+
+const materialSearch =
+    document.getElementById("materialSearch");
+
+const selectedMaterialText =
+    document.getElementById("selectedMaterialText");
+
+const selectedMaterialCount =
+    document.getElementById("selectedMaterialCount");
+
+const materialLimit =
+    document.getElementById("materialLimit");
+
+const customMaterialInput =
+    document.getElementById("customMaterialInput");
+
+const addCustomMaterialBtn =
+    document.getElementById("addCustomMaterialBtn");
+
+
+/* =====================================================
+   MATERIAL DATABASE
+===================================================== */
+
+const availableMaterials = [
+
+    "Canvas",
+    "Cotton Canvas",
+    "Linen Canvas",
+
+    "Wood",
+    "MDF",
+    "Plywood",
+    "Bamboo",
+
+    "Metal",
+    "Aluminium",
+    "Steel",
+    "Iron",
+    "Copper",
+    "Brass",
+
+    "Acrylic",
+    "Perspex",
+    "Glass",
+    "Tempered Glass",
+
+    "Paper",
+    "Cardstock",
+    "Fine Art Paper",
+    "Archival Paper",
+    "Watercolor Paper",
+    "Photo Paper",
+
+    "Ceramic",
+    "Porcelain",
+    "Clay",
+    "Terracotta",
+
+    "Leather",
+    "Faux Leather",
+
+    "Fabric",
+    "Cotton",
+    "Silk",
+    "Velvet",
+    "Linen",
+    "Polyester",
+
+    "Resin",
+    "Epoxy Resin",
+
+    "Stone",
+    "Marble",
+    "Granite",
+
+    "Concrete",
+    "Plaster",
+
+    "Foam",
+    "PVC",
+    "Vinyl",
+
+    "Burlap",
+    "Jute",
+    "Wool",
+
+    "Recycled Materials",
+    "Mixed Media",
+    "Natural Materials",
+
+    "Other"
+
+].sort((a, b) =>
+    a.localeCompare(b)
+);
+
+
+const MAX_MATERIALS = 15;
+
+let selectedMaterials = [];
+
+
+/* =====================================================
+   UPDATE MATERIAL DISPLAY
+===================================================== */
+
+function updateMaterialDisplay(){
+
+    const count =
+        selectedMaterials.length;
+
+
+    selectedMaterialCount.textContent =
+        `${count} / ${MAX_MATERIALS} selected`;
+
+
+    materialLimit.textContent =
+        count >= MAX_MATERIALS
+            ? "Maximum 15 materials reached"
+            : `${MAX_MATERIALS - count} selections remaining`;
+
+
+    if(count === 0){
+
+        selectedMaterialText.textContent =
+            "Select Materials";
+
+        return;
+
+    }
+
+
+    const names =
+        selectedMaterials
+            .slice(0, 3)
+            .join(", ");
+
+
+    if(count > 3){
+
+        selectedMaterialText.textContent =
+            `${names} +${count - 3} more`;
+
+    }
+    else{
+
+        selectedMaterialText.textContent =
+            names;
+
+    }
+
+}
+
+
+/* =====================================================
+   RENDER MATERIALS
+===================================================== */
+
+function renderMaterials(materials){
+
+    materialList.innerHTML = "";
+
+
+    if(!materials.length){
+
+        materialList.innerHTML = `
+            <div style="
+                padding:15px;
+                text-align:center;
+                opacity:.6;
+            ">
+                No materials found.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    materials.forEach(material => {
+
+        const label =
+            document.createElement("label");
+
+        label.className =
+            "material-option";
+
+
+        const checkbox =
+            document.createElement("input");
+
+        checkbox.type =
+            "checkbox";
+
+        checkbox.value =
+            material;
+
+
+        checkbox.checked =
+            selectedMaterials.includes(material);
+
+
+        /*
+         * Disable unselected materials
+         * when maximum is reached
+         */
+
+        if(
+            selectedMaterials.length >= MAX_MATERIALS &&
+            !selectedMaterials.includes(material)
+        ){
+
+            checkbox.disabled = true;
+
+            label.classList.add("disabled");
+
+        }
+
+
+        /* =================================================
+           CHECKBOX CHANGE
+        ================================================= */
+
+        checkbox.addEventListener(
+            "change",
+            function(){
+
+                if(this.checked){
+
+                    if(
+                        selectedMaterials.length >=
+                        MAX_MATERIALS
+                    ){
+
+                        this.checked = false;
+
+                        showToast(
+                            "You can select a maximum of 15 materials."
+                        );
+
+                        return;
+
+                    }
+
+
+                    if(
+                        !selectedMaterials.includes(material)
+                    ){
+
+                        selectedMaterials.push(
+                            material
+                        );
+
+                    }
+
+                }
+                else{
+
+                    selectedMaterials =
+                        selectedMaterials.filter(
+                            item =>
+                                item !== material
+                        );
+
+                }
+
+
+                updateMaterialDisplay();
+
+
+                /*
+                 * Re-render
+                 */
+
+                const currentSearch =
+                    materialSearch.value
+                        .toLowerCase()
+                        .trim();
+
+
+                const filtered =
+                    availableMaterials.filter(
+                        item =>
+                            item
+                                .toLowerCase()
+                                .includes(currentSearch)
+                    );
+
+
+                renderMaterials(filtered);
+
+            }
+        );
+
+
+        const name =
+            document.createElement("span");
+
+        name.className =
+            "material-name";
+
+        name.textContent =
+            material;
+
+
+        label.appendChild(checkbox);
+
+        label.appendChild(name);
+
+        materialList.appendChild(label);
+
+    });
+
+}
+
+
+/* =====================================================
+   ADD CUSTOM MATERIAL
+   IMPORTANT:
+   This MUST be OUTSIDE renderMaterials()
+===================================================== */
+
+function addCustomMaterial(){
+
+    const value =
+        customMaterialInput.value.trim();
+
+
+    /* Empty */
+
+    if(!value){
+
+        showToast(
+            "Please enter a material name."
+        );
+
+        customMaterialInput.focus();
+
+        return;
+
+    }
+
+
+    /* Maximum 15 */
+
+    if(
+        selectedMaterials.length >=
+        MAX_MATERIALS
+    ){
+
+        showToast(
+            "You can select a maximum of 15 materials."
+        );
+
+        return;
+
+    }
+
+
+    /* Duplicate */
+
+    const alreadyExists =
+        selectedMaterials.some(
+            material =>
+                material.toLowerCase() ===
+                value.toLowerCase()
+        );
+
+
+    if(alreadyExists){
+
+        showToast(
+            "This material is already selected."
+        );
+
+        customMaterialInput.focus();
+
+        return;
+
+    }
+
+
+    /* Add custom material */
+
+    selectedMaterials.push(value);
+
+
+    /* Clear */
+
+    customMaterialInput.value = "";
+
+
+    /* Update */
+
+    updateMaterialDisplay();
+
+
+    /* Re-render */
+
+    const search =
+        materialSearch.value
+            .toLowerCase()
+            .trim();
+
+
+    const filtered =
+        availableMaterials.filter(
+            material =>
+                material
+                    .toLowerCase()
+                    .includes(search)
+        );
+
+
+    renderMaterials(filtered);
+
+}
+
+
+/* =====================================================
+   ADD BUTTON
+===================================================== */
+
+addCustomMaterialBtn.addEventListener(
+    "click",
+    function(event){
+
+        event.preventDefault();
+
+        event.stopPropagation();
+
+        addCustomMaterial();
+
+    }
+);
+
+
+/* =====================================================
+   ENTER KEY
+===================================================== */
+
+customMaterialInput.addEventListener(
+    "keydown",
+    function(event){
+
+        if(event.key === "Enter"){
+
+            event.preventDefault();
+
+            addCustomMaterial();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   SEARCH MATERIALS
+===================================================== */
+
+materialSearch.addEventListener(
+    "input",
+    function(){
+
+        const search =
+            this.value
+                .toLowerCase()
+                .trim();
+
+
+        const filtered =
+            availableMaterials.filter(
+                material =>
+                    material
+                        .toLowerCase()
+                        .includes(search)
+            );
+
+
+        renderMaterials(filtered);
+
+    }
+);
+
+
+/* =====================================================
+   OPEN / CLOSE
+===================================================== */
+
+materialPickerButton.addEventListener(
+    "click",
+    function(event){
+
+        event.stopPropagation();
+
+        materialDropdown.classList.toggle(
+            "show"
+        );
+
+    }
+);
+
+
+/* =====================================================
+   CLOSE OUTSIDE
+===================================================== */
+
+document.addEventListener(
+    "click",
+    function(event){
+
+        const picker =
+            document.getElementById(
+                "materialPicker"
+            );
+
+
+        if(
+            !picker.contains(event.target)
+        ){
+
+            materialDropdown.classList.remove(
+                "show"
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
+renderMaterials(
+    availableMaterials
+);
+
+updateMaterialDisplay();
+descriptionInput.addEventListener(
+    "input",
+    function(){
+
+        const length =
+            this.value.length;
+
+        descriptionCounter.textContent =
+            `${length} / 1000 characters`;
+
+    }
+);
+</script>
+
+
+<script src="toast.js"></script>
+</body>
+
+</html>

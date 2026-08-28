@@ -1,0 +1,481 @@
+/* =====================================
+   LEANGELO ARTIST LOGIN
+   Luxury Black + Gold Theme
+===================================== */
+
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+
+body{
+
+    min-height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:20px;
+
+    font-family:
+    'Segoe UI',
+    Arial,
+    sans-serif;
+
+
+    background:
+
+    radial-gradient(
+        circle at top,
+        #292000,
+        #080808 45%,
+        #000
+    );
+
+
+    color:white;
+
+}
+
+
+
+/* ================= CONTAINER ================= */
+
+
+.login-container{
+
+
+    width:100%;
+
+    max-width:430px;
+
+
+    padding:45px 40px;
+
+
+    background:
+
+    rgba(255,255,255,0.05);
+
+
+    border:
+
+    1px solid rgba(255,215,0,0.25);
+
+
+
+    border-radius:25px;
+
+
+
+    backdrop-filter:blur(20px);
+
+
+
+    box-shadow:
+
+    0 0 50px rgba(255,215,0,0.12);
+
+
+
+    animation:
+
+    fadeIn 1s ease;
+
+}
+
+
+
+/* ================= LOGO ================= */
+
+
+.logo{
+
+    text-align:center;
+
+    font-size:42px;
+
+    font-weight:800;
+
+    letter-spacing:2px;
+
+    margin-bottom:25px;
+
+    color:white;
+
+}
+
+
+.logo span{
+
+    color:#FFD700;
+
+}
+
+
+
+/* ================= TEXT ================= */
+
+
+h1{
+
+    text-align:center;
+
+    font-size:32px;
+
+    color:#FFD700;
+
+    margin-bottom:12px;
+
+}
+
+
+
+.login-container > p{
+
+
+    text-align:center;
+
+    color:#bbb;
+
+    margin-bottom:35px;
+
+    line-height:1.5;
+
+}
+
+
+
+/* ================= GOOGLE BUTTON ================= */
+
+
+.google-btn{
+
+
+    width:100%;
+
+
+    padding:15px;
+
+
+    border-radius:50px;
+
+
+    border:1px solid rgba(255,215,0,0.3);
+
+
+    background:#fff;
+
+
+    color:#222;
+
+
+    font-size:16px;
+
+
+    font-weight:600;
+
+
+    cursor:pointer;
+
+
+    display:flex;
+
+
+    justify-content:center;
+
+
+    align-items:center;
+
+
+    gap:12px;
+
+
+    transition:.3s;
+
+
+}
+
+
+
+.google-btn img{
+
+    width:22px;
+
+}
+
+
+
+.google-btn:hover{
+
+
+    transform:translateY(-3px);
+
+
+    box-shadow:
+
+    0 10px 25px rgba(255,255,255,.2);
+
+}
+
+
+
+/* ================= DIVIDER ================= */
+
+
+.divider{
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    gap:15px;
+
+
+    margin:30px 0;
+
+
+    color:#888;
+
+}
+
+
+
+.divider::before,
+.divider::after{
+
+
+    content:"";
+
+
+    height:1px;
+
+
+    flex:1;
+
+
+    background:#555;
+
+}
+
+
+
+.divider span{
+
+
+    font-size:14px;
+
+}
+
+
+
+/* ================= INPUTS ================= */
+
+
+input{
+
+
+    width:100%;
+
+
+    padding:15px;
+
+
+    margin-bottom:18px;
+
+
+    border-radius:12px;
+
+
+    border:
+
+    1px solid rgba(255,215,0,.2);
+
+
+
+    background:#111;
+
+
+    color:white;
+
+
+    font-size:15px;
+
+
+}
+
+
+
+input::placeholder{
+
+    color:#777;
+
+}
+
+
+
+input:focus{
+
+
+    outline:none;
+
+
+    border-color:#FFD700;
+
+
+    box-shadow:
+
+    0 0 15px rgba(255,215,0,.3);
+
+}
+
+
+
+/* ================= LOGIN BUTTON ================= */
+
+
+.login-btn{
+
+
+    width:100%;
+
+
+    padding:16px;
+
+
+    border:none;
+
+
+    border-radius:50px;
+
+
+    background:#FFD700;
+
+
+    color:black;
+
+
+    font-size:17px;
+
+
+    font-weight:bold;
+
+
+    cursor:pointer;
+
+
+    transition:.3s;
+
+
+}
+
+
+
+.login-btn:hover{
+
+
+    background:#ffe86b;
+
+
+    transform:translateY(-3px);
+
+
+    box-shadow:
+
+    0 0 30px rgba(255,215,0,.5);
+
+}
+
+
+
+/* ================= SIGNUP ================= */
+
+
+.signup{
+
+
+    margin-top:25px;
+
+    font-size:14px;
+
+}
+
+
+
+.signup a{
+
+
+    color:#FFD700;
+
+    text-decoration:none;
+
+    font-weight:bold;
+
+}
+
+
+
+/* ================= ANIMATION ================= */
+
+
+@keyframes fadeIn{
+
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(40px);
+
+    }
+
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+
+
+/* ================= MOBILE ================= */
+
+
+@media(max-width:500px){
+
+
+.login-container{
+
+    padding:35px 25px;
+
+}
+
+
+.logo{
+
+    font-size:36px;
+
+}
+
+
+h1{
+
+    font-size:28px;
+
+}
+
+
+}

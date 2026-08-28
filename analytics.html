@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Analytics</title>
+
+  <link rel="stylesheet" href="dashboard.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script type="module" src="analytics.js"></script>
+</head>
+
+<body>
+
+<div class="layout">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+
+    <div>
+
+      <div class="brand">
+        <a href="landing.html">
+          <img src="https://res.cloudinary.com/dxpizcvi5/image/upload/v1778826589/ChatGPT_Image_Apr_28_2026_05_39_55_PM_eucvov.png">
+        </a>
+
+        <div>
+          <h2>LeanGelo</h2>
+          <p>Seller Panel</p>
+        </div>
+      </div>
+
+      <div class="menu">
+        <a href="dashboard.html">🏠 Dashboard</a>
+        <a href="products.html">📦 Products</a>
+        <a href="orders.html">🛒 Orders</a>
+        <a class="active" href="analytics.html">📈 Analytics</a>
+       <a href="edit-store.html">🏪 My Store</a>
+        <a>⚙ Settings</a>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Main -->
+
+  <div class="main">
+
+   <div class="topbar">
+
+  <h1>📈 Analytics</h1>
+
+
+   <div id="userArea">
+        <button id="loginBtn" class="loginBtn" onclick="googleLogin()">Login</button>
+
+        <div id="profileBox" style="display:none; align-items:center; gap:12px;">
+          <img id="userPhoto">
+          <div>
+            <div id="userName"></div>
+            <div id="userEmail"></div>
+          </div>
+          <button class="deleteBtn" onclick="logout()">Logout</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats">
+
+      <div class="card">
+        <h3>Total Views</h3>
+        <div class="num" id="totalViews">0</div>
+      </div>
+
+      <div class="card">
+        <h3>Total Orders</h3>
+        <div class="num" id="totalOrders">0</div>
+      </div>
+
+      <div class="card">
+        <h3>Conversion Rate</h3>
+        <div class="num" id="conversionRate">0%</div>
+      </div>
+
+    </div>
+
+    <div class="chartContainer">
+      <h2>Monthly Orders</h2>
+      <canvas id="ordersChart"></canvas>
+    </div>
+
+    <div class="chartContainer">
+      <h2>Monthly Revenue</h2>
+      <canvas id="revenueChart"></canvas>
+    </div>
+
+  </div>
+
+</div>
+
+
+<script src="toast.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,393 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body {
+    background: #0d0d0d;
+    color: white;
+    padding: 40px 20px;
+}
+
+/* MAIN CARD - 2 COLUMN GRID */
+.seller-card {
+    max-width: 1200px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    background: #141414;
+    border: 1px solid #2a2a2a;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+}
+
+/* LEFT COLUMN: IMAGE STYLING */
+.product-image-container {
+    position: relative;
+    background: #080808;
+    border: 1px solid #2a2a2a;
+    border-radius: 18px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.badge-featured {
+    background: #d4af37;
+    color: #000;
+    font-weight: bold;
+    font-size: 12px;
+    padding: 5px 12px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+.image-box {
+    width: 100%;
+    height: 100%;
+    min-height: 450px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+#productImage {
+    max-width: 100%;
+    max-height: 550px;
+    object-fit: contain;
+    border-radius: 12px;
+    transition: transform 0.3s ease;
+}
+
+#productImage:hover {
+    transform: scale(1.02);
+}
+
+/* RIGHT COLUMN: INFO & DETAILS */
+.product-info-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+#productName {
+    font-size: 32px;
+    color: #ffffff;
+    font-weight: 700;
+}
+
+.stock-badge {
+    background: #10b981;
+    color: white;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 6px 14px;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+.rating-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    margin-bottom: 15px;
+}
+
+.stars {
+    color: #ffb703;
+    font-size: 16px;
+}
+
+.rating-text {
+    color: #a0a0a0;
+    font-size: 14px;
+}
+
+#productPrice {
+    font-size: 32px;
+    color: #00d2ff;
+    font-weight: 800;
+}
+
+.tax-note {
+    color: #777;
+    font-size: 12px;
+    margin-bottom: 20px;
+    display: block;
+}
+
+/* SELLER INFO BOX */
+.seller-info-box {
+    background: #1f1f1f;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.seller-title {
+    display: block;
+    color: #aaa;
+    font-size: 13px;
+    margin-bottom: 6px;
+}
+
+.seller-name-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.verified-tag {
+    color: #00d2ff;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+#productCategory {
+    display: inline-block;
+    background: #262626;
+    color: #ffd700;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    align-self: flex-start;
+    margin-bottom: 15px;
+}
+
+/* SECTIONS & GRIDS */
+.details-section {
+    margin-top: 15px;
+    padding: 18px;
+    background: #181818;
+    border-radius: 14px;
+    border: 1px solid #282828;
+}
+
+.details-section h3 {
+    color: #ffd700;
+    font-size: 16px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #282828;
+    padding-bottom: 8px;
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+}
+
+.detail-item {
+    background: #111111;
+    border: 1px solid #2a2a2a;
+    padding: 12px;
+    border-radius: 10px;
+}
+
+.detail-label {
+    display: block;
+    color: #888;
+    font-size: 11px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.detail-value {
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+#description {
+    color: #ccc;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+/* CONTACT SELLER BUTTON */
+.contact-btn {
+    width: 100%;
+    margin-top: 25px;
+    padding: 16px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #ffd700, #b8860b);
+    color: black;
+    font-size: 18px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.contact-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
+}
+
+/* RESPONSIVE DESIGN FOR MOBILE */
+@media (max-width: 900px) {
+    .seller-card {
+        grid-template-columns: 1fr;
+        padding: 20px;
+    }
+    
+    .image-box {
+        min-height: 300px;
+    }
+    
+    #productName {
+        font-size: 24px;
+    }
+    
+    #productPrice {
+        font-size: 26px;
+    }
+}
+.nav-container{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+
+.profile-area{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    overflow:hidden;
+    cursor:pointer;
+    margin-left:20px;
+    border:2px solid #d4af37;
+}
+
+
+.profile-area img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+.profile-area{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    overflow:hidden;
+    border:2px solid #d4af37;
+    cursor:pointer;
+}
+
+
+.profile-area img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+.nav-container{
+
+    display:flex;
+    align-items:center;
+    gap:25px;
+}
+
+
+.nav-links{
+
+    display:flex;
+    gap:18px;
+}
+
+
+.nav-links a{
+
+    color:white;
+    text-decoration:none;
+    font-size:14px;
+
+}
+
+
+.nav-actions{
+
+    display:flex;
+    align-items:center;
+    gap:15px;
+
+}
+
+
+.notification-icon{
+
+    position:relative;
+    font-size:22px;
+    cursor:pointer;
+
+}
+
+
+.notification-count{
+
+    position:absolute;
+    top:-8px;
+    right:-8px;
+
+    background:red;
+    color:white;
+
+    width:18px;
+    height:18px;
+
+    border-radius:50%;
+
+    font-size:11px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+}
+
+
+.seller-link{
+
+    color:#d4af37;
+    text-decoration:none;
+
+}
+
+
+.profile-area{
+
+    width:45px;
+    height:45px;
+
+    border-radius:50%;
+
+    overflow:hidden;
+
+    border:2px solid #d4af37;
+
+}
+
+
+.profile-area img{
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+}

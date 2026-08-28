@@ -1,0 +1,262 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Edit Store</title>
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Segoe UI',sans-serif;
+}
+
+body{
+
+  min-height:100vh;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  background:
+  linear-gradient(
+    135deg,
+    #0f172a,
+    #1e293b,
+    #0f172a
+  );
+
+  padding:30px;
+}
+
+.store-card{
+
+  width:100%;
+  max-width:800px;
+
+  background:rgba(255,255,255,.08);
+
+  backdrop-filter:blur(20px);
+
+  border:1px solid rgba(255,255,255,.1);
+
+  border-radius:25px;
+
+  padding:30px;
+
+  color:white;
+
+  box-shadow:
+  0 15px 40px rgba(0,0,0,.25);
+}
+
+.store-card h1{
+
+  text-align:center;
+
+  margin-bottom:25px;
+
+  font-size:32px;
+}
+
+.preview-banner{
+
+  width:100%;
+  height:220px;
+
+  object-fit:cover;
+
+  border-radius:20px;
+
+  background:#222;
+
+  margin-bottom:20px;
+}
+
+.logo-row{
+
+  display:flex;
+  justify-content:center;
+
+  margin-bottom:20px;
+}
+
+.preview-logo{
+
+  width:120px;
+  height:120px;
+
+  border-radius:50%;
+
+  object-fit:cover;
+
+  border:4px solid white;
+
+  background:#333;
+}
+
+.input-group{
+
+  margin-bottom:18px;
+}
+
+.input-group label{
+
+  display:block;
+
+  margin-bottom:8px;
+
+  font-weight:600;
+}
+
+.input-group input,
+.input-group textarea{
+
+  width:100%;
+
+  padding:14px;
+
+  border:none;
+
+  outline:none;
+
+  border-radius:14px;
+
+  background:rgba(255,255,255,.08);
+
+  color:white;
+
+  font-size:15px;
+}
+
+.input-group textarea{
+
+  min-height:120px;
+
+  resize:none;
+}
+
+button{
+
+  width:100%;
+
+  border:none;
+
+  padding:16px;
+
+  border-radius:14px;
+
+  cursor:pointer;
+
+  font-size:18px;
+  font-weight:700;
+
+  color:white;
+
+  background:
+  linear-gradient(
+    135deg,
+    #ff9800,
+    #ff5722
+  );
+
+  transition:.3s;
+}
+
+button:hover{
+
+  transform:translateY(-2px);
+}
+
+</style>
+</head>
+<body>
+
+<div class="store-card">
+
+<h1>🏪 Edit Store</h1>
+
+<img
+id="bannerPreview"
+class="preview-banner"
+src="https://via.placeholder.com/1200x300?text=Store+Banner">
+
+<div class="logo-row">
+    <div class="store-banner">
+  <img id="storeBannerDisplay">
+</div>
+
+<img
+id="logoPreview"
+class="preview-logo"
+src="https://via.placeholder.com/150?text=Logo">
+<img id="storeLogoDisplay">
+</div>
+
+<div class="input-group">
+<label>Store Name</label>
+<input
+id="storeName"
+placeholder="Enter Store Name">
+</div>
+
+<div class="input-group">
+<label>Store Logo</label>
+<input type="file" id="storelogo" accept="image/*">
+</div>
+
+<div class="input-group">
+<label>Store Banner</label>
+<input type="file" id="storebanner" accept="image/*">
+</div>
+
+<div class="input-group">
+<label>Description</label>
+<textarea
+id="storeDescription"
+placeholder="About your store..."></textarea>
+</div>
+
+<button id="saveStoreBtn">
+💾 Save Store
+</button>
+
+</div>
+
+<script>
+
+const logoInput =
+document.getElementById("storeLogo");
+
+const bannerInput =
+document.getElementById("storeBanner");
+
+logoInput.addEventListener("input",()=>{
+
+  document.getElementById(
+    "logoPreview"
+  ).src = logoInput.value;
+
+});
+
+bannerInput.addEventListener("input",()=>{
+
+  document.getElementById(
+    "bannerPreview"
+  ).src = bannerInput.value;
+
+});
+
+</script>
+
+<script type="module" src="edit-store.js"></script>
+
+<script src="toast.js"></script>
+</body>
+</html>

@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Email Verification | LeanGelo</title>
+
+
+    <link
+        rel="stylesheet"
+        href="artist-otp.css"
+    >
+
+
+    <!-- ==================================================
+         EMAILJS
+    ================================================== -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+    </script>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <h1>
+        Verify Your Email
+    </h1>
+
+
+    <p>
+        We've sent a verification code to your Google email.
+    </p>
+
+
+    <div class="google-login-box">
+
+
+        <!-- EMAIL -->
+
+        <p id="otpEmail">
+            Preparing verification...
+        </p>
+
+
+        <!-- OTP LABEL -->
+
+        <label for="otp">
+            Enter 6-digit OTP
+        </label>
+
+
+        <!-- OTP INPUT -->
+
+        <input
+            type="text"
+            id="otp"
+            maxlength="6"
+            inputmode="numeric"
+            autocomplete="one-time-code"
+            placeholder="123456"
+        >
+
+
+        <!-- VERIFY -->
+
+        <button
+            type="button"
+            id="verifyOtpBtn"
+        >
+            Verify OTP
+        </button>
+
+
+        <!-- RESEND -->
+
+        <button
+            type="button"
+            id="resendOtpBtn"
+            disabled
+        >
+            Resend OTP
+        </button>
+
+
+        <!-- STATUS -->
+
+        <p id="otpStatus"></p>
+
+
+        <!-- TIMER -->
+
+        <p id="otpTimer"></p>
+
+
+    </div>
+
+</div>
+
+
+
+<script type="module">
+
+
+// ======================================================
+// EMAILJS CONFIGURATION
+// ======================================================
+
+const EMAILJS_PUBLIC_KEY =
+    "4g0U7RkNGNtlASvyk";
+
+
+const EMAILJS_SERVICE_ID =
+    "service_rwcvykn";
+
+
+const EMAILJS_TEMPLATE_ID =
+    "template_syv2k3w";
+
+
+// ======================================================
+// INITIALIZE EMAILJS
+// ======================================================
+
+emailjs.init({
+
+    publicKey:
+        EMAILJS_PUBLIC_KEY
+
+});
+
+
+// ======================================================
+// REGISTRATION SESSION
+// ======================================================
+
+const email =
+    sessionStorage.getItem(
+        "artistEmail"
+    );
+
+
+const uid =
+    sessionStorage.getItem(
+        "artistUID"
+    );
+
+
+// ======================================================
+// HTML ELEMENTS
+// ======================================================
+
+const otpEmail =
+    document.getElementById(
+        "otpEmail"
+    );
+
+
+const otpInput =
+    document.getElementById(
+        "otp"
+    );
+
+
+const verifyBtn =
+    document.getElementById(
+        "verifyOtpBtn"
+    );
+
+
+const resendBtn =
+    document.getElementById(
+        "resendOtpBtn"
+    );
+
+
+const status =
+    document.getElementById(
+        "otpStatus"
+    );
+
+
+const timer =
+    document.getElementById(
+        "otpTimer"
+    );
+
+
+// ======================================================
+// CHECK SESSION
+// ======================================================
+
+if (
+    !email ||
+    !uid
+) {
+
+    showToast(
+        "Your registration session has expired."
+    );
+
+    window.location.href =
+        "artist.html";
+
+}
+
+
+// ======================================================
+// SHOW EMAIL
+// ======================================================
+
+otpEmail.textContent =
+    `Verification code will be sent to ${email}`;
+
+
+// ======================================================
+// GENERATE OTP
+// ======================================================
+
+function generateOTP() {
+
+    return Math
+        .floor(
+            100000 +
+            Math.random() * 900000
+        )
+        .toString();
+
+}
+
+
+// ======================================================
+// SAVE OTP
+// ======================================================
+
+function saveOTP(
+    otp
+) {
+
+    sessionStorage.setItem(
+        "artistOTP",
+        otp
+    );
+
+
+    const expiry =
+        Date.now() +
+        (
+            10 *
+            60 *
+            1000
+        );
+
+
+    sessionStorage.setItem(
+        "artistOTPExpiry",
+        expiry.toString()
+    );
+
+}
+
+
+// ======================================================
+// GET OTP
+// ======================================================
+
+function getSavedOTP() {
+
+    return sessionStorage.getItem(
+        "artistOTP"
+    );
+
+}
+
+
+// ======================================================
+// GET EXPIRY
+// ======================================================
+
+function getOTPExpiry() {
+
+    return Number(
+        sessionStorage.getItem(
+            "artistOTPExpiry"
+        )
+    );
+
+}
+
+
+// ======================================================
+// SEND OTP EMAIL
+// ======================================================
+
+async function sendOTPEmail() {
+
+
+    // Generate OTP
+
+    const otp =
+        generateOTP();
+
+
+    // Save OTP
+
+    saveOTP(
+        otp
+    );
+
+
+    // Show status
+
+    status.textContent =
+        "Sending verification code...";
+
+    status.style.color =
+        "#d4af37";
+
+
+    try {
+
+
+        // EmailJS
+
+        await emailjs.send(
+
+            EMAILJS_SERVICE_ID,
+
+            EMAILJS_TEMPLATE_ID,
+
+            {
+
+                to_name:
+                    "LeanGelo Artist",
+
+                to_email:
+                    email,
+
+                otp:
+                    otp
+
+            }
+
+        );
+
+
+        console.log(
+            "OTP email sent successfully."
+        );
+
+
+        otpEmail.textContent =
+            `Verification code sent to ${email}`;
+
+
+        status.textContent =
+            "Verification code sent successfully.";
+
+        status.style.color =
+            "green";
+
+
+        // Start OTP timer
+
+        startOTPTimer();
+
+
+        // Start resend cooldown
+
+        startResendCooldown();
+
+
+    }
+
+    catch (error) {
+
+
+        console.error(
+            "EmailJS Error:",
+            error
+        );
+
+
+        status.textContent =
+            "Failed to send verification code.";
+
+        status.style.color =
+            "red";
+
+
+        resendBtn.disabled =
+            false;
+
+
+        resendBtn.textContent =
+            "Resend OTP";
+
+    }
+
+}
+
+
+// ======================================================
+// OTP EXPIRY TIMER
+// ======================================================
+
+let otpTimerInterval;
+
+
+function startOTPTimer() {
+
+
+    clearInterval(
+        otpTimerInterval
+    );
+
+
+    otpTimerInterval =
+        setInterval(
+            () => {
+
+
+                const expiry =
+                    getOTPExpiry();
+
+
+                const remaining =
+                    expiry -
+                    Date.now();
+
+
+                if (
+                    remaining <=
+                    0
+                ) {
+
+
+                    clearInterval(
+                        otpTimerInterval
+                    );
+
+
+                    timer.textContent =
+                        "OTP expired.";
+
+                    timer.style.color =
+                        "red";
+
+
+                    return;
+
+                }
+
+
+                const minutes =
+                    Math.floor(
+                        remaining /
+                        60000
+                    );
+
+
+                const seconds =
+                    Math.floor(
+                        (
+                            remaining %
+                            60000
+                        ) /
+                        1000
+                    );
+
+
+                timer.textContent =
+                    `OTP expires in ${minutes}:${seconds
+                        .toString()
+                        .padStart(
+                            2,
+                            "0"
+                        )}`;
+
+
+                timer.style.color =
+                    "#d4af37";
+
+
+            },
+            1000
+        );
+
+}
+
+
+// ======================================================
+// RESEND COOLDOWN
+// ======================================================
+
+let resendInterval;
+
+
+let resendCooldown =
+    60;
+
+
+function startResendCooldown() {
+
+
+    clearInterval(
+        resendInterval
+    );
+
+
+    resendBtn.disabled =
+        true;
+
+
+    resendCooldown =
+        60;
+
+
+    resendBtn.textContent =
+        `Resend OTP (${resendCooldown}s)`;
+
+
+    resendInterval =
+        setInterval(
+            () => {
+
+
+                resendCooldown--;
+
+
+                if (
+                    resendCooldown <=
+                    0
+                ) {
+
+
+                    clearInterval(
+                        resendInterval
+                    );
+
+
+                    resendBtn.disabled =
+                        false;
+
+
+                    resendBtn.textContent =
+                        "Resend OTP";
+
+
+                    return;
+
+                }
+
+
+                resendBtn.textContent =
+                    `Resend OTP (${resendCooldown}s)`;
+
+
+            },
+            1000
+        );
+
+}
+
+
+// ======================================================
+// VERIFY OTP
+// ======================================================
+
+verifyBtn.addEventListener(
+    "click",
+    async () => {
+
+
+        const enteredOTP =
+            otpInput.value.trim();
+
+
+        // Check format
+
+        if (
+            !/^\d{6}$/.test(
+                enteredOTP
+            )
+        ) {
+
+
+            status.textContent =
+                "Please enter a valid 6-digit OTP.";
+
+            status.style.color =
+                "red";
+
+
+            return;
+
+        }
+
+
+        // Get saved OTP
+
+        const savedOTP =
+            getSavedOTP();
+
+
+        // Get expiry
+
+        const expiry =
+            getOTPExpiry();
+
+
+        // Check OTP
+
+        if (
+            !savedOTP ||
+            !expiry
+        ) {
+
+
+            status.textContent =
+                "No active OTP found. Please request a new OTP.";
+
+            status.style.color =
+                "red";
+
+
+            return;
+
+        }
+
+
+        // Check expiry
+
+        if (
+            Date.now() >
+            expiry
+        ) {
+
+
+            status.textContent =
+                "This OTP has expired. Please request a new one.";
+
+            status.style.color =
+                "red";
+
+
+            return;
+
+        }
+
+
+        // Disable button
+
+        verifyBtn.disabled =
+            true;
+
+
+        verifyBtn.textContent =
+            "Verifying...";
+
+
+        // Compare
+
+        if (
+            enteredOTP ===
+            savedOTP
+        ) {
+            otpInput.classList.remove(
+    "otp-error"
+);
+
+otpInput.classList.remove(
+    "otp-shake"
+);
+
+
+            status.textContent =
+                "Email verified successfully!";
+
+            status.style.color =
+                "green";
+
+
+            // Remove OTP
+
+            sessionStorage.removeItem(
+                "artistOTP"
+            );
+
+
+            sessionStorage.removeItem(
+                "artistOTPExpiry"
+            );
+
+
+            // Stop timer
+
+            clearInterval(
+                otpTimerInterval
+            );
+
+
+            // Redirect
+
+            setTimeout(
+                () => {
+
+                    window.location.href =
+                        "artist-payment.html";
+
+                },
+                1000
+            );
+
+
+        }
+
+      else {
+
+    status.textContent =
+        "Incorrect OTP. Please check the code and try again.";
+
+    status.style.color =
+        "#ff4d5a";
+
+
+    // Add red error style
+
+    otpInput.classList.remove(
+        "otp-shake"
+    );
+
+    otpInput.classList.add(
+        "otp-error"
+    );
+
+
+    // Restart shake animation
+
+    void otpInput.offsetWidth;
+
+
+    otpInput.classList.add(
+        "otp-shake"
+    );
+
+
+    // Select OTP for easy replacement
+
+    otpInput.select();
+
+
+    verifyBtn.disabled =
+        false;
+
+    verifyBtn.textContent =
+        "Verify OTP";
+
+}
+
+    }
+);
+
+
+// ======================================================
+// RESEND OTP
+// ======================================================
+
+resendBtn.addEventListener(
+    "click",
+    async () => {
+
+
+        if (
+            resendBtn.disabled
+        ) {
+
+            return;
+
+        }
+
+
+        otpInput.value =
+            "";
+
+
+        await sendOTPEmail();
+
+    }
+);
+
+
+// ======================================================
+// ONLY NUMBERS
+// ======================================================
+
+otpInput.addEventListener(
+    "input",
+    () => {
+
+
+        otpInput.value =
+            otpInput.value
+                .replace(
+                    /\D/g,
+                    ""
+                )
+                .slice(
+                    0,
+                    6
+                );
+
+    }
+);
+
+
+// ======================================================
+// ENTER KEY
+// ======================================================
+
+otpInput.addEventListener(
+    "keydown",
+    (event) => {
+
+
+        if (
+            event.key ===
+            "Enter"
+        ) {
+
+
+            verifyBtn.click();
+
+        }
+
+    }
+);
+
+
+// ======================================================
+// SEND FIRST OTP
+// ======================================================
+
+sendOTPEmail();
+
+
+</script>
+
+
+<script src="toast.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,1855 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Checkout - LeanGelo</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            background: #0f0f0f;
+
+            color: white;
+
+            font-family: Arial, sans-serif;
+
+            min-height: 100vh;
+
+            padding: 40px;
+        }
+
+
+        .checkout-container {
+
+            max-width: 1200px;
+
+            margin: auto;
+
+            display: grid;
+
+            grid-template-columns: 1fr 400px;
+
+            gap: 30px;
+        }
+
+
+        .glass {
+
+            background: rgba(255,255,255,0.05);
+
+            border: 1px solid rgba(255,255,255,0.1);
+
+            backdrop-filter: blur(20px);
+
+            border-radius: 25px;
+
+            padding: 30px;
+        }
+
+
+        h1 {
+
+            margin-bottom: 25px;
+
+            font-size: 35px;
+        }
+
+
+        .input-group {
+
+            margin-bottom: 18px;
+        }
+
+
+        .input-group label {
+
+            display: block;
+
+            margin-bottom: 8px;
+
+            color: #ccc;
+        }
+
+
+        .input-group input,
+        .input-group textarea {
+
+            width: 100%;
+
+            padding: 15px;
+
+            border: none;
+
+            outline: none;
+
+            border-radius: 15px;
+
+            background: #1c1c1c;
+
+            color: white;
+
+            font-size: 15px;
+        }
+
+
+        textarea {
+
+            min-height: 120px;
+
+            resize: none;
+        }
+
+
+        .cart-item {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            padding: 15px 0;
+
+            border-bottom:
+                1px solid rgba(255,255,255,0.08);
+        }
+
+
+        .cart-item img {
+
+            flex-shrink: 0;
+        }
+
+
+        .digital-label {
+
+            display: inline-block;
+
+            margin-top: 7px;
+
+            padding: 5px 9px;
+
+            background: gold;
+
+            color: black;
+
+            border-radius: 7px;
+
+            font-size: 11px;
+
+            font-weight: bold;
+        }
+
+
+        .physical-label {
+
+            display: inline-block;
+
+            margin-top: 7px;
+
+            padding: 5px 9px;
+
+            background: #444;
+
+            color: white;
+
+            border-radius: 7px;
+
+            font-size: 11px;
+
+            font-weight: bold;
+        }
+
+
+        .total {
+
+            margin-top: 20px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            font-size: 22px;
+
+            font-weight: bold;
+        }
+
+
+        .checkout-btn {
+
+            width: 100%;
+
+            margin-top: 30px;
+
+            padding: 18px;
+
+            border: none;
+
+            border-radius: 18px;
+
+            background: gold;
+
+            color: black;
+
+            font-size: 18px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+
+        .checkout-btn:hover {
+
+            transform: scale(1.02);
+
+            background: #fff;
+        }
+
+
+        .checkout-btn:disabled {
+
+            opacity: 0.6;
+
+            cursor: not-allowed;
+
+            transform: none;
+        }
+
+
+        .payment-box {
+
+            margin-top: 25px;
+
+            background: #151515;
+
+            border-radius: 18px;
+
+            padding: 18px;
+        }
+
+
+        .payment-box h3 {
+
+            margin-bottom: 10px;
+        }
+
+
+        .secure {
+
+            color: lime;
+
+            margin-top: 15px;
+
+            font-size: 14px;
+        }
+
+
+        /* ================= LOADING ================= */
+
+        #loadingScreen {
+
+            position: fixed;
+
+            inset: 0;
+
+            background: rgba(0,0,0,0.85);
+
+            display: none;
+
+            justify-content: center;
+
+            align-items: center;
+
+            z-index: 9999;
+        }
+
+
+        .loader-box {
+
+            width: 350px;
+
+            background: #151515;
+
+            border-radius: 25px;
+
+            padding: 30px;
+
+            text-align: center;
+
+            border:
+                1px solid rgba(255,255,255,0.1);
+        }
+
+
+        .loading-bar {
+
+            width: 100%;
+
+            height: 18px;
+
+            background: #222;
+
+            border-radius: 20px;
+
+            overflow: hidden;
+
+            margin-top: 20px;
+        }
+
+
+        #loadingFill {
+
+            width: 0%;
+
+            height: 100%;
+
+            background: gold;
+
+            transition: 0.2s;
+        }
+
+
+        #loadingPercent {
+
+            margin-top: 15px;
+
+            font-size: 22px;
+
+            font-weight: bold;
+
+            color: gold;
+        }
+
+
+        .empty-cart {
+
+            text-align: center;
+
+            padding: 40px 10px;
+
+            color: #aaa;
+        }
+
+
+        .empty-cart button {
+
+            margin-top: 20px;
+
+            padding: 12px 20px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            background: gold;
+
+            color: black;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+
+        @media(max-width:900px) {
+
+            body {
+
+                padding: 20px;
+            }
+
+
+            .checkout-container {
+
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="checkout-container">
+
+
+    <!-- ================================================= -->
+    <!-- LEFT SIDE -->
+    <!-- ================================================= -->
+
+    <div class="glass">
+
+        <h1>
+            💳 Checkout
+        </h1>
+
+
+        <div class="input-group">
+
+            <label>
+                Full Name
+            </label>
+
+            <input
+                type="text"
+                id="fullname"
+                placeholder="Enter your full name"
+            >
+
+        </div>
+
+
+        <div class="input-group">
+
+            <label>
+                Address
+            </label>
+
+            <input
+                type="text"
+                id="address"
+                placeholder="Enter your address"
+            >
+
+        </div>
+
+
+        <div class="input-group">
+
+            <label>
+                Phone Number
+            </label>
+
+            <input
+                type="text"
+                id="phone"
+                placeholder="Enter your phone number"
+            >
+
+        </div>
+
+
+        <div class="input-group">
+
+            <label>
+                Postal Code
+            </label>
+
+            <input
+                type="text"
+                id="postal"
+                placeholder="Enter postal code"
+            >
+
+        </div>
+
+
+        <div class="input-group">
+
+            <label>
+                Notes
+            </label>
+
+            <textarea
+                id="notes"
+                placeholder="Additional notes..."
+            ></textarea>
+
+        </div>
+
+
+        <!-- PAYMENT -->
+
+        <div class="payment-box">
+
+            <h3>
+                💎 Payment Method
+            </h3>
+
+            <p>
+                Cash On Delivery
+            </p>
+
+            <div class="secure">
+                🔒 Secure Checkout Protected
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ================================================= -->
+    <!-- RIGHT SIDE -->
+    <!-- ================================================= -->
+
+    <div class="glass">
+
+        <h1>
+            🛒 Order Summary
+        </h1>
+
+
+        <div id="cartItems"></div>
+
+
+        <div class="total">
+
+            <span>
+                Total
+            </span>
+
+            <span>
+
+                Rs
+
+                <span id="total">
+                    0
+                </span>
+
+            </span>
+
+        </div>
+
+
+        <button
+            class="checkout-btn"
+            id="placeOrderBtn"
+            onclick="placeOrder()"
+        >
+
+            Place Order
+
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- ================================================= -->
+<!-- LOADING SCREEN -->
+<!-- ================================================= -->
+
+<div id="loadingScreen">
+
+    <div class="loader-box">
+
+        <h2>
+            Processing Order...
+        </h2>
+
+
+        <div class="loading-bar">
+
+            <div id="loadingFill"></div>
+
+        </div>
+
+
+        <p id="loadingPercent">
+            0%
+        </p>
+
+    </div>
+
+</div>
+
+
+
+<script type="module">
+
+
+// =====================================================
+// FIREBASE IMPORTS
+// =====================================================
+
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+
+
+import {
+    getAuth,
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+
+
+import {
+    getFirestore,
+    collection,
+    addDoc,
+    serverTimestamp,
+    getDoc,
+    doc
+} from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+
+
+
+// =====================================================
+// FIREBASE CONFIG
+// =====================================================
+
+const firebaseConfig = {
+
+    apiKey:
+        "AIzaSyBASJQed83D5iCtGOYES8LfqAv5M0iwUaM",
+
+    authDomain:
+        "mylamborghini.firebaseapp.com",
+
+    projectId:
+        "mylamborghini",
+
+    storageBucket:
+        "mylamborghini.firebasestorage.app",
+
+    messagingSenderId:
+        "817085836076",
+
+    appId:
+        "1:817085836076:web:dafa36f41d1ec24a5c5a89"
+
+};
+
+
+
+// =====================================================
+// INITIALIZE FIREBASE
+// =====================================================
+
+const app =
+    initializeApp(firebaseConfig);
+
+const db =
+    getFirestore(app);
+
+const auth =
+    getAuth(app);
+
+
+
+// =====================================================
+// CART
+// =====================================================
+
+const cart =
+    JSON.parse(
+        localStorage.getItem("cart")
+    ) || [];
+
+
+const cartItems =
+    document.getElementById(
+        "cartItems"
+    );
+
+
+let total = 0;
+
+let currentUser = null;
+
+
+
+// =====================================================
+// AUTH
+// =====================================================
+
+onAuthStateChanged(
+    auth,
+    (user) => {
+
+        currentUser = user;
+
+        if (user) {
+
+            console.log(
+                "LOGIN:",
+                user.email
+            );
+
+        }
+
+    }
+);
+
+
+
+// =====================================================
+// DEBUG CART
+// =====================================================
+
+console.log(
+    "===================================="
+);
+
+console.log(
+    "CHECKOUT CART"
+);
+
+console.log(
+    cart
+);
+
+console.log(
+    "===================================="
+);
+
+
+cart.forEach(
+    (item, index) => {
+
+        console.log(
+            "PRODUCT:",
+            index + 1
+        );
+
+        console.log(
+            "ID:",
+            item.id
+        );
+
+        console.log(
+            "NAME:",
+            item.name
+        );
+
+        console.log(
+            "CATEGORY:",
+            item.category
+        );
+
+        console.log(
+            "CATEGORY TYPE:",
+            item.categoryType
+        );
+
+        console.log(
+            "IMAGE URL:",
+            item.imageUrl
+        );
+
+    }
+);
+
+
+
+// =====================================================
+// LOAD CART UI
+// =====================================================
+
+function loadCart() {
+
+    cartItems.innerHTML = "";
+
+    total = 0;
+
+
+    if (cart.length === 0) {
+
+        cartItems.innerHTML = `
+
+            <div class="empty-cart">
+
+                <h3>
+                    Your cart is empty 🛒
+                </h3>
+
+                <button
+                    onclick="
+                        window.location.href='Main.html'
+                    "
+                >
+                    Browse Artworks
+                </button>
+
+            </div>
+
+        `;
+
+
+        document.getElementById(
+            "total"
+        ).innerText = "0";
+
+
+        return;
+    }
+
+
+
+    cart.forEach(
+        (item) => {
+
+            const qty =
+                Number(
+                    item.quantity
+                ) || 1;
+
+
+            const price =
+                Number(
+                    item.price
+                ) || 0;
+
+
+            const itemTotal =
+                price * qty;
+
+
+            total += itemTotal;
+
+
+
+            const category =
+                String(
+                    item.category || ""
+                )
+                .trim()
+                .toLowerCase();
+
+
+
+            let categoryLabel = "";
+
+
+
+            if (
+                category === "digital-art"
+            ) {
+
+                categoryLabel = `
+
+                    <span class="digital-label">
+
+                        DIGITAL ART
+
+                    </span>
+
+                `;
+
+            }
+
+            else {
+
+                categoryLabel = `
+
+                    <span class="physical-label">
+
+                        ${item.category || "ARTWORK"}
+
+                    </span>
+
+                `;
+
+            }
+
+
+
+            cartItems.innerHTML += `
+
+                <div class="cart-item">
+
+                    <div
+                        style="
+                            display:flex;
+                            align-items:center;
+                            gap:15px;
+                            width:100%;
+                        "
+                    >
+
+                        <img
+                            src="
+                                ${item.imageUrl ||
+                                  item.image ||
+                                  ""}
+                            "
+                            width="70"
+                            height="70"
+                            style="
+                                border-radius:10px;
+                                object-fit:cover;
+                            "
+                        >
+
+
+                        <div>
+
+                            <h3>
+
+                                ${item.name ||
+                                  "Artwork"}
+
+                            </h3>
+
+
+                            <p>
+
+                                Qty:
+                                ${qty}
+
+                            </p>
+
+
+                            <p>
+
+                                Price:
+                                Rs ${price}
+
+                            </p>
+
+
+                            <p>
+
+                                <strong>
+
+                                    Subtotal:
+                                    Rs ${itemTotal}
+
+                                </strong>
+
+                            </p>
+
+
+                            ${categoryLabel}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+
+
+    document.getElementById(
+        "total"
+    ).innerText = total;
+
+}
+
+
+loadCart();
+
+
+
+// =====================================================
+// GET PRODUCT FROM FIRESTORE
+// =====================================================
+async function getProductFromFirestore(item) {
+
+    let category =
+        item.category || "";
+
+    let categoryType =
+        item.categoryType || "";
+
+    let imageUrl =
+        item.imageUrl ||
+        item.image ||
+        "";
+
+    let sellerEmail =
+        item.sellerEmail ||
+        item.email ||
+        "";
+
+
+    // =================================================
+    // PRODUCT ID
+    // =================================================
+
+    if (item.id) {
+
+        try {
+
+            const productRef =
+                doc(
+                    db,
+                    "products",
+                    item.id
+                );
+
+
+            const productSnap =
+                await getDoc(
+                    productRef
+                );
+
+
+            if (productSnap.exists()) {
+
+                const product =
+                    productSnap.data();
+
+
+                category =
+                    product.category ||
+                    category ||
+                    "";
+
+
+                categoryType =
+                    product.categoryType ||
+                    categoryType ||
+                    "";
+
+
+                imageUrl =
+                    product.imageUrl ||
+                    product.image ||
+                    imageUrl ||
+                    "";
+
+
+                // IMPORTANT
+                sellerEmail =
+                    product.email ||
+                    product.sellerEmail ||
+                    sellerEmail ||
+                    "";
+
+
+                console.log(
+                    "PRODUCT:",
+                    product.name
+                );
+
+                console.log(
+                    "SELLER:",
+                    sellerEmail
+                );
+
+                console.log(
+                    "CATEGORY:",
+                    category
+                );
+
+                console.log(
+                    "CATEGORY TYPE:",
+                    categoryType
+                );
+
+            }
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "PRODUCT LOAD ERROR:",
+                error
+            );
+
+        }
+
+    }
+
+
+    return {
+
+        category:
+            String(category)
+                .trim()
+                .toLowerCase(),
+
+
+        categoryType:
+            String(categoryType)
+                .trim()
+                .toLowerCase(),
+
+
+        imageUrl:
+            imageUrl || "",
+
+
+        // IMPORTANT
+        sellerEmail:
+            String(sellerEmail)
+                .trim()
+                .toLowerCase()
+
+    };
+
+}
+
+
+// =====================================================
+// PREPARE CART
+// =====================================================
+async function prepareCart() {
+
+    const cleanCart = [];
+
+
+    for (const item of cart) {
+
+        console.log(
+            "--------------------------------"
+        );
+
+        console.log(
+            "PROCESSING:",
+            item.name
+        );
+
+
+        const productData =
+            await getProductFromFirestore(
+                item
+            );
+
+
+        const finalItem = {
+
+            // Product ID
+            id:
+                item.id || "",
+
+
+            // Product information
+            name:
+                item.name || "",
+
+
+            price:
+                Number(item.price) || 0,
+
+
+            quantity:
+                Number(item.quantity) || 1,
+
+
+            imageUrl:
+                productData.imageUrl ||
+                item.imageUrl ||
+                item.image ||
+                "",
+
+
+            // =========================================
+            // SELLER
+            // =========================================
+
+            sellerEmail:
+                productData.sellerEmail ||
+                item.sellerEmail ||
+                item.email ||
+                "",
+
+
+            // =========================================
+            // PRODUCT TYPE
+            // =========================================
+
+            categoryType:
+                productData.categoryType ||
+                String(
+                    item.categoryType || ""
+                )
+                .trim()
+                .toLowerCase(),
+
+
+            // Category
+            category:
+                productData.category || ""
+
+        };
+
+
+        console.log(
+            "FINAL PRODUCT:",
+            finalItem
+        );
+
+
+        cleanCart.push(
+            finalItem
+        );
+
+    }
+
+
+    return cleanCart;
+
+}
+
+
+// =====================================================
+// CHECK DIGITAL PRODUCT
+// =====================================================
+
+function isDigitalItem(item) {
+
+
+    const type =
+        String(
+            item.categoryType || ""
+        )
+        .trim()
+        .toLowerCase();
+
+
+
+    // Firebase categoryType
+    if (
+        type === "digital"
+    ) {
+
+        return true;
+
+    }
+
+
+
+    if (
+        type === "non-digital"
+    ) {
+
+        return false;
+
+    }
+
+
+
+    // =================================================
+    // FALLBACK CATEGORY
+    // =================================================
+
+    const category =
+        String(
+            item.category || ""
+        )
+        .trim()
+        .toLowerCase();
+
+
+
+    const digitalCategories = [
+
+        "digital-art",
+
+        "digital art",
+
+        "ai-art",
+
+        "ai art",
+
+        "digital-paintings",
+
+        "digital paintings",
+
+        "digital-illustrations",
+
+        "digital illustrations",
+
+        "digital-drawings",
+
+        "digital drawings",
+
+        "printable-art",
+
+        "printable art",
+
+        "illustrations",
+
+        "typography",
+
+        "posters",
+
+        "photography",
+
+        "3d-art",
+
+        "3d art",
+
+        "3d-art-models",
+
+        "3d art & models",
+
+        "graphics-design",
+
+        "graphics & design",
+
+        "templates",
+
+        "fonts-typography",
+
+        "fonts & typography",
+
+        "crafts",
+
+        "resources",
+
+        "digital-resources"
+
+    ];
+
+
+
+    return digitalCategories.includes(
+        category
+    );
+
+}
+
+
+
+// =====================================================
+// OPEN DIGITAL ART IMAGE
+// =====================================================
+
+function openDigitalArt(url) {
+
+
+    if (!url) {
+
+        console.warn(
+            "Image URL missing"
+        );
+
+        return;
+
+    }
+
+
+
+    // Open image in new tab
+    window.open(
+        url,
+        "_blank",
+        "noopener,noreferrer"
+    );
+
+}
+
+
+
+// =====================================================
+// OPEN ALL DIGITAL ART IMAGES
+// =====================================================
+
+async function openAllDigitalArts(
+    items
+) {
+
+
+    for (
+        const item of items
+    ) {
+
+
+        if (
+            item.imageUrl
+        ) {
+
+            console.log(
+                "OPENING DIGITAL ART:",
+                item.name
+            );
+
+
+            openDigitalArt(
+                item.imageUrl
+            );
+
+
+            /*
+             * Small delay between images
+             */
+            await new Promise(
+                resolve =>
+                    setTimeout(
+                        resolve,
+                        500
+                    )
+            );
+
+        }
+
+    }
+
+}
+
+
+
+// =====================================================
+// PLACE ORDER
+// =====================================================
+
+window.placeOrder =
+async function () {
+
+
+    // =================================================
+    // LOGIN CHECK
+    // =================================================
+
+    if (!currentUser) {
+
+        showToast(
+            "Please login first."
+        );
+
+        return;
+
+    }
+
+
+
+    // =================================================
+    // CART CHECK
+    // =================================================
+
+    if (
+        cart.length === 0
+    ) {
+
+        showToast(
+            "Your cart is empty."
+        );
+
+        return;
+
+    }
+
+
+
+    // =================================================
+    // BUTTON
+    // =================================================
+
+    const button =
+        document.getElementById(
+            "placeOrderBtn"
+        );
+
+
+    button.disabled = true;
+
+
+    button.innerText =
+        "Processing...";
+
+
+
+    // =================================================
+    // LOADING
+    // =================================================
+
+    const loadingScreen =
+        document.getElementById(
+            "loadingScreen"
+        );
+
+
+    const loadingFill =
+        document.getElementById(
+            "loadingFill"
+        );
+
+
+    const loadingPercent =
+        document.getElementById(
+            "loadingPercent"
+        );
+
+
+
+    loadingScreen.style.display =
+        "flex";
+
+
+
+    let percent = 0;
+
+
+
+    const loader =
+        setInterval(
+            () => {
+
+                if (
+                    percent < 90
+                ) {
+
+                    percent += 5;
+
+
+                    loadingFill.style.width =
+                        percent + "%";
+
+
+                    loadingPercent.innerText =
+                        percent + "%";
+
+                }
+
+            },
+            100
+        );
+
+
+
+    try {
+
+
+        // =================================================
+        // GET REAL PRODUCT DATA
+        // =================================================
+
+        const cleanCart =
+            await prepareCart();
+
+
+
+        console.log(
+            "===================================="
+        );
+
+
+        console.log(
+            "CLEAN CART"
+        );
+
+
+        console.log(
+            cleanCart
+        );
+
+
+        console.log(
+            "===================================="
+        );
+
+
+
+        // =================================================
+        // DIGITAL ART ONLY
+        // =================================================
+
+        const digitalArtItems =
+            cleanCart.filter(
+                item => {
+
+                    return (
+                        isDigitalItem(item)
+                        &&
+                        item.imageUrl
+                    );
+
+                }
+            );
+
+
+
+        console.log(
+            "PURCHASED DIGITAL ARTS:",
+            digitalArtItems
+        );
+
+
+        console.log(
+            "DIGITAL ART COUNT:",
+            digitalArtItems.length
+        );
+
+
+
+        // =================================================
+        // ORDER DATA
+        // =================================================
+
+        const orderData = {
+
+
+            // Buyer
+            buyerId:
+                currentUser.uid,
+
+
+            buyerEmail:
+                currentUser.email,
+
+
+            buyerName:
+                currentUser.displayName ||
+                currentUser.email
+                    .split("@")[0],
+
+
+            buyerPhoto:
+                currentUser.photoURL || "",
+
+
+
+            // Delivery
+            fullname:
+                document
+                    .getElementById(
+                        "fullname"
+                    )
+                    .value
+                    .trim(),
+
+
+            address:
+                document
+                    .getElementById(
+                        "address"
+                    )
+                    .value
+                    .trim(),
+
+
+            phone:
+                document
+                    .getElementById(
+                        "phone"
+                    )
+                    .value
+                    .trim(),
+
+
+            postal:
+                document
+                    .getElementById(
+                        "postal"
+                    )
+                    .value
+                    .trim(),
+
+
+            notes:
+                document
+                    .getElementById(
+                        "notes"
+                    )
+                    .value
+                    .trim(),
+
+
+
+            // =================================================
+            // PRODUCTS
+            // =================================================
+
+            cart:
+                cleanCart,
+
+
+
+            // Total
+            total:
+                total,
+
+
+
+            // Digital information
+            digitalArtCount:
+                digitalArtItems.length,
+
+
+            hasDigitalArt:
+                digitalArtItems.length > 0,
+
+
+
+            // Status
+            status:
+                "pending",
+
+
+            deliveryDays:
+                7,
+
+
+            createdAt:
+                serverTimestamp()
+
+        };
+
+
+
+        console.log(
+            "FINAL ORDER DATA:",
+            orderData
+        );
+
+
+
+        // =================================================
+        // SAVE TO FIRESTORE
+        // =================================================
+
+        const orderRef =
+            await addDoc(
+                collection(
+                    db,
+                    "orders"
+                ),
+                orderData
+            );
+
+
+
+        console.log(
+            "ORDER CREATED:",
+            orderRef.id
+        );
+
+
+
+        // =================================================
+        // FINISH LOADING
+        // =================================================
+
+        clearInterval(
+            loader
+        );
+
+
+        loadingFill.style.width =
+            "100%";
+
+
+        loadingPercent.innerText =
+            "100%";
+
+
+
+        // =================================================
+        // OPEN DIGITAL ART
+        // =================================================
+
+        setTimeout(
+            async () => {
+
+
+                if (
+                    digitalArtItems.length > 0
+                ) {
+
+                    await openAllDigitalArts(
+                        digitalArtItems
+                    );
+
+                }
+
+
+
+                showToast(
+                    "Order Placed Successfully 💎"
+                );
+
+
+
+                // =================================================
+                // CLEAR CART
+                // =================================================
+
+                localStorage.removeItem(
+                    "cart"
+                );
+
+
+
+                // =================================================
+                // REDIRECT
+                // =================================================
+
+                setTimeout(
+                    () => {
+
+                        window.location.href =
+                            "landing.html";
+
+                    },
+                    1000
+                );
+
+
+            },
+            700
+        );
+
+
+
+    }
+
+    catch (error) {
+
+
+        clearInterval(
+            loader
+        );
+
+
+        loadingScreen.style.display =
+            "none";
+
+
+        button.disabled =
+            false;
+
+
+        button.innerText =
+            "Place Order";
+
+
+
+        console.error(
+            "ORDER ERROR:",
+            error
+        );
+
+
+
+        showToast(
+            "Order Failed ❌\n\n" +
+            error.message
+        );
+
+    }
+
+};
+
+</script>
+
+
+<script src="toast.js"></script>
+
+</body>
+
+</html>

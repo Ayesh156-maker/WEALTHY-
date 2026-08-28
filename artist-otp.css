@@ -1,0 +1,449 @@
+/* ==================================================
+   LEANGELO OTP - PREMIUM GOLD + BLACK
+================================================== */
+
+.container {
+    max-width: 520px;
+    margin: 80px auto;
+    padding: 20px;
+    text-align: center;
+}
+
+
+/* ==================================================
+   OTP CARD
+================================================== */
+
+.google-login-box {
+    margin-top: 30px;
+    padding: 35px 30px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #111111,
+            #050505
+        );
+
+    border: 1px solid rgba(212, 175, 55, 0.35);
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.7),
+        0 0 30px rgba(212, 175, 55, 0.08);
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+
+/* Gold glow */
+
+.google-login-box::before {
+    content: "";
+
+    position: absolute;
+
+    top: -100px;
+    left: 50%;
+
+    width: 220px;
+    height: 220px;
+
+    transform: translateX(-50%);
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(212, 175, 55, 0.14),
+            transparent 70%
+        );
+
+    pointer-events: none;
+}
+
+
+/* ==================================================
+   TITLE
+================================================== */
+
+.container h1 {
+    color: #d4af37;
+
+    font-size: 34px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.5px;
+
+    text-shadow:
+        0 0 20px rgba(212, 175, 55, 0.25);
+}
+
+
+/* ==================================================
+   DESCRIPTION
+================================================== */
+
+.container > p {
+    color: #aaaaaa;
+
+    font-size: 15px;
+
+    line-height: 1.6;
+
+    margin-top: 10px;
+}
+
+
+/* ==================================================
+   EMAIL
+================================================== */
+
+#otpEmail {
+    color: #d4af37;
+
+    font-size: 14px;
+
+    margin-bottom: 28px;
+
+    word-break: break-word;
+}
+
+
+/* ==================================================
+   LABEL
+================================================== */
+
+.google-login-box label {
+    display: block;
+
+    text-align: left;
+
+    color: #dddddd;
+
+    font-size: 14px;
+
+    margin-bottom: 9px;
+}
+
+
+/* ==================================================
+   OTP INPUT
+================================================== */
+
+#otp {
+
+    width: 100%;
+
+    height: 58px;
+
+    box-sizing: border-box;
+
+    border-radius: 12px;
+
+    border: 1px solid #333333;
+
+    background: #090909;
+
+    color: #ffffff;
+
+    font-size: 25px;
+
+    font-weight: 600;
+
+    letter-spacing: 9px;
+
+    text-align: center;
+
+    outline: none;
+
+    transition:
+        0.25s ease;
+
+}
+
+
+/* Focus */
+
+#otp:focus {
+
+    border-color: #d4af37;
+
+    box-shadow:
+        0 0 0 3px rgba(212, 175, 55, 0.10),
+        0 0 25px rgba(212, 175, 55, 0.15);
+
+}
+
+
+/* ==================================================
+   VERIFY BUTTON
+================================================== */
+
+#verifyOtpBtn {
+
+    width: 100%;
+
+    height: 52px;
+
+    margin-top: 20px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #d4af37,
+            #f1d879
+        );
+
+    color: #080808;
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        opacity 0.2s ease;
+}
+
+
+#verifyOtpBtn:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 25px rgba(212, 175, 55, 0.25);
+}
+
+
+#verifyOtpBtn:active {
+
+    transform: scale(0.98);
+
+}
+
+
+#verifyOtpBtn:disabled {
+
+    opacity: 0.55;
+
+    cursor: not-allowed;
+
+}
+
+
+/* ==================================================
+   RESEND BUTTON
+================================================== */
+
+#resendOtpBtn {
+
+    width: 100%;
+
+    height: 48px;
+
+    margin-top: 12px;
+
+    border-radius: 12px;
+
+    border: 1px solid rgba(212, 175, 55, 0.35);
+
+    background: transparent;
+
+    color: #d4af37;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        0.2s ease;
+}
+
+
+#resendOtpBtn:hover:not(:disabled) {
+
+    background:
+        rgba(212, 175, 55, 0.08);
+
+    border-color:
+        #d4af37;
+}
+
+
+#resendOtpBtn:disabled {
+
+    opacity: 0.35;
+
+    cursor: not-allowed;
+
+}
+
+
+/* ==================================================
+   STATUS MESSAGE
+================================================== */
+
+#otpStatus {
+
+    min-height: 24px;
+
+    margin-top: 20px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    transition:
+        0.25s ease;
+}
+
+
+/* ==================================================
+   TIMER
+================================================== */
+
+#otpTimer {
+
+    margin-top: 10px;
+
+    color: #d4af37;
+
+    font-size: 13px;
+
+    font-weight: 500;
+}
+
+
+/* ==================================================
+   INCORRECT OTP
+================================================== */
+
+#otp.otp-error {
+
+    border-color: #ff4d5a;
+
+    color: #ff6670;
+
+    box-shadow:
+        0 0 0 3px rgba(255, 77, 90, 0.08),
+        0 0 25px rgba(255, 77, 90, 0.18);
+}
+
+
+/* ==================================================
+   ERROR SHAKE
+================================================== */
+
+#otp.otp-shake {
+
+    animation:
+        otpShake 0.42s ease;
+}
+
+
+@keyframes otpShake {
+
+    0% {
+        transform: translateX(0);
+    }
+
+    20% {
+        transform: translateX(-8px);
+    }
+
+    40% {
+        transform: translateX(8px);
+    }
+
+    60% {
+        transform: translateX(-6px);
+    }
+
+    80% {
+        transform: translateX(6px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+
+}
+
+
+/* ==================================================
+   MOBILE
+================================================== */
+
+@media (max-width: 600px) {
+
+    .container {
+
+        margin: 45px auto;
+
+        padding: 15px;
+
+    }
+
+
+    .google-login-box {
+
+        padding: 28px 20px;
+
+    }
+
+
+    .container h1 {
+
+        font-size: 28px;
+
+    }
+
+
+    #otp {
+
+        font-size: 22px;
+
+        letter-spacing: 7px;
+
+    }
+
+}
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    font-family:'Segoe UI',sans-serif;
+
+    background:
+    linear-gradient(135deg,#050505,#111,#1b1b1b);
+
+    color:white;
+
+    min-height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:60px 20px;
+
+}

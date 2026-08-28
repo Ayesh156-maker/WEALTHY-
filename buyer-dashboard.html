@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>LeanGelo | Buyer Dashboard</title>
+
+<link rel="stylesheet" href="buyer-dashboard.css">
+
+<script type="module" src="buyer-dashboard.js"></script>
+
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+
+
+<body>
+
+
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar">
+
+
+<div class="logo">
+
+<h2>LeanGelo</h2>
+
+<p>Buyer Dashboard</p>
+
+</div>
+
+
+
+<ul>
+
+
+<li class="active">
+
+<i class="fas fa-home"></i>
+
+<span>Dashboard</span>
+
+</li>
+
+<li onclick="window.location.href='orders-buyer.html'" style="cursor: pointer;">
+    <i class="fas fa-box"></i>
+    <span>My Orders</span>
+</li>
+
+<li onclick="window.location.href='wishlist.html'" style="cursor: pointer;">
+    <i class="fas fa-heart"></i>
+    <span>Wishlist</span>
+</li>
+
+<li onclick="window.location.href='downloads.html'" style="cursor:pointer;">
+
+<i class="fas fa-download"></i>
+
+<span>Downloads</span>
+
+</li>
+
+
+
+<li>
+
+<i class="fas fa-image"></i>
+
+<span>AI Images</span>
+
+</li>
+
+
+
+<li onclick="window.location.href='messages.html'" style="cursor:pointer;">
+    <i class="fas fa-comments"></i>
+    <span>Messages</span>
+</li>   
+
+
+<li>
+
+<i class="fas fa-bell"></i>
+
+<span>Notifications</span>
+
+</li>
+
+
+
+<li>
+
+<i class="fas fa-star"></i>
+
+<span>Reviews</span>
+
+</li>
+
+
+
+<li>
+
+<i class="fas fa-cog"></i>
+
+<span>Settings</span>
+
+</li>
+
+
+
+
+<li id="logoutBtn">
+
+<i class="fas fa-sign-out-alt"></i>
+
+<span>Logout</span>
+
+</li>
+
+
+
+</ul>
+
+
+</aside>
+
+
+
+
+
+
+
+<!-- ================= MAIN ================= -->
+
+
+<main class="main-content">
+
+
+
+
+
+<!-- HEADER -->
+
+
+<header class="topbar">
+
+
+<div class="welcome">
+
+<h1>
+Welcome,
+<span id="buyerName">
+Buyer
+</span>
+</h1>
+
+
+<p>
+Manage your orders and AI artworks.
+</p>
+
+
+</div>
+
+
+
+
+<div class="profile-box">
+
+<img 
+src="https://via.placeholder.com/50"
+id="profileImage">
+
+</div>
+
+
+
+</header>
+
+
+
+
+
+
+
+
+<!-- ================= STATS ================= -->
+
+
+<section class="stats">
+
+
+
+<div class="card">
+
+<i class="fas fa-box"></i>
+
+<h2 id="totalOrders">
+0
+</h2>
+
+<p>
+Total Orders
+</p>
+
+</div>
+
+
+
+
+
+<div class="card">
+
+<i class="fas fa-heart"></i>
+
+<h2 id="wishlistCount">
+0
+</h2>
+
+<p>
+Wishlist
+</p>
+
+</div>
+
+
+
+
+
+<div class="card">
+
+<i class="fas fa-image"></i>
+
+<h2 id="aiImages">
+0
+</h2>
+
+<p>
+AI Images
+</p>
+
+</div>
+
+
+
+
+
+<div class="card">
+
+<i class="fas fa-coins"></i>
+
+<h2 id="credits">
+0
+</h2>
+
+<p>
+Credits
+</p>
+
+</div>
+
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- ================= PROFILE ================= -->
+
+
+
+<section class="dashboard-grid">
+
+
+
+<div class="glass profile-card">
+
+
+<img
+
+src="https://via.placeholder.com/120"
+
+id="buyerProfileImage">
+
+
+<h2 id="profileName">
+
+Buyer Name
+
+</h2>
+
+
+
+<p id="profileEmail">
+
+buyer@email.com
+
+</p>
+
+
+
+<button id="editProfileBtn">
+
+Edit Profile
+
+</button>
+
+
+</div>
+
+
+
+
+
+<!-- ================= RECENT ORDERS ================= -->
+
+
+
+<div class="glass">
+
+
+<h2>
+🎨 Purchased Digital Artworks
+</h2>
+
+
+
+<table>
+
+
+<thead>
+
+
+<tr>
+
+<th>
+Product
+</th>
+
+
+<th>
+Price
+</th>
+
+
+</tr>
+
+
+</thead>
+
+
+
+
+<tbody id="recentOrders">
+
+
+</tbody>
+
+
+
+</table>
+
+
+
+</div>
+
+
+
+
+</section>
+
+<!-- ================= RECENT CHATS ================= -->
+
+<section class="glass">
+
+<h2>
+<i class="fas fa-comments"></i>
+Recent Chats
+</h2>
+
+
+<div id="recentChats" class="chat-container">
+
+</div>
+
+
+</section>
+<!-- ================= AI GALLERY ================= -->
+
+
+<section class="glass">
+
+
+<h2>
+🖼️ Generated AI Images
+</h2>
+
+
+
+<div 
+
+class="gallery"
+
+id="aiGallery">
+
+
+</div>
+
+
+
+</section>
+
+
+
+
+</main>
+
+
+
+
+
+<script src="toast.js"></script>
+</body>
+
+</html>

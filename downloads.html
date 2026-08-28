@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Downloads | LeanGelo</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet" href="downloads.css">
+
+    <script type="module" src="downloads.js"></script>
+</head>
+
+<body>
+
+    <div class="page">
+
+        <div class="top-bar">
+
+            <button onclick="window.location.href='buyer-dashboard.html'">
+                <i class="fas fa-arrow-left"></i>
+                Dashboard
+            </button>
+
+            <h1>
+                <i class="fas fa-download"></i>
+                My Downloads
+            </h1>
+
+        </div>
+
+
+        <div id="loading" class="loading">
+            <i class="fas fa-spinner fa-spin"></i>
+            Loading downloads...
+        </div>
+
+
+        <div id="emptyDownloads" class="empty" style="display:none;">
+
+            <i class="fas fa-cloud-download-alt"></i>
+
+            <h2>No Downloads Yet</h2>
+
+            <p>
+                Digital artworks that you purchase will appear here.
+            </p>
+
+            <button onclick="window.location.href='landing.html'">
+                Browse Artworks
+            </button>
+
+        </div>
+
+
+        <div id="downloadsGrid" class="downloads-grid"></div>
+
+    </div>
+
+<script src="toast.js"></script>
+</body>
+</html>

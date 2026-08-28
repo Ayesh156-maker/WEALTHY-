@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>My Wishlist | LeanGelo</title>
+
+<style>
+
+/* ==========================================
+   LEANGELO — GOLD + BLACK WISHLIST THEME
+========================================== */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background:
+        radial-gradient(circle at top, #171717 0%, #0b0b0b 45%, #050505 100%);
+    color: #fff;
+    min-height: 100vh;
+}
+
+/* ==========================================
+   HEADER
+========================================== */
+
+.header {
+    padding: 20px 30px;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(12px);
+
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.5);
+}
+
+.header h1 {
+    font-size: 28px;
+    color: #d4af37;
+
+    letter-spacing: 0.5px;
+
+    text-shadow:
+        0 0 10px rgba(212, 175, 55, 0.25);
+}
+
+/* ==========================================
+   BACK BUTTON
+========================================== */
+
+.back-btn {
+    padding: 10px 18px;
+
+    border: 1px solid rgba(212, 175, 55, 0.5);
+    border-radius: 8px;
+
+    background: #111;
+    color: #d4af37;
+
+    cursor: pointer;
+
+    transition: all 0.25s ease;
+}
+
+.back-btn:hover {
+    background: #d4af37;
+    color: #000;
+
+    box-shadow:
+        0 0 18px rgba(212, 175, 55, 0.35);
+
+    transform: translateY(-2px);
+}
+
+/* ==========================================
+   MAIN CONTAINER
+========================================== */
+
+.wishlist-container {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 20px;
+}
+
+/* ==========================================
+   WISHLIST GRID
+========================================== */
+
+.wishlist-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fill, minmax(250px, 1fr));
+
+    gap: 24px;
+}
+
+/* ==========================================
+   WISHLIST CARD
+========================================== */
+
+.wishlist-card {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.08),
+            rgba(255, 255, 255, 0.025)
+        );
+
+    border: 1px solid rgba(212, 175, 55, 0.22);
+
+    border-radius: 16px;
+
+    overflow: hidden;
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.wishlist-card:hover {
+    transform: translateY(-7px);
+
+    border-color: rgba(212, 175, 55, 0.65);
+
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.65),
+        0 0 25px rgba(212, 175, 55, 0.12);
+}
+
+/* ==========================================
+   IMAGE
+========================================== */
+
+.wishlist-image {
+    width: 100%;
+    height: 220px;
+
+    object-fit: cover;
+    display: block;
+
+    transition: transform 0.4s ease;
+}
+
+.wishlist-card:hover .wishlist-image {
+    transform: scale(1.04);
+}
+
+/* ==========================================
+   INFO
+========================================== */
+
+.wishlist-info {
+    padding: 17px;
+}
+
+.wishlist-info h2 {
+    font-size: 19px;
+
+    margin-bottom: 9px;
+
+    color: #fff;
+}
+
+/* ==========================================
+   PRICE
+========================================== */
+
+.price {
+    color: #d4af37;
+
+    font-size: 19px;
+    font-weight: bold;
+
+    margin-bottom: 15px;
+
+    text-shadow:
+        0 0 8px rgba(212, 175, 55, 0.2);
+}
+
+/* ==========================================
+   BUTTONS
+========================================== */
+
+.buttons {
+    display: flex;
+    gap: 9px;
+}
+
+.cart-btn,
+.remove-btn {
+    flex: 1;
+
+    padding: 10px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-weight: 600;
+
+    transition: all 0.25s ease;
+}
+
+/* ==========================================
+   CART / VIEW BUTTON
+========================================== */
+
+.cart-btn {
+    border: 1px solid #d4af37;
+
+    background:
+        linear-gradient(
+            135deg,
+            #d4af37,
+            #b8860b
+        );
+
+    color: #000;
+}
+
+.cart-btn:hover {
+    background:
+        linear-gradient(
+            135deg,
+            #f1d36a,
+            #d4af37
+        );
+
+    box-shadow:
+        0 0 18px rgba(212, 175, 55, 0.35);
+
+    transform: translateY(-2px);
+}
+
+/* ==========================================
+   REMOVE BUTTON
+========================================== */
+
+.remove-btn {
+    border: 1px solid rgba(255, 255, 255, 0.15);
+
+    background: #151515;
+
+    color: #bbb;
+}
+
+.remove-btn:hover {
+    background: #222;
+
+    color: #d4af37;
+
+    border-color: rgba(212, 175, 55, 0.45);
+
+    transform: translateY(-2px);
+}
+
+/* ==========================================
+   EMPTY WISHLIST
+========================================== */
+
+.empty {
+    text-align: center;
+
+    padding: 90px 20px;
+}
+
+.empty-icon {
+    font-size: 60px;
+
+    margin-bottom: 20px;
+
+    filter:
+        drop-shadow(
+            0 0 12px rgba(212, 175, 55, 0.3)
+        );
+}
+
+.empty h2 {
+    margin-bottom: 10px;
+
+    color: #d4af37;
+
+    font-size: 26px;
+}
+
+.empty p {
+    color: #999;
+
+    margin-bottom: 22px;
+}
+@keyframes cardRemove {
+
+    0% {
+        opacity: 1;
+        transform: scale(1) translateX(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(0.8) translateX(60px);
+        filter: blur(4px);
+    }
+
+}
+
+/* ==========================================
+   SHOP BUTTON
+========================================== */
+
+.shop-btn {
+    padding: 12px 28px;
+
+    border: 1px solid #d4af37;
+    border-radius: 9px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #d4af37,
+            #b8860b
+        );
+
+    color: #000;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: all 0.25s ease;
+}
+
+.shop-btn:hover {
+    background:
+        linear-gradient(
+            135deg,
+            #f1d36a,
+            #d4af37
+        );
+
+    box-shadow:
+        0 0 20px rgba(212, 175, 55, 0.4);
+
+    transform: translateY(-2px);
+}
+
+/* ==========================================
+   LOADING
+========================================== */
+
+.loading {
+    text-align: center;
+
+    padding: 60px;
+
+    color: #d4af37;
+
+    font-size: 16px;
+}
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media (max-width: 600px) {
+
+    .header {
+        padding: 16px;
+    }
+
+    .header h1 {
+        font-size: 21px;
+    }
+
+    .back-btn {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+
+    .wishlist-container {
+        padding: 14px;
+    }
+
+    .wishlist-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 12px;
+    }
+
+    .wishlist-image {
+        height: 170px;
+    }
+
+    .wishlist-info {
+        padding: 12px;
+    }
+
+    .wishlist-info h2 {
+        font-size: 15px;
+    }
+
+    .price {
+        font-size: 16px;
+    }
+
+    .buttons {
+        flex-direction: column;
+    }
+}
+/* ==========================================
+   ✨ LEANGELO PREMIUM ANIMATIONS
+========================================== */
+
+/* Page entrance */
+body {
+    animation: pageFade 0.7s ease forwards;
+}
+
+@keyframes pageFade {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+
+/* Header entrance */
+.header {
+    animation: headerDrop 0.7s cubic-bezier(.22,1,.36,1);
+}
+
+@keyframes headerDrop {
+    from {
+        opacity: 0;
+        transform: translateY(-25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* Header title glow */
+.header h1 {
+    animation: goldGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes goldGlow {
+    from {
+        text-shadow:
+            0 0 8px rgba(212,175,55,0.15);
+    }
+
+    to {
+        text-shadow:
+            0 0 18px rgba(212,175,55,0.45),
+            0 0 35px rgba(212,175,55,0.12);
+    }
+}
+
+
+/* Wishlist cards entrance */
+.wishlist-card {
+    opacity: 0;
+    animation: cardReveal 0.65s cubic-bezier(.22,1,.36,1) forwards;
+}
+
+@keyframes cardReveal {
+    from {
+        opacity: 0;
+        transform: translateY(35px) scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+
+/* Stagger cards */
+.wishlist-card:nth-child(1) {
+    animation-delay: 0.05s;
+}
+
+.wishlist-card:nth-child(2) {
+    animation-delay: 0.12s;
+}
+
+.wishlist-card:nth-child(3) {
+    animation-delay: 0.19s;
+}
+
+.wishlist-card:nth-child(4) {
+    animation-delay: 0.26s;
+}
+
+.wishlist-card:nth-child(5) {
+    animation-delay: 0.33s;
+}
+
+.wishlist-card:nth-child(6) {
+    animation-delay: 0.40s;
+}
+
+.wishlist-card:nth-child(7) {
+    animation-delay: 0.47s;
+}
+
+.wishlist-card:nth-child(8) {
+    animation-delay: 0.54s;
+}
+
+
+/* Premium card hover */
+.wishlist-card {
+    transition:
+        transform 0.4s cubic-bezier(.22,1,.36,1),
+        box-shadow 0.4s ease,
+        border-color 0.4s ease;
+}
+
+.wishlist-card:hover {
+    transform: translateY(-10px) scale(1.015);
+
+    box-shadow:
+        0 20px 50px rgba(0,0,0,0.75),
+        0 0 30px rgba(212,175,55,0.18);
+}
+
+
+/* Image animation */
+.wishlist-image {
+    transition:
+        transform 0.6s cubic-bezier(.22,1,.36,1),
+        filter 0.4s ease;
+}
+
+.wishlist-card:hover .wishlist-image {
+    transform: scale(1.07);
+    filter: brightness(1.08);
+}
+
+
+/* Gold shine across image */
+.wishlist-card::before {
+    content: "";
+    position: absolute;
+
+    top: 0;
+    left: -120%;
+
+    width: 60%;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,0.12),
+            transparent
+        );
+
+    transform: skewX(-20deg);
+
+    pointer-events: none;
+}
+
+.wishlist-card:hover::before {
+    animation: cardShine 0.9s ease;
+}
+
+@keyframes cardShine {
+    from {
+        left: -120%;
+    }
+
+    to {
+        left: 140%;
+    }
+}
+
+
+/* Button hover */
+.cart-btn,
+.remove-btn,
+.shop-btn,
+.back-btn {
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease;
+}
+
+.cart-btn:active,
+.remove-btn:active,
+.shop-btn:active,
+.back-btn:active {
+    transform: scale(0.94);
+}
+
+
+/* Empty wishlist animation */
+.empty {
+    animation: emptyAppear 0.8s cubic-bezier(.22,1,.36,1);
+}
+
+@keyframes emptyAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+
+/* Empty heart floating */
+.empty-icon {
+    animation: heartFloat 2.5s ease-in-out infinite;
+}
+
+@keyframes heartFloat {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+
+/* Loading animation */
+.loading {
+    animation: loadingPulse 1.4s ease-in-out infinite;
+}
+
+@keyframes loadingPulse {
+    0%, 100% {
+        opacity: 0.45;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+
+/* Mobile performance */
+@media (max-width: 600px) {
+
+    .wishlist-card:hover {
+        transform: translateY(-5px);
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+    <header class="header">
+
+        <h1>❤️ My Wishlist</h1>
+
+        <button
+            class="back-btn"
+            onclick="window.location.href='dashboard.html'"
+        >
+            ← Dashboard
+        </button>
+
+    </header>
+
+
+    <main class="wishlist-container">
+
+        <div
+            id="loading"
+            class="loading"
+        >
+            Loading Wishlist...
+        </div>
+
+
+        <div
+            id="wishlistGrid"
+            class="wishlist-grid"
+        ></div>
+
+
+        <div
+            id="emptyWishlist"
+            class="empty"
+            style="display:none;"
+        >
+
+            <div class="empty-icon">
+                🤍
+            </div>
+
+            <h2>
+                Your Wishlist is Empty
+            </h2>
+
+            <p>
+                Save your favorite artworks here.
+            </p>
+
+            <button
+                class="shop-btn"
+                onclick="window.location.href='landing.html'"
+            >
+                Explore Artworks
+            </button>
+
+        </div>
+
+    </main>
+
+
+<script type="module">
+
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+
+
+import {
+    getAuth,
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+
+
+import {
+    getFirestore,
+    collection,
+    getDocs,
+    deleteDoc,
+    doc
+} from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+
+
+// ================= FIREBASE =================
+
+const firebaseConfig = {
+
+    apiKey: "AIzaSyBASJQed83D5iCtGOYES8LfqAv5M0iwUaM",
+
+    authDomain: "mylamborghini.firebaseapp.com",
+
+    projectId: "mylamborghini",
+
+    storageBucket: "mylamborghini.firebasestorage.app",
+
+    messagingSenderId: "817085836076",
+
+    appId: "1:817085836076:web:dafa36f41d1ec24a5c5a89",
+
+    measurementId: "G-RY79N9C9R1"
+
+};
+
+
+const app =
+    initializeApp(firebaseConfig);
+
+const auth =
+    getAuth(app);
+
+const db =
+    getFirestore(app);
+
+
+// ================= CART =================
+
+let cart =
+    JSON.parse(
+        localStorage.getItem("cart") || "[]"
+    );
+
+
+// ================= LOAD WISHLIST =================
+
+async function loadWishlist(user) {
+
+    const loading =
+        document.getElementById("loading");
+
+    const grid =
+        document.getElementById("wishlistGrid");
+
+    const empty =
+        document.getElementById("emptyWishlist");
+
+
+    try {
+
+        const wishlistRef =
+            collection(
+                db,
+                "users",
+                user.uid,
+                "wishlist"
+            );
+
+
+        const snapshot =
+            await getDocs(wishlistRef);
+
+
+        loading.style.display = "none";
+
+        grid.innerHTML = "";
+
+
+        if (snapshot.empty) {
+
+            empty.style.display = "block";
+
+            return;
+
+        }
+
+
+        empty.style.display = "none";
+
+
+        snapshot.forEach((docSnap) => {
+
+            const item =
+                docSnap.data();
+
+            const productId =
+                docSnap.id;
+
+
+            const image =
+                item.image ||
+                "https://via.placeholder.com/300x220?text=No+Image";
+
+
+            grid.innerHTML += `
+
+              <div
+    class="wishlist-card"
+    id="wishlist-${productId}"
+    onclick="openSeller('${item.sellerEmail || ""}')"
+>
+
+                    <img
+                        class="wishlist-image"
+                        src="${image}"
+                        onerror="
+                            this.src='https://via.placeholder.com/300x220?text=No+Image'
+                        "
+                    >
+
+
+                    <div class="wishlist-info">
+
+                        <h2>
+                            ${item.name || "Artwork"}
+                        </h2>
+
+
+                        <div class="price">
+                            Rs ${Number(item.price || 0)}
+                        </div>
+
+
+                        <div class="buttons">
+
+                            ${
+                                item.category === "digital-art"
+                                ?
+
+                                `
+                                <button
+                                    class="cart-btn"
+                                    onclick='addToCart(
+                                        ${JSON.stringify(item.name || "Artwork")},
+                                        ${Number(item.price || 0)},
+                                        ${JSON.stringify(item.sellerEmail || "")},
+                                        ${JSON.stringify(productId)},
+                                        ${JSON.stringify(item.category || "")},
+                                        "",
+                                        ${JSON.stringify(item.image || "")}
+                                    )'
+                                >
+                                    🛒 Cart
+                                </button>
+                                `
+
+                                :
+
+                                `
+                                <button
+                                    class="cart-btn"
+                                    onclick="
+                                        openProduct('${productId}')
+                                    "
+                                >
+                                    👁 View
+                                </button>
+                                `
+                            }
+
+
+                            <button
+                                class="remove-btn"
+                                onclick="
+                                    removeWishlist(
+                                        '${productId}'
+                                    )
+                                "
+                            >
+                                🗑 Remove
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        });
+
+
+    } catch (error) {
+
+        console.error(
+            "Wishlist error:",
+            error
+        );
+
+        loading.innerText =
+            "Failed to load Wishlist.";
+
+    }
+
+}
+
+
+// ================= REMOVE =================
+
+window.removeWishlist =
+async function(productId) {
+
+    const user =
+        auth.currentUser;
+
+    if (!user) return;
+
+
+    try {
+
+        await deleteDoc(
+            doc(
+                db,
+                "users",
+                user.uid,
+                "wishlist",
+                productId
+            )
+        );
+
+
+        const card =
+            document.getElementById(
+                `wishlist-${productId}`
+            );
+
+
+     if (card) {
+
+    card.style.animation = "cardRemove 0.4s ease forwards";
+
+    setTimeout(() => {
+        card.remove();
+
+        const grid =
+            document.getElementById("wishlistGrid");
+
+        if (!grid.children.length) {
+            document.getElementById("emptyWishlist")
+                .style.display = "block";
+        }
+
+    }, 400);
+}
+
+
+        const grid =
+            document.getElementById(
+                "wishlistGrid"
+            );
+
+
+        if (!grid.children.length) {
+
+            document.getElementById(
+                "emptyWishlist"
+            ).style.display = "block";
+
+        }
+
+
+    } catch (error) {
+
+        console.error(
+            "Remove wishlist error:",
+            error
+        );
+
+        showToast(
+            "Unable to remove item."
+        );
+
+    }
+
+};
+
+
+// ================= ADD TO CART =================
+
+window.addToCart =
+function(
+    name,
+    price,
+    sellerEmail,
+    productId,
+    category,
+    downloadUrl,
+    image
+) {
+
+    const existing =
+        cart.find(
+            item => item.id === productId
+        );
+
+
+    if (existing) {
+
+        existing.quantity =
+            (existing.quantity || 1) + 1;
+
+    } else {
+
+        cart.push({
+
+            id: productId,
+
+            name,
+
+            price,
+
+            image,
+
+            category,
+
+            downloadUrl,
+
+            sellerEmail,
+
+            quantity: 1
+
+        });
+
+    }
+
+
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
+
+
+    showToast(
+        "Added to Cart 🛒"
+    );
+
+};
+
+
+// ================= OPEN PRODUCT =================
+
+window.openProduct =
+function(productId) {
+
+    window.location.href =
+        `product.html?id=${productId}`;
+
+};
+
+
+// ================= AUTH =================
+
+onAuthStateChanged(
+    auth,
+    async (user) => {
+
+        if (!user) {
+
+            showToast(
+                "Please login first."
+            );
+
+            window.location.href =
+                "login.html";
+
+            return;
+
+        }
+
+
+        await loadWishlist(user);
+
+    }
+);
+
+// ==========================================
+// OPEN SELLER PROFILE
+// ==========================================
+
+window.openSeller = function(sellerEmail) {
+
+    if (!sellerEmail) {
+        showToast("Seller information is unavailable.");
+        return;
+    }
+
+    window.location.href =
+        `seller2.html?email=${encodeURIComponent(sellerEmail)}`;
+};
+
+
+</script>
+
+<div
+    class="buttons"
+    onclick="event.stopPropagation()"
+>
+<script src="toast.js"></script>
+</body>
+
+</html>

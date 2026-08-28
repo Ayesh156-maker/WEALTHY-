@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Customize Store | LeanGelo</title>
+
+    <link rel="stylesheet" href="customize.css">
+</head>
+
+<body>
+
+<div class="store-card">
+
+    <!-- ==================================================
+         HEADER
+    ================================================== -->
+
+    <h1>👑 Customize Your Luxury Store</h1>
+
+    <p class="subtitle">
+        Create your premium artist brand on LeanGelo marketplace.
+    </p>
+
+
+    <!-- ==================================================
+         BANNER PREVIEW
+    ================================================== -->
+
+    <img
+        id="bannerPreview"
+        class="preview-banner"
+        src="https://via.placeholder.com/1200x300?text=Luxury+Store+Banner"
+        alt="Store Banner"
+    >
+
+
+    <!-- ==================================================
+         LOGO PREVIEW
+    ================================================== -->
+
+    <div class="logo-row">
+
+        <img
+            id="logoPreview"
+            class="preview-logo"
+            src="https://via.placeholder.com/150?text=Logo"
+            alt="Store Logo"
+        >
+
+    </div>
+
+
+    <!-- ==================================================
+         STORE INFORMATION
+    ================================================== -->
+
+    <div class="section-title">
+        Store Information
+    </div>
+
+
+    <div class="input-group">
+
+        <label for="storeName">
+            Store Name
+        </label>
+
+        <input
+            type="text"
+            id="storeName"
+            placeholder="Example: Ayesh Luxury Arts"
+        >
+
+    </div>
+
+
+    <div class="input-group">
+
+        <label for="storeDescription">
+            Store Description
+        </label>
+
+        <textarea
+            id="storeDescription"
+            placeholder="Describe your artwork brand..."
+        ></textarea>
+
+    </div>
+
+
+    <!-- ==================================================
+         BRAND APPEARANCE
+    ================================================== -->
+
+    <div class="section-title">
+        Brand Appearance
+    </div>
+
+
+    <div class="input-group">
+
+        <label for="fileLogo">
+            Upload Store Logo
+        </label>
+
+        <input
+            type="file"
+            id="fileLogo"
+            accept="image/*"
+        >
+
+    </div>
+
+
+    <div class="input-group">
+
+        <label for="fileBanner">
+            Upload Store Banner
+        </label>
+
+        <input
+            type="file"
+            id="fileBanner"
+            accept="image/*"
+        >
+
+    </div>
+
+
+    <!-- ==================================================
+         ARTIST DETAILS
+    ================================================== -->
+
+    <div class="section-title">
+        Artist Details
+    </div>
+
+
+    <div class="input-group">
+
+        <label for="artistName">
+            Artist Name
+        </label>
+
+        <input
+            type="text"
+            id="artistName"
+            placeholder="Your artist name"
+        >
+
+    </div>
+
+
+    <div class="input-group">
+
+        <label for="location">
+            Location
+        </label>
+
+        <input
+            type="text"
+            id="location"
+            placeholder="Country / City"
+        >
+
+    </div>
+
+
+    <div class="input-group">
+
+        <label for="socialLink">
+            Social Media / Website
+        </label>
+
+        <input
+            type="url"
+            id="socialLink"
+            placeholder="https://instagram.com/yourname"
+        >
+
+    </div>
+
+
+    <div class="input-group">
+
+        <label for="contactEmail">
+            Business Contact Email
+        </label>
+
+        <input
+            type="email"
+            id="contactEmail"
+            placeholder="Business email"
+        >
+
+    </div>
+
+
+    <!-- ==================================================
+         STORE SETTINGS
+    ================================================== -->
+
+    <div class="section-title">
+        Store Settings
+    </div>
+
+
+    <div class="input-group">
+
+        <label for="featuredMessage">
+            Featured Message
+        </label>
+
+        <textarea
+            id="featuredMessage"
+            placeholder="Example: Premium handmade luxury wall arts..."
+        ></textarea>
+
+    </div>
+
+
+    <!-- ==================================================
+         SAVE BUTTON
+    ================================================== -->
+
+    <button
+        id="saveStoreBtn"
+        type="button"
+    >
+
+        <span>
+            💎
+            <span id="saveText">
+                Save Luxury Store
+            </span>
+        </span>
+
+        <div
+            id="loader"
+            class="loader"
+        ></div>
+
+    </button>
+
+</div>
+
+
+<!-- ==================================================
+     JAVASCRIPT
+================================================== -->
+
+<script
+    type="module"
+    src="customize.js"
+></script>
+
+<script src="toast.js"></script>
+</body>
+</html>

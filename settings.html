@@ -1,0 +1,867 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Settings | LeanGelo</title>
+
+    <link
+        rel="stylesheet"
+        href="settings.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- ================= HEADER ================= -->
+
+<header class="header">
+
+    <div class="header-left">
+
+        <button
+            class="back-btn"
+            onclick="window.location.href='buyer-dashboard.html'"
+        >
+            ← Dashboard
+        </button>
+
+    </div>
+
+
+    <div class="header-title">
+
+        <h1>⚙️ Settings</h1>
+
+        <p>Manage your LeanGelo account</p>
+
+    </div>
+
+</header>
+
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="settings-container">
+
+
+    <!-- ================= ACCOUNT ================= -->
+
+    <section class="settings-section">
+
+        <div class="section-title">
+
+            <span class="section-icon">👤</span>
+
+            <div>
+                <h2>Account Settings</h2>
+                <p>Manage your personal information</p>
+            </div>
+
+        </div>
+
+
+        <div class="settings-card">
+
+
+            <div class="profile-header">
+
+                <div
+                    class="profile-avatar"
+                    id="profileAvatar"
+                >
+                    U
+                </div>
+
+
+                <div>
+
+                    <h3 id="profileName">
+                        User
+                    </h3>
+
+                    <p id="profileEmail">
+                        Loading...
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="form-grid">
+
+
+                <div class="form-group">
+
+                    <label for="name">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        placeholder="Enter your name"
+                    >
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label for="phone">
+                        Phone Number
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="phone"
+                        placeholder="Enter your phone number"
+                    >
+
+                </div>
+
+
+            </div>
+
+
+            <button
+                class="gold-btn"
+                id="saveProfileBtn"
+            >
+                Save Changes
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= SECURITY ================= -->
+
+    <section class="settings-section">
+
+        <div class="section-title">
+
+            <span class="section-icon">🔐</span>
+
+            <div>
+
+                <h2>Password & Security</h2>
+
+                <p>
+                    Keep your account secure
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="settings-card">
+
+
+            <div class="security-row">
+
+                <div>
+
+                    <h3>Password</h3>
+
+                    <p>
+                        Change your account password
+                    </p>
+
+                </div>
+
+
+                <button
+                    class="outline-btn"
+                    id="changePasswordBtn"
+                >
+                    Change Password
+                </button>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= NOTIFICATIONS ================= -->
+
+    <section class="settings-section">
+
+        <div class="section-title">
+
+            <span class="section-icon">🔔</span>
+
+            <div>
+
+                <h2>Notifications</h2>
+
+                <p>
+                    Choose what notifications you receive
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="settings-card">
+
+
+            <div class="toggle-row">
+
+                <div>
+
+                    <h3>Order Updates</h3>
+
+                    <p>
+                        Receive notifications about your orders
+                    </p>
+
+                </div>
+
+                <label class="switch">
+
+                    <input
+                        type="checkbox"
+                        id="orderNotifications"
+                        checked
+                    >
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+
+
+            <div class="toggle-row">
+
+                <div>
+
+                    <h3>Messages</h3>
+
+                    <p>
+                        Get notified when you receive messages
+                    </p>
+
+                </div>
+
+                <label class="switch">
+
+                    <input
+                        type="checkbox"
+                        id="messageNotifications"
+                        checked
+                    >
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+
+
+            <div class="toggle-row">
+
+                <div>
+
+                    <h3>Promotions</h3>
+
+                    <p>
+                        Receive special offers and promotions
+                    </p>
+
+                </div>
+
+                <label class="switch">
+
+                    <input
+                        type="checkbox"
+                        id="promotionNotifications"
+                    >
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= APPEARANCE ================= -->
+
+    <section class="settings-section">
+
+        <div class="section-title">
+
+            <span class="section-icon">🎨</span>
+
+            <div>
+
+                <h2>Appearance</h2>
+
+                <p>
+                    Customize your LeanGelo experience
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="settings-card">
+
+
+            <div class="setting-select-row">
+
+                <div>
+
+                    <h3>Theme</h3>
+
+                    <p>
+                        Choose your preferred appearance
+                    </p>
+
+                </div>
+
+
+                <select id="themeSelect">
+
+                    <option value="dark">
+                        Dark
+                    </option>
+
+                    <option value="light">
+                        Light
+                    </option>
+
+                </select>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= LANGUAGE ================= -->
+
+    <section class="settings-section">
+
+        <div class="section-title">
+
+            <span class="section-icon">🌐</span>
+
+            <div>
+
+                <h2>Language</h2>
+
+                <p>
+                    Choose your preferred language
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="settings-card">
+
+
+            <div class="setting-select-row">
+
+                <div>
+
+                    <h3>Language</h3>
+
+                    <p>
+                        Select your language
+                    </p>
+
+                </div>
+
+
+                <select id="languageSelect">
+
+                    <option value="en">
+                        English
+                    </option>
+
+                    <option value="si">
+                        සිංහල
+                    </option>
+
+                </select>
+
+            </div>
+
+
+        </div>
+
+    </section>
+<!-- ================= PAYMENT DETAILS ================= -->
+
+<section class="settings-section">
+
+    <div class="section-title">
+
+        <span class="section-icon">💳</span>
+
+        <div>
+
+            <h2>Payment Details</h2>
+
+            <p>
+                Manage your payment and payout information
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="settings-card payment-card">
+
+
+        <div class="payment-security-note">
+
+            <span>🔒</span>
+
+            <div>
+
+                <strong>Secure Payment Information</strong>
+
+                <p>
+                    Your payment details are stored securely
+                    with your LeanGelo account.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <!-- PAYMENT METHOD -->
+
+            <div class="form-group">
+
+                <label for="paymentMethod">
+                    Payment Method
+                </label>
+
+                <select
+                    id="paymentMethod"
+                    class="settings-input"
+                >
+
+                    <option value="bank">
+                        Bank Account
+                    </option>
+
+                    <option value="paypal">
+                        PayPal
+                    </option>
+
+                    <option value="mobile">
+                        Mobile Payment
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- ACCOUNT HOLDER -->
+
+            <div class="form-group">
+
+                <label for="accountHolder">
+                    Account Holder Name
+                </label>
+
+                <input
+                    type="text"
+                    id="accountHolder"
+                    placeholder="Enter account holder name"
+                >
+
+            </div>
+
+
+            <!-- BANK NAME -->
+
+            <div
+                class="form-group bank-field"
+                id="bankNameGroup"
+            >
+
+                <label for="bankName">
+                    Bank Name
+                </label>
+
+                <input
+                    type="text"
+                    id="bankName"
+                    placeholder="Enter bank name"
+                >
+
+            </div>
+
+
+            <!-- ACCOUNT NUMBER -->
+
+            <div
+                class="form-group bank-field"
+                id="accountNumberGroup"
+            >
+
+                <label for="accountNumber">
+                    Account Number
+                </label>
+
+                <div class="password-input-wrapper">
+
+                    <input
+                        type="password"
+                        id="accountNumber"
+                        placeholder="Enter account number"
+                    >
+
+                    <button
+                        type="button"
+                        class="show-btn"
+                        id="toggleAccountNumber"
+                    >
+                        👁
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- BRANCH -->
+
+            <div
+                class="form-group bank-field"
+                id="branchGroup"
+            >
+
+                <label for="branch">
+                    Branch
+                </label>
+
+                <input
+                    type="text"
+                    id="branch"
+                    placeholder="Enter branch name"
+                >
+
+            </div>
+
+
+            <!-- CURRENCY -->
+
+            <div class="form-group">
+
+                <label for="currency">
+                    Currency
+                </label>
+
+                <select
+                    id="currency"
+                    class="settings-input"
+                >
+
+                    <option value="LKR">
+                        LKR - Sri Lankan Rupee
+                    </option>
+
+                    <option value="USD">
+                        USD - US Dollar
+                    </option>
+
+                    <option value="EUR">
+                        EUR - Euro
+                    </option>
+
+                    <option value="GBP">
+                        GBP - British Pound
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- PAYPAL / MOBILE -->
+
+            <div
+                class="form-group"
+                id="paymentEmailGroup"
+            >
+
+                <label for="paymentEmail">
+                    PayPal / Payment Email
+                </label>
+
+                <input
+                    type="email"
+                    id="paymentEmail"
+                    placeholder="Enter payment email"
+                >
+
+            </div>
+
+
+            <!-- COUNTRY -->
+
+            <div class="form-group">
+
+                <label for="paymentCountry">
+                    Country
+                </label>
+
+                <select
+                    id="paymentCountry"
+                    class="settings-input"
+                >
+
+                    <option value="LK">
+                        Sri Lanka
+                    </option>
+
+                    <option value="US">
+                        United States
+                    </option>
+
+                    <option value="UK">
+                        United Kingdom
+                    </option>
+
+                    <option value="OTHER">
+                        Other
+                    </option>
+
+                </select>
+
+            </div>
+
+
+        </div>
+
+
+        <button
+            class="gold-btn"
+            id="savePaymentBtn"
+        >
+            💾 Save Payment Details
+        </button>
+
+
+    </div>
+
+</section>
+
+
+    <!-- ================= DANGER ZONE ================= -->
+
+    <section class="settings-section danger-section">
+
+        <div class="section-title">
+
+            <span class="section-icon">⚠️</span>
+
+            <div>
+
+                <h2>Account Actions</h2>
+
+                <p>
+                    Manage your account
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="settings-card">
+
+
+            <div class="security-row">
+
+                <div>
+
+                    <h3>Logout</h3>
+
+                    <p>
+                        Sign out from your LeanGelo account
+                    </p>
+
+                </div>
+
+
+                <button
+                    class="logout-btn"
+                    id="logoutBtn"
+                >
+                    Logout
+                </button>
+
+            </div>
+
+
+
+            <div class="danger-divider"></div>
+
+
+
+            <div class="security-row">
+
+                <div>
+
+                    <h3 class="danger-text">
+                        Delete Account
+                    </h3>
+
+                    <p>
+                        Permanently delete your LeanGelo account
+                    </p>
+
+                </div>
+
+
+                <button
+                    class="delete-btn"
+                    id="deleteAccountBtn"
+                >
+                    Delete Account
+                </button>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+
+<!-- ================= PASSWORD MODAL ================= -->
+
+<div
+    class="modal"
+    id="passwordModal"
+>
+
+
+    <div class="modal-box">
+
+
+        <button
+            class="modal-close"
+            id="closePasswordModal"
+        >
+            ×
+        </button>
+
+
+        <h2>🔐 Change Password</h2>
+
+        <p>
+            Enter your new password below.
+        </p>
+
+
+        <div class="form-group">
+
+            <label for="newPassword">
+                New Password
+            </label>
+
+            <input
+                type="password"
+                id="newPassword"
+                placeholder="Enter new password"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="confirmPassword">
+                Confirm Password
+            </label>
+
+            <input
+                type="password"
+                id="confirmPassword"
+                placeholder="Confirm new password"
+            >
+
+        </div>
+
+
+        <button
+            class="gold-btn full-btn"
+            id="updatePasswordBtn"
+        >
+            Update Password
+        </button>
+
+
+    </div>
+
+</div>
+
+
+
+<script
+    type="module"
+    src="settings.js"
+></script>
+
+
+<script src="toast.js"></script>
+</body>
+
+</html>
+

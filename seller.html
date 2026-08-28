@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Become a Seller - LeanGelo</title>
+    <!-- Google Fonts for Modern Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            color: #ffffff;
+            background: 
+                radial-gradient(circle at top right, rgba(255, 215, 0, 0.15), transparent 40%),
+                linear-gradient(135deg, rgba(10, 10, 10, 0.95), rgba(0, 0, 0, 0.98)),
+                url("https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1920&q=80");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+
+        /* MAIN CONTAINER */
+        .seller-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 80px 10%;
+            gap: 50px;
+        }
+
+        /* LEFT CONTENT */
+        .seller-text {
+            max-width: 600px;
+            background: rgba(20, 20, 20, 0.6);
+            padding: 50px;
+            border-radius: 24px;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6),
+                        inset 0 0 15px rgba(255, 215, 0, 0.05);
+            animation: slideLeft 1s ease-out;
+        }
+
+        .seller-text h1 {
+            font-size: 56px;
+            font-weight: 800;
+            line-height: 1.2;
+            background: linear-gradient(135deg, #FFF099 0%, #FFD700 50%, #FF8C00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .seller-text p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #cccccc;
+            margin-bottom: 35px;
+            font-weight: 300;
+        }
+
+        /* STATS COUNTER */
+        .seller-stats {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 35px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-item h3 {
+            font-size: 24px;
+            color: #FFD700;
+            font-weight: 700;
+        }
+
+        .stat-item p {
+            font-size: 14px;
+            color: #aaa;
+            margin-bottom: 0;
+        }
+
+        /* BUTTON */
+        .seller-btn {
+            padding: 18px 48px;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #000000;
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            letter-spacing: 0.5px;
+        }
+
+        .seller-btn:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.8);
+            background: linear-gradient(135deg, #FFE033, #FFB700);
+        }
+
+        /* RIGHT IMAGE */
+        .seller-image {
+            position: relative;
+            animation: float 4s infinite ease-in-out;
+        }
+
+        .seller-image img {
+            width: 460px;
+            height: auto;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8),
+                        0 0 35px rgba(255, 215, 0, 0.25);
+            object-fit: cover;
+            display: block;
+        }
+
+        /* ANIMATIONS */
+        @keyframes slideLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        /* MOBILE RESPONSIVE */
+        @media(max-width: 992px) {
+            .seller-container {
+                flex-direction: column;
+                justify-content: center;
+                text-align: center;
+                padding: 60px 20px;
+            }
+
+            .seller-text {
+                padding: 35px 25px;
+            }
+
+            .seller-text h1 {
+                font-size: 40px;
+            }
+
+            .seller-stats {
+                justify-content: center;
+            }
+
+            .seller-image img {
+                width: 100%;
+                max-width: 350px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="seller-container">
+
+        <!-- LEFT SIDE: TEXT & CTA -->
+        <div class="seller-text">
+            <h1>Become a Seller 🚀</h1>
+            <p>
+                Join the <strong>LeanGelo</strong> marketplace today! Share your digital products, custom artwork, and creative innovations with a global audience.
+            </p>
+
+            <div class="seller-stats">
+                <div class="stat-item">
+                    <h3>10k+</h3>
+                    <p>Active Buyers</p>
+                </div>
+                <div class="stat-item">
+                    <h3>0%</h3>
+                    <p>Listing Fee</p>
+                </div>
+                <div class="stat-item">
+                    <h3>24/7</h3>
+                    <p>Support</p>
+                </div>
+            </div>
+
+            <button class="seller-btn" onclick="goApply()">
+                Start Selling Now
+            </button>
+        </div>
+
+        <!-- RIGHT SIDE: IMAGE -->
+        <div class="seller-image">
+            <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=800&q=80" alt="LeanGelo Creator Workspace">
+        </div>
+
+    </div>
+
+    <script>
+        function goApply() {
+            window.location.href = "seller-form.html";
+        }
+    </script>
+
+<script src="toast.js"></script>
+</body>
+
+</html>

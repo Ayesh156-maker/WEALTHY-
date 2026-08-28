@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>LeanGelo | Seller Products</title>
+
+
+<link rel="stylesheet" href="dashboard.css">
+
+<link rel="stylesheet" href="product.css">
+
+
+<script type="module" src="products.js"></script>
+
+
+</head>
+
+
+
+<body>
+
+
+<div class="layout">
+
+
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar">
+
+
+<div>
+
+
+<div class="brand">
+
+
+<a href="Main.html">
+
+<img src="https://res.cloudinary.com/dxpizcvi5/image/upload/v1778826589/ChatGPT_Image_Apr_28_2026_05_39_55_PM_eucvov.png">
+
+</a>
+
+
+
+<div>
+
+<h2>
+LeanGelo
+</h2>
+
+
+<p>
+Seller Panel
+</p>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<nav class="menu">
+
+
+<a href="dashboard.html">
+
+🏠 Dashboard
+
+</a>
+
+
+
+<a class="active">
+
+📦 Products
+
+</a>
+
+
+
+<a href="orders.html">
+
+🛒 Orders
+
+</a>
+
+
+
+<a href="analytics.html">
+
+📈 Analytics
+
+</a>
+
+
+
+<a href="edit-store.html">
+
+🏪 My Store
+
+</a>
+
+
+
+<a>
+
+⚙ Settings
+
+</a>
+
+
+
+</nav>
+
+
+</div>
+
+
+
+
+
+<a href="seller-form.html">
+
+
+<button class="addBtn">
+
++ Add Product
+
+</button>
+
+
+</a>
+
+
+
+</aside>
+
+
+
+
+
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="main">
+
+
+
+
+
+<!-- ================= TOPBAR ================= -->
+
+<header class="topbar">
+
+
+<div>
+
+
+<h1>
+Products
+</h1>
+
+
+<p>
+Manage your LeanGelo artworks
+</p>
+
+
+</div>
+
+
+
+
+
+
+<div class="profile-area" id="userArea">
+
+
+
+
+
+<button id="loginBtn"
+
+class="loginBtn"
+
+onclick="googleLogin()">
+
+Login
+
+</button>
+
+
+
+
+
+
+<div id="profileBox"
+
+class="profile-box"
+
+style="display:none;">
+
+
+
+
+
+<img id="userPhoto"
+
+class="profile-photo"
+
+src="https://placehold.co/50">
+
+
+
+
+
+<div class="profile-details">
+
+
+<h3 id="userName">
+Seller
+</h3>
+
+
+<p id="userEmail">
+email@example.com
+</p>
+
+
+
+</div>
+
+
+
+
+
+<button
+
+class="logout-btn"
+
+onclick="logout()">
+
+Logout
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+</div>
+
+
+</header>
+
+
+
+
+
+
+
+
+<!-- ================= PRODUCTS ================= -->
+
+
+<section class="products-section">
+
+
+<div id="productsGrid"
+
+class="products-grid">
+
+</div>
+
+
+
+</section>
+
+
+
+
+</main>
+
+
+
+</div>
+
+
+
+<script src="toast.js"></script>
+</body>
+
+</html>
