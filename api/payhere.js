@@ -1,5 +1,5 @@
-```javascript
-import crypto from "crypto";
+
+import { createHash } from "node:crypto";
 
 export default async function handler(req, res) {
 
@@ -24,28 +24,23 @@ export default async function handler(req, res) {
 
 
     // =====================================================
-    // PREFLIGHT
+    // OPTIONS
     // =====================================================
 
     if (req.method === "OPTIONS") {
-
         return res.status(200).end();
-
     }
 
 
     // =====================================================
-    // ONLY POST
+    // POST ONLY
     // =====================================================
 
     if (req.method !== "POST") {
 
         return res.status(405).json({
-
             success: false,
-
             message: "Method Not Allowed"
-
         });
 
     }
@@ -54,24 +49,78 @@ export default async function handler(req, res) {
     try {
 
         // =================================================
-        // REQUEST DATA
+        // REQUEST BODY
         // =================================================
 
-        const {
-            order_id,
-            amount,
-            items,
-            first_name,
-            last_name,
-            email,
-            phone,
-            address,
-            city
-        } = req.body || {};
+        const body = req.body || {};
+
+        const order_id =
+            body.order_id;
+
+        const amount =
+            body.amount;
+
+        const items =
+            body.items || "LeanGelo Order";
+
+        const first_name =
+            body.first_name || "Customer";
+
+        const last_name =
+            body.last_name || "Customer";
+
+        const email =
+            body.email;
+
+        const phone =
+            body.phone;
+
+        const address =
+            body.address;
+
+        const city =
+            body.city || "Sri Lanka";
 
 
         // =================================================
-        // VALIDATE REQUIRED DATA
+        // ENVIRONMENT VARIABLES
+        // =================================================
+
+        const merchant_id =
+            process.env.PAYHERE_MERCHANT_ID;
+
+        const merchant_secret =
+            process.env.PAYHERE_MERCHANT_SECRET;
+
+
+        // =================================================
+        // CHECK CREDENTIALS
+        // =================================================
+
+        if (!merchant_id) {
+
+            return res.status(500).json({
+                success: false,
+                message:
+                    "PAYHERE_MERCHANT_ID is missing"
+            });
+
+        }
+
+
+        if (!merchant_secret) {
+
+            return res.status(500).json({
+                success: false,
+                message:
+                    "PAYHERE_MERCHANT_SECRET is missing"
+            });
+
+        }
+
+
+        // =================================================
+        // CHECK REQUIRED PAYMENT DATA
         // =================================================
 
         if (!order_id) {
@@ -83,6 +132,7 @@ export default async function handler(req, res) {
 
         }
 
+
         if (!amount) {
 
             return res.status(400).json({
@@ -92,23 +142,6 @@ export default async function handler(req, res) {
 
         }
 
-        if (!first_name) {
-
-            return res.status(400).json({
-                success: false,
-                message: "First name is required"
-            });
-
-        }
-
-        if (!last_name) {
-
-            return res.status(400).json({
-                success: false,
-                message: "Last name is required"
-            });
-
-        }
 
         if (!email) {
 
@@ -119,6 +152,7 @@ export default async function handler(req, res) {
 
         }
 
+
         if (!phone) {
 
             return res.status(400).json({
@@ -127,6 +161,7 @@ export default async function handler(req, res) {
             });
 
         }
+
 
         if (!address) {
 
@@ -137,57 +172,9 @@ export default async function handler(req, res) {
 
         }
 
-        if (!city) {
-
-            return res.status(400).json({
-                success: false,
-                message: "City is required"
-            });
-
-        }
-
 
         // =================================================
-        // GET PAYHERE CREDENTIALS
-        // =================================================
-
-        const merchant_id =
-            process.env.PAYHERE_MERCHANT_ID;
-
-        const merchant_secret =
-            process.env.PAYHERE_MERCHANT_SECRET;
-
-
-        if (!merchant_id) {
-
-            return res.status(500).json({
-
-                success: false,
-
-                message:
-                    "PAYHERE_MERCHANT_ID is missing"
-
-            });
-
-        }
-
-
-        if (!merchant_secret) {
-
-            return res.status(500).json({
-
-                success: false,
-
-                message:
-                    "PAYHERE_MERCHANT_SECRET is missing"
-
-            });
-
-        }
-
-
-        // =================================================
-        // AMOUNT VALIDATION
+        // AMOUNT
         // =================================================
 
         const numericAmount =
@@ -200,12 +187,8 @@ export default async function handler(req, res) {
         ) {
 
             return res.status(400).json({
-
                 success: false,
-
-                message:
-                    "Invalid payment amount"
-
+                message: "Invalid payment amount"
             });
 
         }
@@ -219,7 +202,8 @@ export default async function handler(req, res) {
         // CURRENCY
         // =================================================
 
-        const currency = "LKR";
+        const currency =
+            "LKR";
 
 
         // =================================================
@@ -227,8 +211,7 @@ export default async function handler(req, res) {
         // =================================================
 
         const hashedSecret =
-            crypto
-                .createHash("md5")
+            createHash("md5")
                 .update(
                     merchant_secret
                 )
@@ -237,12 +220,11 @@ export default async function handler(req, res) {
 
 
         // =================================================
-        // GENERATE PAYHERE HASH
+        // PAYHERE HASH
         // =================================================
 
         const hash =
-            crypto
-                .createHash("md5")
+            createHash("md5")
                 .update(
                     merchant_id +
                     order_id +
@@ -255,15 +237,15 @@ export default async function handler(req, res) {
 
 
         // =================================================
-        // PAYHERE PAYMENT DATA
+        // PAYMENT OBJECT
         // =================================================
 
         const payment = {
 
-            sandbox: true,
+            sandbox:
+                true,
 
             merchant_id:
-
                 merchant_id,
 
             return_url:
@@ -276,67 +258,59 @@ export default async function handler(req, res) {
                 "https://leangelo-payment.vercel.app/api/payhere-notify",
 
             order_id:
-
                 order_id,
 
             items:
-
-                items ||
-                `LeanGelo Order ${order_id}`,
+                items,
 
             currency:
-
                 currency,
 
             amount:
-
                 amountFormatted,
 
             first_name:
-
                 first_name,
 
             last_name:
-
                 last_name,
 
             email:
-
                 email,
 
             phone:
-
                 phone,
 
             address:
-
                 address,
 
             city:
-
                 city,
 
             country:
-
                 "Sri Lanka",
 
             hash:
-
                 hash
 
         };
 
 
         // =================================================
-        // DEBUG
+        // LOG WITHOUT SECRET
         // =================================================
 
         console.log(
-            "PAYHERE PAYMENT CREATED:",
+            "PAYHERE PAYMENT CREATED",
             {
-                order_id,
-                amount: amountFormatted,
-                merchant_id
+                order_id:
+                    order_id,
+
+                amount:
+                    amountFormatted,
+
+                merchant_id:
+                    merchant_id
             }
         );
 
@@ -347,28 +321,32 @@ export default async function handler(req, res) {
 
         return res.status(200).json({
 
-            success: true,
+            success:
+                true,
 
-            payment: payment
+            payment:
+                payment
 
         });
 
     }
 
+
     catch (error) {
 
         console.error(
-            "PAYHERE API ERROR:",
+            "PAYHERE FUNCTION ERROR:",
             error
         );
 
 
         return res.status(500).json({
 
-            success: false,
+            success:
+                false,
 
             message:
-                error.message ||
+                error?.message ||
                 "Internal server error"
 
         });
@@ -376,4 +354,4 @@ export default async function handler(req, res) {
     }
 
 }
-```
+
