@@ -1408,9 +1408,7 @@ async function openAllDigitalArts(
 // PLACE ORDER
 // =====================================================
 
-window.placeOrder =
-async function () {
-
+window.placeOrder = async function () {
 
     // =================================================
     // LOGIN CHECK
@@ -1418,32 +1416,66 @@ async function () {
 
     if (!currentUser) {
 
-        showToast(
-            "Please login first."
-        );
+        showToast("Please login first.");
 
         return;
-
     }
-
 
 
     // =================================================
     // CART CHECK
     // =================================================
 
-    if (
-        cart.length === 0
-    ) {
+    if (cart.length === 0) {
+
+        showToast("Your cart is empty.");
+
+        return;
+    }
+
+
+    // =================================================
+    // GET FORM VALUES
+    // =================================================
+
+    const fullname =
+        document.getElementById("fullname")
+            .value
+            .trim();
+
+    const address =
+        document.getElementById("address")
+            .value
+            .trim();
+
+    const phone =
+        document.getElementById("phone")
+            .value
+            .trim();
+
+    const postal =
+        document.getElementById("postal")
+            .value
+            .trim();
+
+    const notes =
+        document.getElementById("notes")
+            .value
+            .trim();
+
+
+    // =================================================
+    // VALIDATION
+    // =================================================
+
+    if (!fullname || !address || !phone || !postal) {
 
         showToast(
-            "Your cart is empty."
+            "Please fill all required fields."
         );
 
         return;
-
     }
-
 
 
     // =================================================
@@ -1455,396 +1487,198 @@ async function () {
             "placeOrderBtn"
         );
 
-
     button.disabled = true;
-
-
-    button.innerText =
-        "Processing...";
-
-
-
-    // =================================================
-    // LOADING
-    // =================================================
-
-    const loadingScreen =
-        document.getElementById(
-            "loadingScreen"
-        );
-
-
-    const loadingFill =
-        document.getElementById(
-            "loadingFill"
-        );
-
-
-    const loadingPercent =
-        document.getElementById(
-            "loadingPercent"
-        );
-
-
-
-    loadingScreen.style.display =
-        "flex";
-
-
-
-    let percent = 0;
-
-
-
-    const loader =
-        setInterval(
-            () => {
-
-                if (
-                    percent < 90
-                ) {
-
-                    percent += 5;
-
-
-                    loadingFill.style.width =
-                        percent + "%";
-
-
-                    loadingPercent.innerText =
-                        percent + "%";
-
-                }
-
-            },
-            100
-        );
-
+    button.innerText = "Preparing Payment...";
 
 
     try {
 
-
         // =================================================
-        // GET REAL PRODUCT DATA
+        // PREPARE CART
         // =================================================
 
         const cleanCart =
             await prepareCart();
 
 
-
         console.log(
-            "===================================="
-        );
-
-
-        console.log(
-            "CLEAN CART"
-        );
-
-
-        console.log(
+            "PAYMENT CART:",
             cleanCart
         );
 
 
-        console.log(
-            "===================================="
-        );
+        // =================================================
+        // SPLIT NAME
+        // =================================================
 
+        const nameParts =
+            fullname.split(/\s+/);
+
+        const first_name =
+            nameParts.shift() || "Customer";
+
+        const last_name =
+            nameParts.join(" ") || "Customer";
 
 
         // =================================================
-        // DIGITAL ART ONLY
+        // CREATE ORDER ID
         // =================================================
 
-        const digitalArtItems =
-            cleanCart.filter(
-                item => {
-
-                    return (
-                        isDigitalItem(item)
-                        &&
-                        item.imageUrl
-                    );
-
-                }
-            );
-
-
-
-        console.log(
-            "PURCHASED DIGITAL ARTS:",
-            digitalArtItems
-        );
-
-
-        console.log(
-            "DIGITAL ART COUNT:",
-            digitalArtItems.length
-        );
-
+        const order_id =
+            "LG-" +
+            Date.now();
 
 
         // =================================================
-        // ORDER DATA
+        // CALL VERCEL PAYHERE API
         // =================================================
 
-        const orderData = {
-
-
-            // Buyer
-            buyerId:
-                currentUser.uid,
-
-
-            buyerEmail:
-                currentUser.email,
-
-
-            buyerName:
-                currentUser.displayName ||
-                currentUser.email
-                    .split("@")[0],
-
-
-            buyerPhoto:
-                currentUser.photoURL || "",
-
-
-
-            // Delivery
-            fullname:
-                document
-                    .getElementById(
-                        "fullname"
-                    )
-                    .value
-                    .trim(),
-
-
-            address:
-                document
-                    .getElementById(
-                        "address"
-                    )
-                    .value
-                    .trim(),
-
-
-            phone:
-                document
-                    .getElementById(
-                        "phone"
-                    )
-                    .value
-                    .trim(),
-
-
-            postal:
-                document
-                    .getElementById(
-                        "postal"
-                    )
-                    .value
-                    .trim(),
-
-
-            notes:
-                document
-                    .getElementById(
-                        "notes"
-                    )
-                    .value
-                    .trim(),
-
-
-
-            // =================================================
-            // PRODUCTS
-            // =================================================
-
-            cart:
-                cleanCart,
-
-
-
-            // Total
-            total:
-                total,
-
-
-
-            // Digital information
-            digitalArtCount:
-                digitalArtItems.length,
-
-
-            hasDigitalArt:
-                digitalArtItems.length > 0,
-
-
-
-            // Status
-            status:
-                "pending",
-
-
-            deliveryDays:
-                7,
-
-
-            createdAt:
-                serverTimestamp()
-
-        };
-
-
-
-        console.log(
-            "FINAL ORDER DATA:",
-            orderData
-        );
-
-
-
-        // =================================================
-        // SAVE TO FIRESTORE
-        // =================================================
-
-        const orderRef =
-            await addDoc(
-                collection(
-                    db,
-                    "orders"
-                ),
-                orderData
-            );
-
-
-
-        console.log(
-            "ORDER CREATED:",
-            orderRef.id
-        );
-
-
-
-        // =================================================
-        // FINISH LOADING
-        // =================================================
-
-        clearInterval(
-            loader
-        );
-
-
-        loadingFill.style.width =
-            "100%";
-
-
-        loadingPercent.innerText =
-            "100%";
-
-
-
-        // =================================================
-        // OPEN DIGITAL ART
-        // =================================================
-
-        setTimeout(
-            async () => {
-
-
-                if (
-                    digitalArtItems.length > 0
-                ) {
-
-                    await openAllDigitalArts(
-                        digitalArtItems
-                    );
-
-                }
-
-
-
-                showToast(
-                    "Order Placed Successfully 💎"
-                );
-
-
-
-                // =================================================
-                // CLEAR CART
-                // =================================================
-
-                localStorage.removeItem(
-                    "cart"
-                );
-
-
-
-                // =================================================
-                // REDIRECT
-                // =================================================
-
-                setTimeout(
-                    () => {
-
-                        window.location.href =
-                            "landing.html";
-
+        const response =
+            await fetch(
+                "/api/payhere",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
                     },
-                    1000
-                );
+
+                    body: JSON.stringify({
+
+                        order_id,
+
+                        amount:
+                            Number(total).toFixed(2),
+
+                        items:
+                            cleanCart
+                                .map(item =>
+                                    item.name
+                                )
+                                .join(", "),
+
+                        first_name,
+
+                        last_name,
+
+                        email:
+                            currentUser.email,
+
+                        phone,
+
+                        address,
+
+                        city:
+                            "Sri Lanka"
+
+                    })
+                }
+            );
 
 
-            },
-            700
+        const data =
+            await response.json();
+
+
+        console.log(
+            "PAYHERE RESPONSE:",
+            data
         );
 
+
+        // =================================================
+        // API ERROR
+        // =================================================
+
+        if (!response.ok || !data.success) {
+
+            throw new Error(
+                data.message ||
+                "Unable to create PayHere payment."
+            );
+        }
+
+
+        // =================================================
+        // CREATE PAYHERE FORM
+        // =================================================
+
+        const payment =
+            data.payment;
+
+
+        const form =
+            document.createElement(
+                "form"
+            );
+
+
+        form.method = "POST";
+
+        form.action =
+            "https://sandbox.payhere.lk/pay/checkout";
+
+
+        form.style.display = "none";
+
+
+        // =================================================
+        // ADD PAYHERE FIELDS
+        // =================================================
+
+        Object.entries(payment)
+            .forEach(([key, value]) => {
+
+                const input =
+                    document.createElement(
+                        "input"
+                    );
+
+                input.type = "hidden";
+
+                input.name = key;
+
+                input.value = value;
+
+                form.appendChild(input);
+
+            });
+
+
+        // =================================================
+        // SUBMIT
+        // =================================================
+
+        document.body.appendChild(form);
+
+        form.submit();
 
 
     }
 
     catch (error) {
 
-
-        clearInterval(
-            loader
-        );
-
-
-        loadingScreen.style.display =
-            "none";
-
-
-        button.disabled =
-            false;
-
-
-        button.innerText =
-            "Place Order";
-
-
-
         console.error(
-            "ORDER ERROR:",
+            "PAYHERE ERROR:",
             error
         );
 
 
+        button.disabled = false;
+
+        button.innerText = "Pay Now";
+
 
         showToast(
-            "Order Failed ❌\n\n" +
+            "Payment Error ❌\n\n" +
             error.message
         );
 
     }
 
 };
-
 </script>
 
 
