@@ -1,5 +1,20 @@
 {
+  "name": "leangelo-payment",
+  "version": "1.0.0",
+  "description": "LeanGelo Payment Gateway API",
+  "type": "module",
+  "main": "index.js",
+  "engines": {
+    "node": "20.x"
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
   "dependencies": {
-    "nodemailer": "^9.0.5"
-  }
+    "@google/generative-ai": "^0.24.1",
+    "axios": "^1.20.0",
+    "firebase-admin": "^13.10.0",
+    "firebase-functions": "^7.0.0"
+  },
+  "private": true
 }
