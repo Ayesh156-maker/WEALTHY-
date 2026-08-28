@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -127,12 +128,6 @@
 
             border-bottom:
                 1px solid rgba(255,255,255,0.08);
-        }
-
-
-        .cart-item img {
-
-            flex-shrink: 0;
         }
 
 
@@ -489,11 +484,11 @@
             </h3>
 
             <p>
-                Cash On Delivery
+                PayHere Sandbox
             </p>
 
             <div class="secure">
-                🔒 Secure Checkout Protected
+                🔒 Secure Payment via PayHere
             </div>
 
         </div>
@@ -536,12 +531,13 @@
 
 
         <button
+            type="button"
             class="checkout-btn"
             id="placeOrderBtn"
             onclick="placeOrder()"
         >
 
-            Place Order
+            Pay Now
 
         </button>
 
@@ -560,7 +556,7 @@
     <div class="loader-box">
 
         <h2>
-            Processing Order...
+            Preparing Payment...
         </h2>
 
 
@@ -601,9 +597,6 @@ import {
 
 import {
     getFirestore,
-    collection,
-    addDoc,
-    serverTimestamp,
     getDoc,
     doc
 } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
@@ -700,65 +693,6 @@ onAuthStateChanged(
 
 
 // =====================================================
-// DEBUG CART
-// =====================================================
-
-console.log(
-    "===================================="
-);
-
-console.log(
-    "CHECKOUT CART"
-);
-
-console.log(
-    cart
-);
-
-console.log(
-    "===================================="
-);
-
-
-cart.forEach(
-    (item, index) => {
-
-        console.log(
-            "PRODUCT:",
-            index + 1
-        );
-
-        console.log(
-            "ID:",
-            item.id
-        );
-
-        console.log(
-            "NAME:",
-            item.name
-        );
-
-        console.log(
-            "CATEGORY:",
-            item.category
-        );
-
-        console.log(
-            "CATEGORY TYPE:",
-            item.categoryType
-        );
-
-        console.log(
-            "IMAGE URL:",
-            item.imageUrl
-        );
-
-    }
-);
-
-
-
-// =====================================================
 // LOAD CART UI
 // =====================================================
 
@@ -781,7 +715,7 @@ function loadCart() {
 
                 <button
                     onclick="
-                        window.location.href='Main.html'
+                        window.location.href='landing.html'
                     "
                 >
                     Browse Artworks
@@ -799,7 +733,6 @@ function loadCart() {
 
         return;
     }
-
 
 
     cart.forEach(
@@ -824,7 +757,6 @@ function loadCart() {
             total += itemTotal;
 
 
-
             const category =
                 String(
                     item.category || ""
@@ -833,9 +765,7 @@ function loadCart() {
                 .toLowerCase();
 
 
-
             let categoryLabel = "";
-
 
 
             if (
@@ -845,9 +775,7 @@ function loadCart() {
                 categoryLabel = `
 
                     <span class="digital-label">
-
                         DIGITAL ART
-
                     </span>
 
                 `;
@@ -859,15 +787,12 @@ function loadCart() {
                 categoryLabel = `
 
                     <span class="physical-label">
-
                         ${item.category || "ARTWORK"}
-
                     </span>
 
                 `;
 
             }
-
 
 
             cartItems.innerHTML += `
@@ -884,11 +809,11 @@ function loadCart() {
                     >
 
                         <img
-                            src="
-                                ${item.imageUrl ||
-                                  item.image ||
-                                  ""}
-                            "
+                            src="${
+                                item.imageUrl ||
+                                item.image ||
+                                ""
+                            }"
                             width="70"
                             height="70"
                             style="
@@ -901,36 +826,27 @@ function loadCart() {
                         <div>
 
                             <h3>
-
-                                ${item.name ||
-                                  "Artwork"}
-
+                                ${
+                                    item.name ||
+                                    "Artwork"
+                                }
                             </h3>
 
 
                             <p>
-
-                                Qty:
-                                ${qty}
-
+                                Qty: ${qty}
                             </p>
 
 
                             <p>
-
-                                Price:
-                                Rs ${price}
-
+                                Price: Rs ${price}
                             </p>
 
 
                             <p>
 
                                 <strong>
-
-                                    Subtotal:
-                                    Rs ${itemTotal}
-
+                                    Subtotal: Rs ${itemTotal}
                                 </strong>
 
                             </p>
@@ -950,7 +866,6 @@ function loadCart() {
     );
 
 
-
     document.getElementById(
         "total"
     ).innerText = total;
@@ -965,6 +880,7 @@ loadCart();
 // =====================================================
 // GET PRODUCT FROM FIRESTORE
 // =====================================================
+
 async function getProductFromFirestore(item) {
 
     let category =
@@ -983,10 +899,6 @@ async function getProductFromFirestore(item) {
         item.email ||
         "";
 
-
-    // =================================================
-    // PRODUCT ID
-    // =================================================
 
     if (item.id) {
 
@@ -1031,33 +943,11 @@ async function getProductFromFirestore(item) {
                     "";
 
 
-                // IMPORTANT
                 sellerEmail =
                     product.email ||
                     product.sellerEmail ||
                     sellerEmail ||
                     "";
-
-
-                console.log(
-                    "PRODUCT:",
-                    product.name
-                );
-
-                console.log(
-                    "SELLER:",
-                    sellerEmail
-                );
-
-                console.log(
-                    "CATEGORY:",
-                    category
-                );
-
-                console.log(
-                    "CATEGORY TYPE:",
-                    categoryType
-                );
 
             }
 
@@ -1078,51 +968,50 @@ async function getProductFromFirestore(item) {
     return {
 
         category:
-            String(category)
-                .trim()
-                .toLowerCase(),
+            String(
+                category
+            )
+            .trim()
+            .toLowerCase(),
 
 
         categoryType:
-            String(categoryType)
-                .trim()
-                .toLowerCase(),
+            String(
+                categoryType
+            )
+            .trim()
+            .toLowerCase(),
 
 
         imageUrl:
             imageUrl || "",
 
 
-        // IMPORTANT
         sellerEmail:
-            String(sellerEmail)
-                .trim()
-                .toLowerCase()
+            String(
+                sellerEmail
+            )
+            .trim()
+            .toLowerCase()
 
     };
 
 }
 
 
+
 // =====================================================
 // PREPARE CART
 // =====================================================
+
 async function prepareCart() {
 
     const cleanCart = [];
 
 
-    for (const item of cart) {
-
-        console.log(
-            "--------------------------------"
-        );
-
-        console.log(
-            "PROCESSING:",
-            item.name
-        );
-
+    for (
+        const item of cart
+    ) {
 
         const productData =
             await getProductFromFirestore(
@@ -1132,23 +1021,21 @@ async function prepareCart() {
 
         const finalItem = {
 
-            // Product ID
             id:
                 item.id || "",
 
-
-            // Product information
             name:
                 item.name || "",
 
-
             price:
-                Number(item.price) || 0,
-
+                Number(
+                    item.price
+                ) || 0,
 
             quantity:
-                Number(item.quantity) || 1,
-
+                Number(
+                    item.quantity
+                ) || 1,
 
             imageUrl:
                 productData.imageUrl ||
@@ -1156,21 +1043,11 @@ async function prepareCart() {
                 item.image ||
                 "",
 
-
-            // =========================================
-            // SELLER
-            // =========================================
-
             sellerEmail:
                 productData.sellerEmail ||
                 item.sellerEmail ||
                 item.email ||
                 "",
-
-
-            // =========================================
-            // PRODUCT TYPE
-            // =========================================
 
             categoryType:
                 productData.categoryType ||
@@ -1180,18 +1057,10 @@ async function prepareCart() {
                 .trim()
                 .toLowerCase(),
 
-
-            // Category
             category:
                 productData.category || ""
 
         };
-
-
-        console.log(
-            "FINAL PRODUCT:",
-            finalItem
-        );
 
 
         cleanCart.push(
@@ -1204,225 +1073,16 @@ async function prepareCart() {
     return cleanCart;
 
 }
-const payment = data.payment;
-
-console.log(
-    "PAYHERE PAYMENT OBJECT:",
-    payment
-);
-
-if (!payment) {
-
-    throw new Error(
-        data.message ||
-        "PayHere payment data was not returned by the backend."
-    );
-
-}
-
-// =====================================================
-// CHECK DIGITAL PRODUCT
-// =====================================================
-
-function isDigitalItem(item) {
-
-
-    const type =
-        String(
-            item.categoryType || ""
-        )
-        .trim()
-        .toLowerCase();
-
-
-
-    // Firebase categoryType
-    if (
-        type === "digital"
-    ) {
-
-        return true;
-
-    }
-
-
-
-    if (
-        type === "non-digital"
-    ) {
-
-        return false;
-
-    }
-
-
-
-    // =================================================
-    // FALLBACK CATEGORY
-    // =================================================
-
-    const category =
-        String(
-            item.category || ""
-        )
-        .trim()
-        .toLowerCase();
-
-
-
-    const digitalCategories = [
-
-        "digital-art",
-
-        "digital art",
-
-        "ai-art",
-
-        "ai art",
-
-        "digital-paintings",
-
-        "digital paintings",
-
-        "digital-illustrations",
-
-        "digital illustrations",
-
-        "digital-drawings",
-
-        "digital drawings",
-
-        "printable-art",
-
-        "printable art",
-
-        "illustrations",
-
-        "typography",
-
-        "posters",
-
-        "photography",
-
-        "3d-art",
-
-        "3d art",
-
-        "3d-art-models",
-
-        "3d art & models",
-
-        "graphics-design",
-
-        "graphics & design",
-
-        "templates",
-
-        "fonts-typography",
-
-        "fonts & typography",
-
-        "crafts",
-
-        "resources",
-
-        "digital-resources"
-
-    ];
-
-
-
-    return digitalCategories.includes(
-        category
-    );
-
-}
 
 
 
 // =====================================================
-// OPEN DIGITAL ART IMAGE
+// PLACE ORDER / PAYHERE
 // =====================================================
 
-function openDigitalArt(url) {
+window.placeOrder =
+async function () {
 
-
-    if (!url) {
-
-        console.warn(
-            "Image URL missing"
-        );
-
-        return;
-
-    }
-
-
-
-    // Open image in new tab
-    window.open(
-        url,
-        "_blank",
-        "noopener,noreferrer"
-    );
-
-}
-
-
-
-// =====================================================
-// OPEN ALL DIGITAL ART IMAGES
-// =====================================================
-
-async function openAllDigitalArts(
-    items
-) {
-
-
-    for (
-        const item of items
-    ) {
-
-
-        if (
-            item.imageUrl
-        ) {
-
-            console.log(
-                "OPENING DIGITAL ART:",
-                item.name
-            );
-
-
-            openDigitalArt(
-                item.imageUrl
-            );
-
-
-            /*
-             * Small delay between images
-             */
-            await new Promise(
-                resolve =>
-                    setTimeout(
-                        resolve,
-                        500
-                    )
-            );
-
-        }
-
-    }
-
-}
-
-
-
-// =====================================================
-// PLACE ORDER
-// =====================================================
-
-window.placeOrder = async function () {
 
     // =================================================
     // LOGIN CHECK
@@ -1430,9 +1090,12 @@ window.placeOrder = async function () {
 
     if (!currentUser) {
 
-        showToast("Please login first.");
+        showToast(
+            "Please login first."
+        );
 
         return;
+
     }
 
 
@@ -1440,56 +1103,88 @@ window.placeOrder = async function () {
     // CART CHECK
     // =================================================
 
-    if (cart.length === 0) {
+    if (
+        cart.length === 0
+    ) {
 
-        showToast("Your cart is empty.");
+        showToast(
+            "Your cart is empty."
+        );
 
         return;
+
     }
 
 
     // =================================================
-    // GET FORM VALUES
+    // FORM DATA
     // =================================================
 
     const fullname =
-        document.getElementById("fullname")
+        document
+            .getElementById(
+                "fullname"
+            )
             .value
             .trim();
+
 
     const address =
-        document.getElementById("address")
+        document
+            .getElementById(
+                "address"
+            )
             .value
             .trim();
+
 
     const phone =
-        document.getElementById("phone")
+        document
+            .getElementById(
+                "phone"
+            )
             .value
             .trim();
+
 
     const postal =
-        document.getElementById("postal")
+        document
+            .getElementById(
+                "postal"
+            )
             .value
             .trim();
 
+
     const notes =
-        document.getElementById("notes")
+        document
+            .getElementById(
+                "notes"
+            )
             .value
             .trim();
+
 
 
     // =================================================
     // VALIDATION
     // =================================================
 
-    if (!fullname || !address || !phone || !postal) {
+    if (
+        !fullname ||
+        !address ||
+        !phone ||
+        !postal
+    ) {
 
         showToast(
             "Please fill all required fields."
         );
 
         return;
+
     }
+
 
 
     // =================================================
@@ -1501,11 +1196,53 @@ window.placeOrder = async function () {
             "placeOrderBtn"
         );
 
-    button.disabled = true;
-    button.innerText = "Preparing Payment...";
+
+    button.disabled =
+        true;
+
+
+    button.innerText =
+        "Preparing Payment...";
+
+
+
+    // =================================================
+    // LOADING
+    // =================================================
+
+    const loadingScreen =
+        document.getElementById(
+            "loadingScreen"
+        );
+
+
+    const loadingFill =
+        document.getElementById(
+            "loadingFill"
+        );
+
+
+    const loadingPercent =
+        document.getElementById(
+            "loadingPercent"
+        );
+
+
+    loadingScreen.style.display =
+        "flex";
+
+
+    loadingFill.style.width =
+        "20%";
+
+
+    loadingPercent.innerText =
+        "20%";
+
 
 
     try {
+
 
         // =================================================
         // PREPARE CART
@@ -1521,22 +1258,37 @@ window.placeOrder = async function () {
         );
 
 
+        loadingFill.style.width =
+            "40%";
+
+
+        loadingPercent.innerText =
+            "40%";
+
+
+
         // =================================================
         // SPLIT NAME
         // =================================================
 
         const nameParts =
-            fullname.split(/\s+/);
+            fullname
+                .split(/\s+/);
+
 
         const first_name =
-            nameParts.shift() || "Customer";
+            nameParts.shift() ||
+            "Customer";
+
 
         const last_name =
-            nameParts.join(" ") || "Customer";
+            nameParts.join(" ") ||
+            "Customer";
+
 
 
         // =================================================
-        // CREATE ORDER ID
+        // ORDER ID
         // =================================================
 
         const order_id =
@@ -1544,56 +1296,145 @@ window.placeOrder = async function () {
             Date.now();
 
 
+
         // =================================================
-        // CALL VERCEL PAYHERE API
+        // CALL VERCEL API
         // =================================================
+
+        console.log(
+            "CALLING /api/payhere"
+        );
+
 
         const response =
             await fetch(
                 "/api/payhere",
                 {
-                    method: "POST",
+
+                    method:
+                        "POST",
 
                     headers: {
+
                         "Content-Type":
                             "application/json"
+
                     },
 
-                    body: JSON.stringify({
+                    body:
+                        JSON.stringify({
 
-                        order_id,
+                            order_id,
 
-                        amount:
-                            Number(total).toFixed(2),
-
-                        items:
-                            cleanCart
-                                .map(item =>
-                                    item.name
+                            amount:
+                                Number(
+                                    total
                                 )
-                                .join(", "),
+                                .toFixed(2),
 
-                        first_name,
+                            items:
+                                cleanCart
+                                    .map(
+                                        item =>
+                                            item.name
+                                    )
+                                    .join(
+                                        ", "
+                                    ),
 
-                        last_name,
+                            first_name,
 
-                        email:
-                            currentUser.email,
+                            last_name,
 
-                        phone,
+                            email:
+                                currentUser
+                                    .email,
 
-                        address,
+                            phone,
 
-                        city:
-                            "Sri Lanka"
+                            address,
 
-                    })
+                            city:
+                                "Sri Lanka"
+
+                        })
+
                 }
             );
 
 
-        const data =
-            await response.json();
+
+        // =================================================
+        // GET RESPONSE
+        // =================================================
+
+        const responseText =
+            await response.text();
+
+
+        console.log(
+            "PAYHERE API STATUS:",
+            response.status
+        );
+
+
+        console.log(
+            "PAYHERE RAW RESPONSE:",
+            responseText
+        );
+
+
+
+        // =================================================
+        // PARSE JSON
+        // =================================================
+
+        let data;
+
+
+        try {
+
+            data =
+                responseText
+                    ? JSON.parse(
+                        responseText
+                    )
+                    : null;
+
+        }
+
+        catch (
+            jsonError
+        ) {
+
+            console.error(
+                "INVALID JSON:",
+                responseText
+            );
+
+
+            throw new Error(
+                "PayHere API returned invalid data. HTTP " +
+                response.status
+            );
+
+        }
+
+
+
+        // =================================================
+        // EMPTY RESPONSE
+        // =================================================
+
+        if (!data) {
+
+            throw new Error(
+                "PayHere API returned an empty response. HTTP " +
+                response.status
+            );
+
+        }
+
 
 
         console.log(
@@ -1602,26 +1443,61 @@ window.placeOrder = async function () {
         );
 
 
+
         // =================================================
         // API ERROR
         // =================================================
 
-        if (!response.ok || !data.success) {
+        if (
+            !response.ok ||
+            !data.success
+        ) {
 
             throw new Error(
                 data.message ||
                 "Unable to create PayHere payment."
             );
+
         }
 
 
+
         // =================================================
-        // CREATE PAYHERE FORM
+        // PAYMENT OBJECT
         // =================================================
 
         const payment =
             data.payment;
 
+
+        console.log(
+            "PAYHERE PAYMENT OBJECT:",
+            payment
+        );
+
+
+        if (!payment) {
+
+            throw new Error(
+                "PayHere payment data was not returned by the backend."
+            );
+
+        }
+
+
+
+        loadingFill.style.width =
+            "70%";
+
+
+        loadingPercent.innerText =
+            "70%";
+
+
+
+        // =================================================
+        // CREATE FORM
+        // =================================================
 
         const form =
             document.createElement(
@@ -1629,50 +1505,86 @@ window.placeOrder = async function () {
             );
 
 
-        form.method = "POST";
+        form.method =
+            "POST";
+
 
         form.action =
             "https://sandbox.payhere.lk/pay/checkout";
 
 
-        form.style.display = "none";
+        form.style.display =
+            "none";
+
 
 
         // =================================================
-        // ADD PAYHERE FIELDS
+        // ADD PAYMENT FIELDS
         // =================================================
 
-        Object.entries(payment)
-            .forEach(([key, value]) => {
+        Object.entries(
+            payment
+        )
+        .forEach(
+            ([key, value]) => {
+
 
                 const input =
                     document.createElement(
                         "input"
                     );
 
-                input.type = "hidden";
 
-                input.name = key;
+                input.type =
+                    "hidden";
 
-                input.value = value;
 
-                form.appendChild(input);
+                input.name =
+                    key;
 
-            });
+
+                input.value =
+                    value;
+
+
+                form.appendChild(
+                    input
+                );
+
+            }
+        );
+
 
 
         // =================================================
-        // SUBMIT
+        // SUBMIT TO PAYHERE
         // =================================================
 
-        document.body.appendChild(form);
+        loadingFill.style.width =
+            "100%";
+
+
+        loadingPercent.innerText =
+            "100%";
+
+
+        document.body.appendChild(
+            form
+        );
+
+
+        console.log(
+            "REDIRECTING TO PAYHERE SANDBOX..."
+        );
+
 
         form.submit();
 
-
     }
 
-    catch (error) {
+    catch (
+        error
+    ) {
 
         console.error(
             "PAYHERE ERROR:",
@@ -1680,9 +1592,16 @@ window.placeOrder = async function () {
         );
 
 
-        button.disabled = false;
+        loadingScreen.style.display =
+            "none";
 
-        button.innerText = "Pay Now";
+
+        button.disabled =
+            false;
+
+
+        button.innerText =
+            "Pay Now";
 
 
         showToast(
@@ -1693,6 +1612,7 @@ window.placeOrder = async function () {
     }
 
 };
+
 </script>
 
 
@@ -1701,3 +1621,4 @@ window.placeOrder = async function () {
 </body>
 
 </html>
+
