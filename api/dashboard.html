@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>LeanGelo | Seller Dashboard</title>
+
+    <link rel="stylesheet" href="dashboard.css">
+
+    <!-- Icons -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script type="module" src="dashboard.js"></script>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- =========================================
+         SIDEBAR
+    ========================================== -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-top">
+
+            <!-- LOGO -->
+            <div class="brand">
+
+                <a href="landing.html">
+                    <img
+                        src="https://res.cloudinary.com/dxpizcvi5/image/upload/v1778826589/ChatGPT_Image_Apr_28_2026_05_39_55_PM_eucvov.png"
+                        alt="LeanGelo Logo">
+                </a>
+
+                <div class="brand-text">
+                    <h2>LeanGelo Arts</h2>
+                    <span>Sri Lanka</span>
+                </div>
+
+            </div>
+
+
+            <!-- MENU -->
+
+            <nav class="sidebar-menu">
+
+                <a href="dashboard.html" class="menu-item active">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Dashboard</span>
+                    <i class="fa-solid fa-chevron-right arrow"></i>
+                </a>
+
+                <a href="products.html" class="menu-item">
+                    <i class="fa-solid fa-box"></i>
+                    <span>Products</span>
+                </a>
+
+                <a href="orders-seller.html" class="menu-item">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span>Orders</span>
+                </a>
+
+                <a href="#" class="menu-item">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Customers</span>
+                </a>
+
+                <a href="analytics.html" class="menu-item">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Analytics</span>
+                </a>
+
+                <a href="#" class="menu-item">
+                    <i class="fa-solid fa-circle-dollar-to-slot"></i>
+                    <span>Earnings</span>
+                </a>
+
+                <a href="#" class="menu-item">
+                    <i class="fa-solid fa-wallet"></i>
+                    <span>Payouts</span>
+                </a>
+
+                <a href="#" class="menu-item">
+                    <i class="fa-regular fa-star"></i>
+                    <span>Reviews</span>
+                </a>
+
+                <a href="#" class="menu-item">
+                    <i class="fa-solid fa-tags"></i>
+                    <span>Coupons</span>
+                </a>
+
+                <a href="#" class="menu-item">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Store Settings</span>
+                </a>
+
+                <a href="edit-store.html" class="menu-item">
+                    <i class="fa-solid fa-user"></i>
+                    <span>Profile</span>
+                </a>
+
+                <a href="#" class="menu-item logout-link" onclick="logout()">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+
+            </nav>
+
+        </div>
+
+
+        <!-- UPGRADE CARD -->
+
+        <div class="upgrade-card">
+
+            <h3>
+                Upgrade Your Store
+                <span>🚀</span>
+            </h3>
+
+            <p>
+                Unlock more features and
+                grow your business.
+            </p>
+
+            <button>
+                Upgrade Plan
+            </button>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =========================================
+         MAIN
+    ========================================== -->
+
+    <main class="main">
+
+
+        <!-- =====================================
+             TOP BAR
+        ====================================== -->
+
+        <header class="topbar">
+
+            <div class="top-left">
+
+                <button class="sidebar-toggle">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+
+                <div class="search-box">
+
+                    <input
+                        type="text"
+                        placeholder="Search anything...">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                </div>
+
+            </div>
+
+
+            <div class="top-right">
+
+                <button class="icon-button">
+                    <i class="fa-regular fa-moon"></i>
+                </button>
+
+                <button class="notification-button">
+
+                    <i class="fa-regular fa-bell"></i>
+
+                    <span class="notification-count">
+                        5
+                    </span>
+
+                </button>
+
+
+                <!-- PROFILE -->
+
+                <div class="profile">
+
+                    <img
+                        id="userPhoto"
+                        src="https://ui-avatars.com/api/?name=Seller&background=dcae3c&color=000"
+                        alt="Profile">
+
+                    <div class="profile-info">
+
+                        <strong id="userName">
+                            LeanGelo Seller
+                        </strong>
+
+                        <span id="userEmail">
+                            Seller
+                        </span>
+
+                    </div>
+
+                    <i class="fa-solid fa-chevron-down"></i>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =====================================
+             CONTENT
+        ====================================== -->
+
+        <div class="content">
+
+
+            <!-- WELCOME -->
+
+            <section class="welcome-section">
+
+                <div>
+
+                    <h1>
+                        Welcome back, LeanGelo Seller! 👋
+                    </h1>
+
+                    <p>
+                        Here's what's happening with your store today.
+                    </p>
+
+                </div>
+
+
+                <div class="welcome-buttons">
+
+                    <button class="view-store">
+                        View Store
+                    </button>
+
+                    <a href="seller-form.html">
+                        <button class="add-product">
+                            <i class="fa-solid fa-plus"></i>
+                            Add New Product
+                        </button>
+                    </a>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =====================================
+                 STAT CARDS
+            ====================================== -->
+
+            <section class="stats-grid">
+
+
+                <!-- ORDERS -->
+
+                <div class="stat-card">
+
+                    <div class="stat-icon purple">
+                        <i class="fa-solid fa-bag-shopping"></i>
+                    </div>
+
+                    <div class="stat-content">
+
+                        <span>
+                            Total Orders
+                        </span>
+
+                        <strong id="myOrders">
+                            0
+                        </strong>
+
+                        <small class="positive">
+                            <i class="fa-solid fa-arrow-up"></i>
+                            18.2% from last month
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <!-- EARNINGS -->
+
+                <div class="stat-card">
+
+                    <div class="stat-icon green">
+                        <i class="fa-solid fa-dollar-sign"></i>
+                    </div>
+
+                    <div class="stat-content">
+
+                        <span>
+                            Total Earnings
+                        </span>
+
+                        <strong id="myEarnings">
+                            Rs 0
+                        </strong>
+
+                        <small class="positive">
+                            <i class="fa-solid fa-arrow-up"></i>
+                            23.6% from last month
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PRODUCTS -->
+
+                <div class="stat-card">
+
+                    <div class="stat-icon blue">
+                        <i class="fa-solid fa-box"></i>
+                    </div>
+
+                    <div class="stat-content">
+
+                        <span>
+                            Total Products
+                        </span>
+
+                        <strong id="myProducts">
+                            0
+                        </strong>
+
+                        <small class="positive">
+                            <i class="fa-solid fa-arrow-up"></i>
+                            8 new this month
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+        
+
+            </section>
+
+
+
+            <!-- =====================================
+                 CHART + RECENT ORDERS
+            ====================================== -->
+
+            <section class="middle-grid">
+
+
+                <!-- EARNINGS -->
+
+                <div class="panel earnings-panel">
+
+                    <div class="panel-header">
+
+                        <h2>
+                            Earnings Overview
+                        </h2>
+
+                        <select>
+                            <option>This Year</option>
+                            <option>This Month</option>
+                            <option>Last Year</option>
+                        </select>
+
+                    </div>
+
+                    <div class="chart-wrapper">
+
+                        <canvas id="salesLineChart"></canvas>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- RECENT ORDERS -->
+
+                <div class="panel orders-panel">
+
+                    <div class="panel-header">
+
+                        <h2>
+                            Recent Orders
+                        </h2>
+
+                        <a href="orders-buyer.html">
+                            View All
+                        </a>
+
+                    </div>
+
+
+               <div class="recent-orders" id="recentOrders">
+
+    <div class="order-loading">
+        Loading recent orders...
+    </div>
+
+</div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =====================================
+                 BOTTOM GRID
+            ====================================== -->
+
+            <section class="bottom-grid">
+
+
+                <!-- TOP PRODUCTS -->
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <h2>
+                            Top Selling Products
+                        </h2>
+
+                        <a href="products.html">
+                            View All
+                        </a>
+
+                    </div>
+
+
+                    <div class="top-products">
+
+                        <div class="product-row">
+
+                            <div class="product-image">
+                                <img src="https://res.cloudinary.com/dxpizcvi5/image/upload/v1778826589/ChatGPT_Image_Apr_28_2026_05_39_55_PM_eucvov.png">
+                            </div>
+
+                            <span>
+                                Plan A Millionaire
+                            </span>
+
+                            <b>
+                                Rs. 2,000
+                            </b>
+
+                            <em>
+                                128 Sales
+                            </em>
+
+                        </div>
+
+
+                        <div class="product-row">
+
+                            <div class="product-image">
+                                <img src="https://res.cloudinary.com/dxpizcvi5/image/upload/v1778826589/ChatGPT_Image_Apr_28_2026_05_39_55_PM_eucvov.png">
+                            </div>
+
+                            <span>
+                                Believe & Achieve
+                            </span>
+
+                            <b>
+                                Rs. 1,950
+                            </b>
+
+                            <em>
+                                96 Sales
+                            </em>
+
+                        </div>
+
+
+                        <div class="product-row">
+
+                            <div class="product-image">
+                                <img src="https://res.cloudinary.com/dxpizcvi5/image/upload/v1778826589/ChatGPT_Image_Apr_28_2026_05_39_55_PM_eucvov.png">
+                            </div>
+
+                            <span>
+                                Focus. Grind. Succeed.
+                            </span>
+
+                            <b>
+                                Rs. 2,200
+                            </b>
+
+                            <em>
+                                88 Sales
+                            </em>
+
+                        </div>
+
+
+                        <div class="product-row">
+
+                            <div class="product-image">
+                                <img src="https://res.cloudinary.com/dxpizcvi5/image/upload/v1778826589/ChatGPT_Image_Apr_28_2026_05_39_55_PM_eucvov.png">
+                            </div>
+
+                            <span>
+                                Discipline Over Motivation
+                            </span>
+
+                            <b>
+                                Rs. 2,100
+                            </b>
+
+                            <em>
+                                74 Sales
+                            </em>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- SALES CATEGORY -->
+
+                <div class="panel category-panel">
+
+                    <div class="panel-header">
+
+                        <h2>
+                            Sales by Category
+                        </h2>
+
+                    </div>
+
+                    <div class="category-content">
+
+                        <div class="donut">
+
+                            <div class="donut-center">
+
+                                <span>Total</span>
+
+                                <strong id="categoryTotal">
+                                    248
+                                </strong>
+
+                                <small>Orders</small>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="category-list">
+
+                            <div>
+                                <i class="dot gold-dot"></i>
+                                <span>Wall Arts</span>
+                                <b>120 (48%)</b>
+                            </div>
+
+                            <div>
+                                <i class="dot purple-dot"></i>
+                                <span>Motivational</span>
+                                <b>82 (33%)</b>
+                            </div>
+
+                            <div>
+                                <i class="dot red-dot"></i>
+                                <span>Minimal</span>
+                                <b>28 (11%)</b>
+                            </div>
+
+                            <div>
+                                <i class="dot green-dot"></i>
+                                <span>Others</span>
+                                <b>18 (8%)</b>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- STORE PERFORMANCE -->
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <h2>
+                            Store Performance
+                        </h2>
+
+                        <a href="analytics.html">
+                            View Report
+                        </a>
+
+                    </div>
+
+
+                    <div class="performance">
+
+                        <div class="performance-row">
+
+                            <div class="performance-icon green">
+                                <i class="fa-solid fa-bullseye"></i>
+                            </div>
+
+                            <span>
+                                Conversion Rate
+                            </span>
+
+                            <strong>
+                                3.24%
+                            </strong>
+
+                            <div class="mini-chart green-line"></div>
+
+                        </div>
+
+
+                        <div class="performance-row">
+
+                            <div class="performance-icon gold">
+                                <i class="fa-solid fa-box"></i>
+                            </div>
+
+                            <span>
+                                Avg. Order Value
+                            </span>
+
+                            <strong>
+                                Rs. 1,975
+                            </strong>
+
+                            <div class="mini-chart gold-line"></div>
+
+                        </div>
+
+
+                        <div class="performance-row">
+
+                            <div class="performance-icon purple">
+                                <i class="fa-solid fa-users"></i>
+                            </div>
+
+                            <span>
+                                Visitors
+                            </span>
+
+                            <strong>
+                                12,543
+                            </strong>
+
+                            <div class="mini-chart purple-line"></div>
+
+                        </div>
+
+
+                        <div class="performance-row">
+
+                            <div class="performance-icon blue">
+                                <i class="fa-regular fa-clock"></i>
+                            </div>
+
+                            <span>
+                                Return Customers
+                            </span>
+
+                            <strong>
+                                28.6%
+                            </strong>
+
+                            <div class="mini-chart blue-line"></div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =====================================
+                 OLD / DYNAMIC CONTENT
+                 Kept for dashboard.js compatibility
+            ====================================== -->
+
+            <section class="dynamic-data">
+
+                <section>
+                    <div id="productsSection"></div>
+                    <div class="products-grid" id="myProductList"></div>
+                </section>
+
+                <section class="premium-section">
+                    <h2>Non-Digital Orders</h2>
+                    <div id="nonDigitalOrders" class="order-grid"></div>
+                </section>
+
+                <section class="premium-section">
+                    <h2>Live Messages & Chats</h2>
+                    <div id="chatSection" class="chat-grid"></div>
+                </section>
+
+                <section>
+                    <canvas id="salesChart"></canvas>
+                </section>
+
+            </section>
+
+
+
+            <!-- =====================================
+                 FOOTER MESSAGE
+            ====================================== -->
+
+            <section class="success-panel">
+
+                <div>
+
+                    <h2>
+                        You're doing great! 🎉
+                    </h2>
+
+                    <p>
+                        Keep going and grow your business to the next level.
+                    </p>
+
+                </div>
+
+                <a href="analytics.html">
+                    Go to Analytics
+                </a>
+
+            </section>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<script>
+
+    /* SIDEBAR MOBILE */
+
+    const toggle = document.querySelector(".sidebar-toggle");
+    const sidebar = document.querySelector(".sidebar");
+
+    if (toggle) {
+        toggle.addEventListener("click", () => {
+            sidebar.classList.toggle("open");
+        });
+    }
+
+
+    /* DARK MODE BUTTON */
+
+    const moonButton = document.querySelector(".icon-button");
+
+    if (moonButton) {
+
+        moonButton.addEventListener("click", () => {
+
+            document.body.classList.toggle("light-mode");
+
+        });
+
+    }
+
+
+    /* CATEGORY DONUT */
+
+    const donut = document.querySelector(".donut");
+
+    if (donut) {
+
+        donut.style.background =
+            "conic-gradient(" +
+            "#e4a72c 0deg 173deg," +
+            "#6848d8 173deg 292deg," +
+            "#e85d4a 292deg 332deg," +
+            "#3db77b 332deg 360deg" +
+            ")";
+
+    }
+
+</script>
+
+<script src="toast.js"></script>
+</body>
+</html>

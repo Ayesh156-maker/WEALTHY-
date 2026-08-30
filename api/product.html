@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Details</title>
+  <link rel="stylesheet" href="products.css">
+  <script type="module" src="product.js"></script>
+</head>
+<body>
+<!-- NAVBAR -->
+<nav class="navbar glass">
+    <div class="nav-container">
+
+        <!-- Logo -->
+        <a href="landing.html" class="brand-logo">
+            LEANGELO
+        </a>
+
+        <!-- Categories -->
+
+        <!-- Search -->
+        <div class="nav-search">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search products...">
+
+            <button id="searchBtn">
+                🔍
+            </button>
+
+            <div
+                id="searchResults"
+                class="search-results">
+            </div>
+
+        </div>
+
+        <!-- Right Actions -->
+        <div class="nav-actions">
+
+            <!-- Home -->
+            <a href="landing.html" class="nav-link">
+                🏠 Home
+            </a>
+
+            <!-- Wishlist -->
+            <a href="wishlist.html" class="icon-btn" title="Wishlist">
+                ❤️
+            </a>
+
+            <!-- Notifications -->
+            <button class="icon-btn" id="notificationBtn" title="Notifications">
+                🔔
+                <span class="badge">3</span>
+            </button>
+
+            <!-- Cart -->
+            <div class="cart-icon" onclick="toggleCart()">
+                🛒
+                <span id="cartCount">0</span>
+            </div>
+
+            <!-- Profile -->
+            <div class="profile-area">
+
+                <img
+                    id="profileImage"
+                    src="profile.png"
+                    alt="Profile">
+
+                <div class="profile-dropdown">
+
+                    <a href="profile.html">👤 My Profile</a>
+
+                    <a href="orders.html">📦 My Orders</a>
+
+                    <a href="wishlist.html">❤️ Wishlist</a>
+
+                    <a href="seller-dashboard.html">🏪 Seller Dashboard</a>
+
+                    <a href="settings.html">⚙ Settings</a>
+
+                    <a href="#" id="logoutBtn">🚪 Logout</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</nav>
+
+  <!-- MAIN CONTAINER -->
+  <main class="main-layout">
+
+    <!-- PRODUCT DETAIL SECTION -->
+    <section class="product-page">
+
+      <!-- LEFT: IMAGE GALLERY -->
+      <div class="product-left glass">
+        <div class="main-image-container">
+          <img id="productImage" class="product-img" alt="Product Image">
+          <span class="badge-tag">Featured</span>
+        </div>
+      </div>
+
+      <!-- RIGHT: PRODUCT INFO -->
+      <div class="product-right glass">
+
+        <h1 id="productTitle">Loading Product Name...</h1>
+
+        <div class="rating-bar">
+          <div class="rating">⭐⭐⭐⭐☆ <span>4.3 (2,665 reviews)</span></div>
+          <span class="stock-badge">In Stock</span>
+        </div>
+
+        <div class="price-container">
+  <h2 id="productPrice" class="price">Rs 0.00</h2>
+
+  <div class="product-category">
+    <span>Category:</span>
+    <strong id="productCategory">Loading...</strong>
+  </div>
+</div>
+
+        <!-- SELLER OVERVIEW -->
+        <div class="seller-box">
+          <span class="seller-label">Seller Information</span>
+          <div class="seller-info">
+            👤 <strong id="sellerNameTop">Loading...</strong>
+            <span class="verified">✔ Verified Seller</span>
+          </div>
+        </div>
+
+        <!-- DESCRIPTION -->
+        <div class="description-section">
+          <h3>Product Description</h3>
+          <p id="productDescription" class="desc">Fetching details...</p>
+        </div>
+
+        <!-- PURCHASE CONTROLS -->
+        <div class="purchase-box">
+          <div class="qty-selector">
+            <label>Quantity:</label>
+            <div class="qty-box">
+              <button onclick="changeQty(-1)">−</button>
+              <input type="number" id="qtyInput" value="1" min="1">
+              <button onclick="changeQty(1)">+</button>
+            </div>
+          </div>
+
+          <div class="action-buttons">
+            <button id="addCartBtn" class="add-cart-btn">
+              🛒 Add To Cart
+            </button>
+            <button id="buyNowBtn" class="buy-now-btn">
+              ⚡ Buy Now
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- STORE CARD -->
+    <section class="store-card glass">
+      <img
+        id="sellerLogo"
+        class="store-logo"
+        src="https://via.placeholder.com/80"
+        alt="Store Logo"
+        onclick="openSellerPage()">
+
+      <div class="store-details">
+        <h3 id="sellerNameCard">Loading Store...</h3>
+        <span class="verified">✔ Verified Official Store</span>
+        <p class="store-subtext">High Quality & Fast Dispatch</p>
+      </div>
+
+      <button class="visit-store-btn" onclick="openSellerPage()">Visit Store</button>
+    </section>
+
+    <!-- REVIEWS SECTION -->
+    <section class="reviews-section glass">
+
+      <div class="reviews-header">
+        <div>
+          <h2 id="reviewCount">0 Reviews</h2>
+          <div id="averageRating" class="avg-rating">0.0 ⭐</div>
+          <small>Verified Buyer Ratings</small>
+        </div>
+      </div>
+
+      <!-- ADD REVIEW FORM -->
+      <div class="add-review">
+        <h3>Write a Customer Review</h3>
+        <select id="reviewRating">
+          <option value="5">⭐⭐⭐⭐⭐ (5/5)</option>
+          <option value="4">⭐⭐⭐⭐☆ (4/5)</option>
+          <option value="3">⭐⭐⭐☆☆ (3/5)</option>
+          <option value="2">⭐⭐☆☆☆ (2/5)</option>
+          <option value="1">⭐☆☆☆☆ (1/5)</option>
+        </select>
+
+        <textarea id="reviewComment" placeholder="Share your experience with this product..."></textarea>
+
+        <button id="submitReview">Submit Review</button>
+      </div>
+
+      <!-- REVIEWS LIST -->
+      <div id="reviewsContainer">
+        Loading customer feedback...
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- CART POPUP PANEL -->
+<div id="cartPopup" class="cart-popup">
+
+  <div class="cart-header">
+    <h2>🛒 My Cart</h2>
+
+    <button class="close-cart" onclick="toggleCart()">
+      ✕
+    </button>
+  </div>
+  <div id="cartPopupItems" class="cart-items"></div>
+
+  <div class="cart-footer">
+
+    <div class="cart-total-box">
+
+      <div>
+        <small>Total Price</small>
+        <h2>
+          Rs <span id="cartPopupTotal">0</span>
+        </h2>
+
+      </div>
+
+    </div>
+
+    <button
+      class="checkout-btn"
+      onclick="window.location.href='checkout.html'">
+
+      Proceed to Checkout →
+
+    </button>
+
+  </div>
+
+</div>
+<div class="related-products">
+  <h2>🛍 Related Products</h2>
+
+  <div id="relatedProducts" class="related-grid">
+    Loading...
+  </div>
+</div>
+<script src="toast.js"></script>
+</body>
+</html>

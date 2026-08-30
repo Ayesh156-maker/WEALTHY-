@@ -1,0 +1,285 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LeanGelo Arts</title>
+
+    <link rel="stylesheet" href="style.css">
+ <script type="module" src="app.js"></script>
+
+
+
+
+    <style>
+     
+
+
+    </style>
+</head>
+
+<body>
+    
+
+<div id="checkoutModal" class="modal">
+    <div class="modal-content glass">
+        <span class="close" onclick="closeCheckout()">&times;</span>
+        <h2>Checkout</h2>
+        
+         <div class="check">
+  <input type="text" placeholder="Full Name" id="fullname">
+  <input type="text" placeholder="Address" id="address">
+  <input type="text" placeholder="Phone Number" id="phonenumber">
+  <input type="text" placeholder="Postal Code" id="postal">
+  <textarea placeholder="Notes (optional)" id="notes"></textarea>
+</div>
+
+<p class="price">Payment Gateway Coming Soon</p>
+
+      <button class="btn-lux" onclick="placeOrder()">Place Order</button>
+    </div>
+</div>
+ 
+<nav class="navbar">
+    <div class="nav-logo">LeanGelo Sri Lanka</div>
+
+    <ul class="nav-links">
+        <li><a href="Main.html" id="main">Home</a></li>
+        <li><a href="wall arts.html">Wall Arts</a></li>
+       
+        <li><a href="#contacts1">Contact</a></li>
+        <div id="userProfileBtn" onclick="toggleProfileMenu()" style="display:none; cursor:pointer;">
+    <img id="userPhotoSmall" style="width:35px;height:35px;border-radius:50%;" />
+</div>
+
+<div id="profileMenu" class="profile-menu">
+    <p id="profileName"></p>
+    
+</div>
+        <button class="logout" onclick="logout()">
+    🚪 Logout
+</button>
+       <li>
+    <a href="#" id="googleLoginBtn" onclick="googleLogin()">Login</a>
+</li>
+
+
+
+    </ul>
+
+    <div class="cart-icon" onclick="toggleCart()">
+        🛒 <span id="cartCount">0</span>
+    </div>
+</nav>
+
+  </div>
+</div>
+<div id="cartPanel" class="cart-panel glass">
+    
+
+    <div id="cartItems"></div>
+    <div class="cart-header">
+        
+        <span class="cart-close" onclick="closeCart()">✖</span>
+        
+        <div class="cart-icon" onclick="toggleCart()">
+            
+        </div>
+    </div>
+    <h2>🛒 Your Cart</h2>
+        <h3>Total: Rs <span id="cartTotal">0</span></h3>
+        <div id="userProfile" style="display:flex;align-items:center;gap:10px;margin-left:15px;">
+  
+</div>
+
+
+<button class="btn-lux" onclick="openCheckout()">Checkout</button>
+</div>
+
+    <!-- Gallery Section -->
+    <div id="section1">
+        <div id="text1_area">
+        <h1 id="text1">⚡Lighting Deals</h1>
+        </div>
+        <div id="product-list">
+         <div class="gallery">
+            <div class="gallery-item" onclick="openModal('detail1')">
+                <img src="arts/ChatGPT Image Feb 5, 2026, 06_08_08 PM.png" alt="Artwork 1">
+            </div>
+             <div class="gallery-item" onclick="openModal('detail2')">
+                <img src="arts/ChatGPT Image Dec 20, 2025, 01_19_12 PM - Copy (2).png" alt="Artwork 2">
+            </div>
+            <div class="gallery-item" onclick="openModal('detail3')">
+                <img src="arts/ChatGPT Image Dec 20, 2025, 01_23_47 PM.png" alt="Artwork 3">
+            </div>
+            <div class="gallery-item" onclick="openModal('detail4')">
+                <img src="arts/ChatGPT Image Dec 20, 2025, 01_28_11 PM.png" alt="Artwork 4">
+            </div>
+            <div class="gallery-item" onclick="openModal('detail5')">
+                <img src="arts/ChatGPT Image Dec 20, 2025, 01_42_32 PM - Copy (2).png" alt="Artwork 5">
+            </div>
+            <div class="gallery-item" onclick="openModal('detail6')">
+                <img src="arts/ChatGPT Image Dec 20, 2025, 01_44_37 PM - Copy (3).png" alt="Artwork 6">
+            </div>
+            <div class="gallery-item" onclick="openModal('detail7')">
+                <img src="arts/ChatGPT Image Dec 20, 2025, 06_21_46 PM.png" alt="Artwork 7">
+            </div>
+            <div class="gallery-item" onclick="openModal('detail8')">
+                <img src="arts/ChatGPT Image Dec 20, 2025, 06_24_10 PM.png" alt="Artwork 8">
+            </div>  
+            <div class="gallery-item" onclick="openModal('detail9')">
+                <img src="arts/ChatGPT Image Jan 12, 2026, 12_33_46 PM.png" alt="Artwork 9">
+            </div>
+            </div>
+            
+    
+           
+        </div>
+    </div>
+</div>
+<!--Modal 1 -->
+<div id="detail1" class="modal">
+  <div class="modal-content glass">
+    <span class="close" onclick="closeModal('detail1')">&times;</span>
+
+    <h2>Plan A millionaire🤑🤑</h2>
+    <p class="price">Rs 2000</p>
+
+    <div style="display:flex;align-items:center;justify-content:center;gap:20px;">
+        <span class="arrow" onclick="changeImage(1,-1)">&#10094;</span>
+
+        <img id="img1"
+             src="arts/ChatGPT Image Feb 5, 2026, 06_08_08 PM.png" alt="Artwork 1"
+            style="height:250px;width:200px;border-radius:12px;">
+
+             
+
+        <span class="arrow" onclick="changeImage(1,1)">&#10095;</span>
+    </div>
+
+    <button class="btn-lux"
+            onclick="addToCart('Artwork Title 1', 2000)">
+        🛒 Add to Cart
+    </button>
+  </div>
+  </div>
+</div>
+<!--Modal 2 -->
+<div id="detail2" class="modal">
+  <div class="modal-content glass">
+    <span class="close" onclick="closeModal('detail2')">&times;</span>
+
+    <h2>Believe & Achieve💪</h2>
+    <p class="price">Rs 1950</p>
+
+    <div style="display:flex;align-items:center;justify-content:center;gap:20px;">
+        <span class="arrow" onclick="changeImage(1,-1)">&#10094;</span>
+
+        <img id="img2"
+             src="arts/ChatGPT Image Dec 20, 2025, 01_19_12 PM - Copy (2).png" alt="Artwork 2"
+            style="height:250px;width:200px;border-radius:12px;">
+
+             
+
+        <span class="arrow" onclick="changeImage(1,1)">&#10095;</span>
+    </div>
+
+    <button class="btn-lux"
+            onclick="addToCart('Artwork Title 2', 1950)">
+        🛒 Add to Cart
+    </button>
+  </div>
+  </div>
+</div>
+<!--Modal 3 -->
+<div id="detail3" class="modal">
+  <div class="modal-content glass">
+    <span class="close" onclick="closeModal('detail3')">&times;</span>
+
+    <h2>Grind Now </h2>
+    <p class="price">Rs 1499.00</p>
+
+    <div style="display:flex;align-items:center;justify-content:center;gap:20px;">
+        <span class="arrow" onclick="changeImage(1,-1)">&#10094;</span>
+
+        <img id="img3"
+             src="arts/ChatGPT Image Dec 20, 2025, 01_23_47 PM.png" alt="Artwork 3"
+            style="height:250px;width:200px;border-radius:12px;">
+
+             
+
+        <span class="arrow" onclick="changeImage(1,1)">&#10095;</span>
+    </div>
+
+    <button class="btn-lux"
+            onclick="addToCart('Artwork Title 3', 1499)">
+        🛒 Add to Cart
+    </button>
+  </div>
+  </div>
+</div>
+<!--Modal 4 -->
+<div id="detail4" class="modal">
+  <div class="modal-content glass">
+    <span class="close" onclick="closeModal('detail4')">&times;</span>
+
+    <h2>Thrust Nobody🤴🤴</h2>
+    <p class="price">Rs 1299.00</p>
+
+    <div style="display:flex;align-items:center;justify-content:center;gap:20px;">
+        <span class="arrow" onclick="changeImage(1,-1)">&#10094;</span>
+
+        <img id="img4"
+             src="arts/ChatGPT Image Dec 20, 2025, 01_28_11 PM.png" alt="Artwork 4"
+            style="height:250px;width:200px;border-radius:12px;">
+
+             
+
+        <span class="arrow" onclick="changeImage(1,1)">&#10095;</span>
+    </div>
+
+    <button class="btn-lux"
+            onclick="addToCart('Artwork Title 4', 1299)">
+        🛒 Add to Cart
+    </button>
+  </div>
+  </div>
+</div>
+<!--Modal 5 -->
+<div id="detail5" class="modal">
+  <div class="modal-content glass">
+    <span class="close" onclick="closeModal('detail5')">&times;</span>
+
+    <h2></h2>
+    <p class="price">Rs 1950</p>
+
+    <div style="display:flex;align-items:center;justify-content:center;gap:20px;">
+        <span class="arrow" onclick="changeImage(1,-1)">&#10094;</span>
+
+        <img id="img5"
+             src="arts/ChatGPT Image Dec 20, 2025, 01_42_32 PM - Copy (2).png" alt="Artwork 5"
+            style="height:250px;width:200px;border-radius:12px;">
+
+             
+
+        <span class="arrow" onclick="changeImage(1,1)">&#10095;</span>
+    </div>
+
+    <button class="btn-lux"
+            onclick="addToCart('Artwork Title 5', 1099)">
+        🛒 Add to Cart
+    </button>
+  </div>
+  </div>
+</div>
+
+
+    
+   
+    
+    <!-- JAVASCRIPT -->
+    
+</script>
+
+<script src="toast.js"></script>
+</body>
+</html>

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeanGelo | Contact Seller</title>
+    <link rel="stylesheet" href="products.css">
+    <link rel="stylesheet" href="contact-seller.css">
+</head>
+<body>
+<nav class="navbar glass">
+    <div class="nav-container">
+
+        <!-- Logo -->
+        <a href="landing.html" class="brand-logo">
+            LEANGELO
+        </a>
+
+        <!-- Categories -->
+
+        <!-- Search -->
+        <div class="nav-search">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search products...">
+
+            <button id="searchBtn">
+                🔍
+            </button>
+
+            <div
+                id="searchResults"
+                class="search-results">
+            </div>
+
+        </div>
+
+        <!-- Right Actions -->
+        <div class="nav-actions">
+
+            <!-- Home -->
+            <a href="landing.html" class="nav-link">
+                🏠 Home
+            </a>
+
+            <!-- Wishlist -->
+            <a href="wishlist.html" class="icon-btn" title="Wishlist">
+                ❤️
+            </a>
+
+            <!-- Notifications -->
+            <button class="icon-btn" id="notificationBtn" title="Notifications">
+                🔔
+                <span class="badge">3</span>
+            </button>
+
+            <!-- Cart -->
+            <div class="cart-icon" onclick="toggleCart()">
+                🛒
+                <span id="cartCount">0</span>
+            </div>
+
+            <!-- Profile -->
+            <div class="profile-area">
+
+                <img
+                    id="profileImage"
+                    src="profile.png"
+                    alt="Profile">
+
+                <div class="profile-dropdown">
+
+                    <a href="profile.html">👤 My Profile</a>
+
+                    <a href="orders.html">📦 My Orders</a>
+
+                    <a href="wishlist.html">❤️ Wishlist</a>
+
+                    <a href="seller-dashboard.html">🏪 Seller Dashboard</a>
+
+                    <a href="settings.html">⚙ Settings</a>
+
+                    <a href="#" id="logoutBtn">🚪 Logout</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</nav>
+
+    <div class="seller-card">
+        
+        <div class="product-image-container">
+            <span class="badge-featured">Featured</span>
+            <div class="image-box">
+                <img id="productImage" alt="Product Image">
+            </div>
+        </div>
+
+        <div class="product-info-container">
+
+            <div class="header-row">
+                <h2 id="productName"></h2>
+                <span class="stock-badge">In Stock</span>
+            </div>
+
+            <div class="rating-box">
+                <span class="stars">★★★★★</span>
+                <span class="rating-text">4.3 (2,665 Reviews)</span>
+            </div>
+
+            <h1 id="productPrice"></h1>
+
+            <span class="tax-note">
+                Inclusive of all taxes
+            </span>
+
+            <p id="productCategory"></p>
+
+           <div class="seller-info-box">
+
+<h3>Seller Information</h3>
+
+<p><strong>Name :</strong> <span id="sellerName"></span></p>
+
+<p><strong>Email :</strong> <span id="sellerEmail"></span></p>
+
+<p><strong>Phone :</strong> <span id="sellerPhone"></span></p>
+
+<p><strong>SKU :</strong> <span id="sku"></span></p>
+
+</div>
+
+          <div class="product-image-container">
+
+    </div>
+
+
+    <!-- Product Description Left Side -->
+    <div id="descriptionSection" class="details-section">
+
+        <h3>Product Description</h3>
+
+        <p id="description"></p>
+
+    </div>
+
+</div>
+
+           
+
+                
+
+            <button class="contact-btn" onclick="startChat()">
+                💬 Contact Seller
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- Store Section -->
+    <section class="store-card">
+
+        <img src="profile.png" class="store-logo" alt="Store Logo">
+
+        <div class="store-details">
+
+            <h3 id="sellerStoreName"></h3>
+
+            <span class="verified-tag">
+                ✓ Verified Official Store
+            </span>
+
+            <p>
+                High Quality & Fast Dispatch
+            </p>
+
+        </div>
+
+        <button class="visit-store">
+            Visit Store
+        </button>
+
+    </section>
+    <section id="productSpecifications" class="details-section">
+
+    <h2>📐 Product Specifications</h2>
+
+    <div class="details-grid">
+
+        <div class="detail-item" id="materialBox">
+            <span class="detail-label">Material</span>
+            <span id="material"></span>
+        </div>
+
+        <div class="detail-item" id="dimensionsBox">
+            <span class="detail-label">Dimensions</span>
+            <span id="dimensions"></span>
+        </div>
+
+        <div class="detail-item" id="weightBox">
+            <span class="detail-label">Weight</span>
+            <span id="weight"></span>
+        </div>
+
+        <div class="detail-item" id="colorBox">
+            <span class="detail-label">Color</span>
+            <span id="color"></span>
+        </div>
+
+        <div class="detail-item" id="finishBox">
+            <span class="detail-label">Finish</span>
+            <span id="finish"></span>
+        </div>
+
+        <div class="detail-item" id="frameBox">
+            <span class="detail-label">Frame</span>
+            <span id="frame"></span>
+        </div>
+
+        <div class="detail-item" id="handmadeBox">
+            <span class="detail-label">Handmade</span>
+            <span id="handmade"></span>
+        </div>
+
+    </div>
+
+</section>
+<section id="variantsSection" class="details-section">
+
+<h2>🎨 Available Options</h2>
+
+<div class="details-grid">
+
+<div class="detail-item" id="variantColorsBox">
+<span class="detail-label">Colors</span>
+<span id="variantColors"></span>
+</div>
+
+<div class="detail-item" id="variantSizesBox">
+<span class="detail-label">Sizes</span>
+<span id="variantSizes"></span>
+</div>
+
+<div class="detail-item" id="customizableBox">
+<span class="detail-label">Customizable</span>
+<span id="customizable"></span>
+</div>
+
+</div>
+
+</section>
+<section id="shippingSection" class="details-section">
+
+<h2>🚚 Shipping</h2>
+
+<div class="details-grid">
+
+<div class="detail-item">
+<span class="detail-label">Stock</span>
+<span id="stock"></span>
+</div>
+
+<div class="detail-item" id="shippingBox">
+    <span class="detail-label">Shipping Time</span>
+    <span id="shipping"></span>
+</div>
+
+<div class="detail-item">
+<span class="detail-label">Free Shipping</span>
+<span id="freeShipping"></span>
+</div>
+
+<div class="detail-item">
+<span class="detail-label">Country</span>
+<span id="country"></span>
+</div>
+
+<div class="detail-item">
+<span class="detail-label">Minimum Order</span>
+<span id="minOrder"></span>
+</div>
+
+</div>
+
+</section>
+
+    <!-- Reviews Section -->
+    <section class="reviews-section">
+
+        <h2>Customer Reviews</h2>
+
+        <div id="reviewsContainer"></div>
+
+    </section>
+
+    <script type="module" src="contact-seller.js"></script>
+    <script src="toast.js"></script>
+</body>
+</html>

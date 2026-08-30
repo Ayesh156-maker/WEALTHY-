@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>LeanGelo | Messages</title>
+
+<link rel="stylesheet" href="messages.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+<script type="module" src="messages.js"></script>
+
+</head>
+
+<body>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="main-content">
+
+    <header class="topbar">
+
+        <div>
+
+            <h1>
+                <i class="fas fa-comments"></i>
+                Messages
+            </h1>
+
+            <p>
+                Your recent conversations
+            </p>
+
+        </div>
+
+    </header>
+
+
+    <!-- ================= CHAT LIST ================= -->
+
+    <section class="messages-card">
+
+        <div class="messages-header">
+
+            <h2>
+                Recent Chats
+            </h2>
+
+            <span id="chatCount">
+                0 chats
+            </span>
+
+        </div>
+
+
+        <div id="messagesList" class="messages-list">
+
+            <div class="loading">
+
+                <i class="fas fa-spinner fa-spin"></i>
+
+                Loading messages...
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<script src="toast.js"></script>
+</body>
+</html>

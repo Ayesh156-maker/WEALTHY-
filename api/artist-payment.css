@@ -1,0 +1,207 @@
+body{
+font-family:'Segoe UI',Arial,sans-serif;
+background:
+radial-gradient(circle at top,#2a2105,#0b0b0b 45%);
+color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+padding:40px;
+}
+
+.payment-container{
+text-align:center;
+width:95%;
+max-width:1400px;
+}
+
+.payment-container h1{
+font-size:42px;
+letter-spacing:1px;
+background:linear-gradient(90deg,#fff,#d4af37);
+-webkit-background-clip:text;
+color:transparent;
+}
+
+.payment-container p{
+color:#aaa;
+font-size:18px;
+}
+
+
+.plans{
+display:flex;
+gap:30px;
+justify-content:center;
+align-items:stretch;
+margin-top:50px;
+flex-wrap:wrap;
+}
+
+
+.plan{
+background:
+linear-gradient(
+145deg,
+#1f1f1f,
+#111
+);
+
+padding:35px;
+border-radius:25px;
+width:280px;
+min-height:360px;
+
+border:1px solid rgba(212,175,55,0.2);
+
+transition:
+transform .35s ease,
+box-shadow .35s ease,
+border .35s ease;
+
+cursor:pointer;
+
+position:relative;
+overflow:hidden;
+}
+
+
+.plan::before{
+content:"";
+position:absolute;
+top:-50%;
+left:-50%;
+width:200%;
+height:200%;
+
+background:
+linear-gradient(
+120deg,
+transparent,
+rgba(212,175,55,0.15),
+transparent
+);
+
+transform:rotate(45deg);
+transition:.6s;
+}
+
+
+.plan:hover::before{
+left:100%;
+}
+
+
+.plan:hover{
+
+transform:translateY(-12px) scale(1.03);
+
+box-shadow:
+0 20px 40px rgba(0,0,0,0.7),
+0 0 30px rgba(212,175,55,0.4);
+
+border-color:#d4af37;
+
+}
+
+
+.plan h2{
+color:#d4af37;
+font-size:25px;
+}
+
+
+.plan h3{
+font-size:32px;
+margin:20px 0;
+
+background:
+linear-gradient(90deg,#fff,#d4af37);
+
+-webkit-background-clip:text;
+color:transparent;
+
+}
+
+
+.plan ul{
+text-align:left;
+line-height:2;
+color:#ddd;
+}
+
+
+.plan li::marker{
+color:#d4af37;
+}
+
+
+.plan button{
+
+background:
+linear-gradient(
+135deg,
+#d4af37,
+#ffdf70
+);
+
+color:black;
+
+border:none;
+
+padding:14px 35px;
+
+cursor:pointer;
+
+border-radius:30px;
+
+font-size:16px;
+
+font-weight:bold;
+
+transition:.3s;
+
+}
+
+
+.plan button:hover{
+
+transform:scale(1.1);
+
+box-shadow:
+0 0 20px #d4af37;
+
+}
+
+
+.premium{
+
+border:2px solid #d4af37;
+
+box-shadow:
+0 0 30px rgba(212,175,55,0.3);
+
+}
+
+
+.plan.selected{
+
+border:2px solid #ffd700;
+
+box-shadow:
+0 0 35px #d4af37,
+0 0 70px rgba(212,175,55,0.4);
+
+transform:
+scale(1.08);
+
+}
+
+
+.plan.selected h2{
+
+text-shadow:
+0 0 15px #d4af37;
+
+}

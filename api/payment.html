@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>LeanGelo Payment</title>
+
+<link rel="stylesheet" href="payment.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Complete Your Payment</h1>
+
+<p>
+Finish your Artist Membership to start selling on LeanGelo.
+</p>
+
+<div class="plan-box">
+
+<h2>Your Selected Plan</h2>
+
+<h3 id="planName">Loading...</h3>
+
+<h4 id="planPrice"></h4>
+
+</div>
+
+<div class="payment-methods">
+
+<h2>Select Payment Method</h2>
+
+<label class="method">
+
+<input type="radio" name="payment" value="paypal">
+
+<img src="https://www.paypalobjects.com/webstatic/icon/pp258.png" width="40">
+
+<span>PayPal</span>
+
+</label>
+
+
+<label class="method">
+
+<input type="radio" name="payment" value="boc">
+
+🏦
+
+<span>BOC Bank Transfer</span>
+
+</label>
+
+
+<label class="method">
+
+<input type="radio" name="payment" value="card">
+
+💳
+
+<span>Visa / Mastercard (Coming Soon)</span>
+
+</label>
+
+</div>
+
+<div id="bankInfo" style="display:none;">
+
+<h2>BOC Bank Details</h2>
+
+<p><b>Bank :</b> Bank of Ceylon</p>
+
+<p><b>Account Name :</b> LeanGelo Pvt Ltd</p>
+
+<p><b>Account Number :</b> 1234567890</p>
+
+<p><b>Branch :</b> Colombo Main Branch</p>
+
+<p>
+After payment upload your payment receipt.
+</p>
+
+<input type="file">
+
+</div>
+
+<button id="payBtn">
+
+Complete Payment
+
+</button>
+
+</div>
+
+<script>
+
+document.getElementById("planName").textContent =
+localStorage.getItem("artistPlan");
+
+document.getElementById("planPrice").textContent =
+localStorage.getItem("artistPrice");
+
+const methods =
+document.querySelectorAll("input[name='payment']");
+
+const bankInfo =
+document.getElementById("bankInfo");
+
+methods.forEach(method=>{
+
+method.addEventListener("change",()=>{
+
+if(method.value==="boc"){
+
+bankInfo.style.display="block";
+
+}else{
+
+bankInfo.style.display="none";
+
+}
+
+});
+
+});
+
+document.getElementById("payBtn").onclick=()=>{
+
+const selected=document.querySelector("input[name='payment']:checked");
+
+if(!selected){
+
+showToast("Please select a payment method.");
+
+return;
+
+}
+
+if(selected.value==="paypal"){
+
+showToast("Redirecting to PayPal...");
+
+// window.location.href="paypal-checkout.html";
+
+}
+
+else if(selected.value==="boc"){
+
+showToast("Receipt submitted successfully.");
+
+window.location.href="artist-dashboard.html";
+
+}
+
+else{
+
+showToast("Card payment coming soon.");
+
+}
+
+};
+
+</script>
+
+<script src="toast.js"></script>
+</body>
+</html>

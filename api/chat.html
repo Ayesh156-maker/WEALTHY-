@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LeanGelo AI Style Chat</title>
+  <link rel="stylesheet" href="chat.css">
+</head>
+<body>
+
+  <div class="chat-app">
+
+    <!-- FIXED NAVBAR -->
+    <header class="chat-navbar">
+      <!-- Active User / Chat Info -->
+   <div class="seller-profile" onclick="openSellerPage()">
+    <img id="chatSellerPhoto" src="https://placehold.co/100">
+
+   <div>
+    <h3 id="chatSellerName">Seller</h3>
+
+    <span id="sellerOnlineStatus" class="offline-status">
+        Offline
+    </span>
+
+</div>
+
+      <!-- Hidden elements for Buyer info reference (DOM reference issue fix) -->
+      <div style="display: none;">
+        <span id="chatBuyerName">You</span>
+        <img id="chatBuyerPhoto" src="https://placehold.co/100" alt="Buyer Avatar">
+      </div>
+
+      <button class="back-btn" onclick="history.back()">←</button>
+    </header>
+
+    <!-- DELIVERY SYSTEM BANNER -->
+    <div id="deliveryBanner" class="delivery-banner" style="padding: 10px; background: #f4f4f5; text-align: center; border-bottom: 1px solid #ddd;">
+      <div id="deliveryStatus" style="font-weight: bold; margin-bottom: 5px;">🟡 Project In Progress</div>
+      <div id="deliveryFileBox"></div>
+      <button id="deliverBtn" style="display:none; margin: 5px auto; padding: 6px 12px;">📦 Deliver Project</button>
+      <button id="approveBtn" style="display:none; margin: 5px auto; padding: 6px 12px; background: green; color: white; border: none; border-radius: 4px;">✅ Approve Delivery</button>
+    </div>
+
+    <!-- CHAT AREA -->
+    <main id="messages" class="messages">
+      <!-- messages load here -->
+    </main>
+
+
+    <!-- TYPING -->
+    <div id="typingIndicator" class="typing-indicator">
+
+    <span></span>
+    <span></span>
+    <span></span>
+
+</div>
+    <!-- FIXED INPUT -->
+     <div id="imagePreviewBox" class="image-preview-box" style="display:none;">
+
+    <img id="imagePreview" src="">
+
+    <button id="removePreview">✕</button>
+
+</div>
+    <footer class="input-area">
+      
+      <button id="fileBtn">📎</button>
+
+      <div class="input-wrapper">
+        <input 
+          id="msgInput"
+          type="text"
+          placeholder="Message LeanGelo..."
+          autocomplete="off"
+        >
+        <button id="sendBtn">➤</button>
+      </div>
+
+      <input 
+        type="file"
+        id="fileInput"
+        hidden
+      >
+    </footer>
+
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const sellerName = localStorage.getItem("activeChatSellerName") || "Seller";
+      const sellerPhoto = localStorage.getItem("activeChatSellerPhoto") || "https://placehold.co/100";
+      
+      const nameEl = document.getElementById("chatSellerName");
+      const photoEl = document.getElementById("chatSellerPhoto");
+      
+      if (nameEl) nameEl.innerText = sellerName;
+      if (photoEl) photoEl.src = sellerPhoto;
+    });
+  </script>
+
+  <script type="module" src="chat.js"></script>
+
+<script src="toast.js"></script>
+</body>
+</html>

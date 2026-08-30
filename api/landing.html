@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=0.3, maximum-scale=1.0">
+    <meta charset="UTF-8">
+    
+
+
+    <title>LeanGelo</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="app.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0f0f0f;
+            color: white;
+            position: relative;
+        }
+
+        /* LeanGelo Watermark */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("https://res.cloudinary.com/dxpizcvi5/image/upload/v1778826589/ChatGPT_Image_Apr_28_2026_05_39_55_PM_eucvov.png");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 450px;
+            opacity: 0.05;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Clean Navbar Structure */
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            background-color: rgba(20, 20, 20, 0.95);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Category Bar Styling for Simple 4 Rows Horizontal Scroll */
+        .category-wrapper {
+            display: flex;
+            align-items: center;
+            background: #141414;
+            padding: 12px 8px;
+            margin: 15px 20px;
+            border-radius: 8px;
+            gap: 10px;
+        }
+
+        .category-scroll {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            height: 160px; /* පේළි 4 කට හරියන පරිදි සකසා ඇත */
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            gap: 8px 10px;
+            align-content: flex-start;
+        }
+
+        /* Scrollbar එක සඟවා තැබීමට */
+        .category-scroll::-webkit-scrollbar {
+            display: none;
+        }
+        .category-scroll {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .category-item {
+            background: #222;
+            padding: 8px 14px;
+            border-radius: 20px;
+            white-space: nowrap;
+            cursor: pointer;
+            font-size: 13px;
+            transition: background 0.3s, transform 0.2s;
+            user-select: none;
+        }
+
+        .category-item:hover {
+            background: #ffb703;
+            color: #000;
+            transform: translateY(-2px);
+        }
+
+        .category-next {
+            background: #2a2a2a;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+            flex-shrink: 0;
+        }
+
+        .category-next:hover {
+            background: #ffb703;
+            color: #000;
+        }
+    </style>
+</head>
+
+<body>
+<!-- ================= LEANGELO SIDEBAR ================= -->
+
+<div id="sidebarOverlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<aside id="sideBar" class="side-bar">
+
+    <!-- Header -->
+    <div class="sidebar-header">
+
+        <div class="sidebar-brand">
+            <img src="https://res.cloudinary.com/dxpizcvi5/image/upload/v1786175381/ChatGPT_Image_Apr_28_2026_05_39_55_PM_ewybbi.png" alt="LeanGelo">
+        </div>
+
+        <button class="sidebar-close" onclick="closeSidebar()">
+            ×
+        </button>
+
+    </div>
+
+    <div class="sidebar-line"></div>
+
+    <!-- User -->
+    <div class="sidebar-user">
+
+        <img
+            id="sidebarProfilePhoto"
+            src="https://res.cloudinary.com/dxpizcvi5/image/upload/v1786175381/ChatGPT_Image_Apr_28_2026_05_39_55_PM_ewybbi.png"
+            alt="Profile"
+        >
+
+        <div>
+            <h3 id="sidebarUserName">Guest</h3>
+            <p id="sidebarUserEmail">Not logged in</p>
+        </div>
+
+    </div>
+
+    <div class="sidebar-line"></div>
+
+    <!-- Navigation -->
+
+   <div class="sidebar-menu">
+
+    <a href="landing.html">
+        <span>🏠</span>
+        <span>Home</span>
+    </a>
+
+    <a href="dashboard.html">
+        <span>📊</span>
+        <span>Revenue Dashboard</span>
+    </a>
+
+    <!-- NEW -->
+
+    <div class="sidebar-line"></div>
+
+    <!-- Bottom -->
+
+    <div class="sidebar-bottom">
+
+        <a href="buyer-dashboard.html" onclick="goProfile(); return false;">
+            <span>👤</span>
+            <span>My Profile</span>
+        </a>
+
+        <a href="#" onclick="goOrders(); return false;">
+            <span>📦</span>
+            <span>My Orders</span>
+        </a>
+
+        <a href="wishlist.html" onclick="goWishlist(); return false;">
+            <span>❤️</span>
+            <span>Wishlist</span>
+        </a>
+
+        <a href="cart.html" onclick="goCart(); return false;">
+            <span>🛒</span>
+            <span>My Cart</span>
+        </a>
+
+        <div class="sidebar-line"></div>
+
+        <a href="#" onclick="goSellerPage(); return false;">
+            <span>🚀</span>
+            <span>Add products</span>
+        </a>
+
+        <a href="products.html" onclick="goMyProducts(); return false;">
+            <span>🎨</span>
+            <span>My Products</span>
+        </a>
+
+        <div class="sidebar-line"></div>
+
+        <a href="settings.html" onclick="goSettings(); return false;">
+            <span>⚙️</span>
+            <span>Settings</span>
+        </a>
+
+        <a href="#" onclick="goHelp(); return false;">
+            <span>❓</span>
+            <span>Help & Support</span>
+        </a>
+
+        <a href="#" onclick="logout(); return false;" class="logout-link">
+            <span>🚪</span>
+            <span>Logout</span>
+        </a>
+
+    </div>
+</div>
+
+    <!-- Footer -->
+
+    <div class="sidebar-footer">
+
+        <strong>LEAN GELO</strong>
+
+        <small>
+            ART • GENIUS • CREATION
+        </small>
+
+    </div>
+
+</aside>
+
+<!-- CATEGORY BAR (පළමුවෙන්ම එකතු කරන ලදී) -->
+<div class="category-wrapper">
+
+    <button class="category-next" onclick="scrollCategories(-300)">
+        ◀
+    </button>
+
+    <div class="category-scroll" id="categoryScroll">
+<!-- Art -->
+<div class="category-item" onclick="selectCategory('art')">🎨 Art</div>
+<div class="category-item sub-category" onclick="selectCategory('ai-art')">🤖 AI Art</div>
+<div class="category-item sub-category" onclick="selectCategory('paintings')">🖌️ Paintings</div>
+<div class="category-item sub-category" onclick="selectCategory('illustrations')">✍️ Illustrations</div>
+<div class="category-item sub-category" onclick="selectCategory('drawings')">✏️ Drawings</div>
+<div class="category-item sub-category" onclick="selectCategory('sketches')">📝 Sketches</div>
+<div class="category-item sub-category" onclick="selectCategory('3d-art')">🧊 3D Art</div>
+<div class="category-item sub-category" onclick="selectCategory('concept-art')">💡 Concept Art</div>
+<div class="category-item sub-category" onclick="selectCategory('character-art')">🦸 Character Art</div>
+<div class="category-item sub-category" onclick="selectCategory('fantasy-art')">🐉 Fantasy Art</div>
+<div class="category-item sub-category" onclick="selectCategory('surreal-art')">🌀 Surreal Art</div>
+
+<!-- Printable Art -->
+<div class="category-item" onclick="selectCategory('printable-art')">🖨️ Printable Art</div>
+<div class="category-item sub-category" onclick="selectCategory('printable-wall-art')">🖼️ Printable Wall Art</div>
+<div class="category-item sub-category" onclick="selectCategory('printable-posters')">📜 Printable Posters</div>
+<div class="category-item sub-category" onclick="selectCategory('printable-quotes')">💬 Printable Quotes</div>
+<div class="category-item sub-category" onclick="selectCategory('printable-nursery-art')">🧸 Printable Nursery Art</div>
+<div class="category-item sub-category" onclick="selectCategory('printable-minimal-art')">🔲 Printable Minimal Art</div>
+<div class="category-item sub-category" onclick="selectCategory('printable-luxury-art')">💎 Printable Luxury Art</div>
+<div class="category-item sub-category" onclick="selectCategory('printable-line-art')">🖋️ Printable Line Art</div>
+<div class="category-item sub-category" onclick="selectCategory('printable-abstract-art')">🎨 Printable Abstract Art</div>
+
+<!-- Illustrations -->
+<div class="category-item" onclick="selectCategory('illustrations')">✏️ Illustrations</div>
+<div class="category-item sub-category" onclick="selectCategory('character-illustration')">🧑 Character Illustration</div>
+<div class="category-item sub-category" onclick="selectCategory('cartoon-illustration')">👾 Cartoon Illustration</div>
+<div class="category-item sub-category" onclick="selectCategory('anime-illustration')">🥷 Anime Illustration</div>
+<div class="category-item sub-category" onclick="selectCategory('fantasy-illustration')">🦄 Fantasy Illustration</div>
+<div class="category-item sub-category" onclick="selectCategory('childrens-illustration')">🎈 Children's Illustration</div>
+<div class="category-item sub-category" onclick="selectCategory('editorial-illustration')">📰 Editorial Illustration</div>
+<div class="category-item sub-category" onclick="selectCategory('fashion-illustration')">👗 Fashion Illustration</div>
+<div class="category-item sub-category" onclick="selectCategory('book-illustration')">📖 Book Illustration</div>
+<div class="category-item sub-category" onclick="selectCategory('vector-illustration')">📐 Vector Illustration</div>
+<div class="category-item sub-category" onclick="selectCategory('line-art')">🖊️ Line Art</div>
+
+<!-- Typography -->
+<div class="category-item" onclick="selectCategory('typography')">🔤 Typography</div>
+<div class="category-item sub-category" onclick="selectCategory('typography-quotes')">💬 Quotes</div>
+<div class="category-item sub-category" onclick="selectCategory('motivational-typography')">🔥 Motivational Typography</div>
+<div class="category-item sub-category" onclick="selectCategory('inspirational-typography')">🌟 Inspirational Typography</div>
+<div class="category-item sub-category" onclick="selectCategory('luxury-typography')">👑 Luxury Typography</div>
+<div class="category-item sub-category" onclick="selectCategory('minimal-typography')">▫️ Minimal Typography</div>
+<div class="category-item sub-category" onclick="selectCategory('modern-typography')">⚡ Modern Typography</div>
+<div class="category-item sub-category" onclick="selectCategory('arabic-typography')">🕌 Arabic Typography</div>
+<div class="category-item sub-category" onclick="selectCategory('calligraphy-typography')">✒️ Calligraphy Typography</div>
+
+<!-- Posters -->
+<div class="category-item" onclick="selectCategory('posters')">🎬 Posters</div>
+<div class="category-item sub-category" onclick="selectCategory('motivational-posters')">🚀 Motivational Posters</div>
+<div class="category-item sub-category" onclick="selectCategory('movie-posters')">🍿 Movie Posters</div>
+<div class="category-item sub-category" onclick="selectCategory('celebrity-posters')">🌟 Celebrity Posters</div>
+<div class="category-item sub-category" onclick="selectCategory('sports-posters')">⚽ Sports Posters</div>
+<div class="category-item sub-category" onclick="selectCategory('music-posters')">🎵 Music Posters</div>
+<div class="category-item sub-category" onclick="selectCategory('minimal-posters')">🔳 Minimal Posters</div>
+<div class="category-item sub-category" onclick="selectCategory('luxury-posters')">✨ Luxury Posters</div>
+<div class="category-item sub-category" onclick="selectCategory('gaming-posters')">🎮 Gaming Posters</div>
+
+<!-- Photography -->
+<div class="category-item" onclick="selectCategory('photography')">📷 Photography</div>
+<div class="category-item sub-category" onclick="selectCategory('portraits')">👤 Portraits</div>
+<div class="category-item sub-category" onclick="selectCategory('landscapes')">🏔️ Landscapes</div>
+<div class="category-item sub-category" onclick="selectCategory('nature')">🌿 Nature</div>
+<div class="category-item sub-category" onclick="selectCategory('wildlife')">🦁 Wildlife</div>
+<div class="category-item sub-category" onclick="selectCategory('travel')">✈️ Travel</div>
+<div class="category-item sub-category" onclick="selectCategory('architecture')">🏛️ Architecture</div>
+<div class="category-item sub-category" onclick="selectCategory('fashion-photo')">👠 Fashion</div>
+<div class="category-item sub-category" onclick="selectCategory('street-photography')">🏙️ Street Photography</div>
+
+<!-- 3D Art & Models -->
+<div class="category-item" onclick="selectCategory('3d-art-models')">🧊 3D Art & Models</div>
+<div class="category-item sub-category" onclick="selectCategory('3d-models')">📦 3D Models</div>
+<div class="category-item sub-category" onclick="selectCategory('3d-characters')">🤖 3D Characters</div>
+<div class="category-item sub-category" onclick="selectCategory('3d-objects')">🏺 3D Objects</div>
+<div class="category-item sub-category" onclick="selectCategory('3d-environments')">🌐 3D Environments</div>
+<div class="category-item sub-category" onclick="selectCategory('3d-interior-design')">🛋️ 3D Interior Design</div>
+<div class="category-item sub-category" onclick="selectCategory('3d-product-design')">📱 3D Product Design</div>
+<div class="category-item sub-category" onclick="selectCategory('3d-architecture')">🏢 3D Architecture</div>
+<div class="category-item sub-category" onclick="selectCategory('3d-sculptures')">🗿 3D Sculptures</div>
+
+<!-- Graphics & Design -->
+<div class="category-item" onclick="selectCategory('graphics-design')">💻 Graphics & Design</div>
+<div class="category-item sub-category" onclick="selectCategory('icons')">🔘 Icons</div>
+<div class="category-item sub-category" onclick="selectCategory('logos')">🏷️ Logos</div>
+<div class="category-item sub-category" onclick="selectCategory('vector-graphics')">📐 Vector Graphics</div>
+<div class="category-item sub-category" onclick="selectCategory('patterns')">🏁 Patterns</div>
+<div class="category-item sub-category" onclick="selectCategory('textures')">📜 Textures</div>
+<div class="category-item sub-category" onclick="selectCategory('brushes')">🖌️ Brushes</div>
+<div class="category-item sub-category" onclick="selectCategory('clipart')">✂️ Clipart</div>
+<div class="category-item sub-category" onclick="selectCategory('graphic-elements')">🧩 Graphic Elements</div>
+<div class="category-item sub-category" onclick="selectCategory('backgrounds')">🖼️ Backgrounds</div>
+
+<!-- Templates -->
+<div class="category-item" onclick="selectCategory('templates')">📄 Templates</div>
+<div class="category-item sub-category" onclick="selectCategory('social-media-templates')">📱 Social Media Templates</div>
+<div class="category-item sub-category" onclick="selectCategory('poster-templates')">🖼️ Poster Templates</div>
+<div class="category-item sub-category" onclick="selectCategory('business-templates')">💼 Business Templates</div>
+<div class="category-item sub-category" onclick="selectCategory('presentation-templates')">📊 Presentation Templates</div>
+<div class="category-item sub-category" onclick="selectCategory('resume-templates')">📑 Resume Templates</div>
+<div class="category-item sub-category" onclick="selectCategory('invitation-templates')">✉️ Invitation Templates</div>
+<div class="category-item sub-category" onclick="selectCategory('website-templates')">🌐 Website Templates</div>
+<div class="category-item sub-category" onclick="selectCategory('canva-templates')">🎨 Canva Templates</div>
+
+<!-- Fonts & Typography -->
+<div class="category-item" onclick="selectCategory('fonts-typography')">🔤 Fonts & Typography</div>
+<div class="category-item sub-category" onclick="selectCategory('fonts')">🔠 Fonts</div>
+<div class="category-item sub-category" onclick="selectCategory('display-fonts')">🖥️ Display Fonts</div>
+<div class="category-item sub-category" onclick="selectCategory('handwritten-fonts')">✍️ Handwritten Fonts</div>
+<div class="category-item sub-category" onclick="selectCategory('luxury-fonts')">💎 Luxury Fonts</div>
+<div class="category-item sub-category" onclick="selectCategory('minimal-fonts')">▫️ Minimal Fonts</div>
+<div class="category-item sub-category" onclick="selectCategory('calligraphy-fonts')">✒️ Calligraphy Fonts</div>
+<div class="category-item sub-category" onclick="selectCategory('arabic-fonts')">🕌 Arabic Fonts</div>
+
+<!-- Crafts -->
+<div class="category-item" onclick="selectCategory('crafts')">✂️ Crafts</div>
+<div class="category-item sub-category" onclick="selectCategory('craft-patterns')">🏁 Patterns</div>
+<div class="category-item sub-category" onclick="selectCategory('sewing-patterns')">🧵 Sewing Patterns</div>
+<div class="category-item sub-category" onclick="selectCategory('craft-templates')">📐 Craft Templates</div>
+<div class="category-item sub-category" onclick="selectCategory('laser-cut-files')">⚡ Laser Cut Files</div>
+<div class="category-item sub-category" onclick="selectCategory('svg-designs')">🎨 SVG Designs</div>
+<div class="category-item sub-category" onclick="selectCategory('cricut-designs')">🔪 Cricut Designs</div>
+<div class="category-item sub-category" onclick="selectCategory('embroidery-designs')">🪡 Embroidery Designs</div>
+
+<!-- Resources -->
+<div class="category-item" onclick="selectCategory('resources')">📦 Resources</div>
+<div class="category-item sub-category" onclick="selectCategory('presets')">🎛️ Presets</div>
+<div class="category-item sub-category" onclick="selectCategory('luts')">🎬 LUTs</div>
+<div class="category-item sub-category" onclick="selectCategory('lightroom-presets')">📸 Lightroom Presets</div>
+<div class="category-item sub-category" onclick="selectCategory('photoshop-actions')">🪄 Photoshop Actions</div>
+<div class="category-item sub-category" onclick="selectCategory('brush-packs')">🖌️ Brush Packs</div>
+<div class="category-item sub-category" onclick="selectCategory('texture-packs')">📜 Texture Packs</div>
+<div class="category-item sub-category" onclick="selectCategory('stock-graphics')">📊 Stock Graphics</div>
+<div class="category-item sub-category" onclick="selectCategory('stock-images')">🖼️ Stock Images</div>
+
+<!-- Other Categories -->
+<div class="category-item" onclick="selectCategory('wall-art')">🖼️ Wall Art</div>
+<div class="category-item" onclick="selectCategory('paintings')">🎨 Paintings</div>
+<div class="category-item" onclick="selectCategory('drawings')">✏️ Drawings</div>
+<div class="category-item" onclick="selectCategory('illustrations')">✒️ Illustrations</div>
+<div class="category-item" onclick="selectCategory('sculpture')">🗿 Sculpture</div>
+<div class="category-item" onclick="selectCategory('photography')">📷 Photography</div>
+<div class="category-item" onclick="selectCategory('posters')">🎬 Posters</div>
+<div class="category-item" onclick="selectCategory('prints')">🖨️ Prints</div>
+<div class="category-item" onclick="selectCategory('crafts')">🧶 Crafts</div>
+<div class="category-item" onclick="selectCategory('wood-art')">🪵 Wood Art</div>
+<div class="category-item" onclick="selectCategory('metal-art')">⚙️ Metal Art</div>
+<div class="category-item" onclick="selectCategory('ceramic-art')">🏺 Ceramic Art</div>
+<div class="category-item" onclick="selectCategory('glass-art')">🍷 Glass Art</div>
+<div class="category-item" onclick="selectCategory('textile-art')">🧵 Textile Art</div>
+<div class="category-item" onclick="selectCategory('calligraphy')">✒️ Calligraphy</div>
+<div class="category-item" onclick="selectCategory('portrait-art')">👤 Portrait Art</div>
+<div class="category-item" onclick="selectCategory('custom-art')">🎁 Custom Art</div>
+<div class="category-item" onclick="selectCategory('decorative-art')">🏺 Decorative Art</div>
+<div class="category-item" onclick="selectCategory('art-collectibles')">🏆 Art Collectibles</div>
+<div class="category-item" onclick="selectCategory('classic-art')">🏛️ Classic Art</div>
+
+</div>
+  <button class="category-next" onclick="scrollCategories(300)">
+        ▶
+    </button>
+    </div>
+  
+
+</div>
+
+    <!-- NAVBAR -->
+<nav class="navbar">
+
+    <!-- LEFT -->
+    <div class="nav-left">
+
+        <div class="logo-menu-btn" onclick="toggleSidebar()">
+
+            <img
+                src="ChatGPT Image Apr 28, 2026, 05_39_55 PM.png"
+                alt="LeanGelo"
+            >
+
+        </div>
+
+    </div>
+
+
+    <!-- CENTER -->
+<ul class="nav-links">
+
+    <li>
+        <a href="landing.html">
+            🏠 Home
+        </a>
+    </li>
+
+    <li>
+        <a href="#productsGrid">
+            🎨 Artworks
+        </a>
+    </li>
+
+    <li>
+        <a href="about.html">
+            ✨ About
+        </a>
+    </li>
+
+    <li>
+        <a href="contact.html">
+            📩 Contact
+        </a>
+    </li>
+
+    <!-- Shop Manager -->
+    <li>
+        <a href="shop-manager.html">
+            🏪 Shop Manager
+        </a>
+    </li>
+
+    <!-- Notifications -->
+    <li>
+        <a href="notifications.html" class="notification-link">
+            🔔 Notifications
+            <span class="notification-badge">3</span>
+        </a>
+    </li>
+
+    <!-- Login -->
+    <li id="loginListItem">
+        <a href="#" id="loginBtn" onclick="googleLogin(); return false;">
+            🔐 Login
+        </a>
+    </li>
+
+</ul>   
+
+
+    <!-- RIGHT -->
+<div class="nav-right">
+
+    <div
+        id="userProfile"
+        class="user-profile"
+        style="display:none; cursor:pointer;"
+        onclick="toggleSidebar()"
+    >
+
+        <img
+            id="profilePhoto"
+            src="assets/default-profile.png"
+            alt="Profile"
+        >
+
+        <span id="profileName">
+            User
+        </span>
+
+    </div>
+
+</div>
+
+</nav>
+
+    <!-- LOADING SCREEN -->
+    <div id="loadingScreen">
+        <div class="loader-box">
+            <h2>Processing Order...</h2>
+            <div class="loading-bar">
+                <div id="loadingFill"></div>
+            </div>
+            <p id="loadingPercent">0%</p>
+        </div>
+    </div>
+<!-- SEARCH & CATEGORY -->
+<div class="search-row">
+
+    <!-- SEARCH -->
+    <div class="search-box">
+        <span class="search-icon">🔍</span>
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Search artworks, posters, logos..."
+            oninput="filterProducts()"
+        >
+    </div>
+
+
+    <!-- CATEGORY DROPDOWN -->
+    <div class="category-dropdown-wrapper">
+
+        <button
+            type="button"
+            id="categoryDropdownBtn"
+            class="category-dropdown-btn"
+            onclick="toggleCategoryDropdown()"
+        >
+            <span id="selectedCategoryText">
+                🎨 All Categories
+            </span>
+
+            <span class="category-arrow">⌄</span>
+        </button>
+
+
+        <div
+            id="categoryDropdown"
+            class="category-dropdown"
+        >
+
+            <!-- CATEGORY SEARCH -->
+            <div class="category-search-box">
+
+                <span>🔍</span>
+
+                <input
+                    type="text"
+                    id="categorySearchInput"
+                    placeholder="Search categories..."
+                    oninput="searchCategories()"
+                >
+
+            </div>
+
+
+            <!-- ALL -->
+            <div
+                class="category-option active"
+                data-category=""
+                onclick="selectCategoryFilter('', '🎨 All Categories')"
+            >
+                <span>🎨</span>
+                <span>All Categories</span>
+            </div>
+
+
+            <!-- GENERATED CATEGORIES -->
+            <div id="categoryOptions"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+    <!-- PRODUCTS GRID -->
+    <div class="products-grid" id="productsGrid"></div>
+
+    <!-- IMAGE MODAL -->
+    <div id="imageModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div class="view-layout">
+                <img id="modalImage" alt="Artwork preview">
+                <h2 id="modalTitle"></h2>
+                <div class="price" id="modalPrice"></div>
+                <div class="product-description">
+                    <p id="modalDescription"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CHECKOUT MODAL -->
+    <div id="checkoutModal" class="modal">
+        <div class="modal-content glass">
+            <span class="close" onclick="closeCheckout()">&times;</span>
+            <h2>Checkout</h2>
+            <div class="check">
+                <input type="text" placeholder="Full Name" id="fullname">
+                <input type="text" placeholder="Address" id="address">
+                <input type="text" placeholder="Phone Number" id="phonenumber">
+                <input type="text" placeholder="Postal Code" id="postal">
+                <textarea placeholder="Notes (optional)" id="notes"></textarea>
+            </div>
+            <p class="price">Payment Gateway Coming Soon</p>
+            <button class="btn-lux" onclick="placeOrder()">Place Order</button>
+        </div>
+    </div>
+
+    <!-- CART PANEL -->
+    <div id="cartPanel" class="cart-panel glass">
+        <div class="cart-header">
+            <span class="cart-close" onclick="closeCart()">✖</span>
+        </div>
+        <h2>🛒 Your Cart</h2>
+        <div id="cartItems"></div>
+        <h3>Total: Rs <span id="cartTotal">0</span></h3>
+        <button class="checkout-btn" onclick="goCheckoutPage()">Checkout</button>
+    </div>
+
+    <!-- CONNECTING OVERLAY -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-box">
+            <div class="loader"></div>
+            <div class="loading-text">
+                Connecting to seller<span id="loadingDots">.</span>
+            </div>
+        </div>
+    </div>
+
+<!-- CART NOTIFICATION -->
+<div id="cartNotification" class="cart-notification">
+    <div class="cart-notification-icon">✓</div>
+
+    <div class="cart-notification-content">
+        <strong>Added to Cart</strong>
+        <span id="cartNotificationText">
+            Item has been added to your cart.
+        </span>
+    </div>
+
+    <button onclick="closeCartNotification()">×</button>
+</div>
+<!-- ================= PAGE LOADING SCREEN ================= -->
+
+<div id="loadingScreen" class="page-loader">
+
+    <div class="loader-content">
+
+        <div class="loader-logo">
+            Lean<span>Gelo</span>
+        </div>
+
+        <div class="loader-spinner"></div>
+
+        <div class="loading-text">
+            Loading Products<span id="loadingDots">...</span>
+        </div>
+
+        <div class="progress-container">
+
+            <div
+                id="loadingProgress"
+                class="progress-bar"
+            ></div>
+
+        </div>
+
+        <div
+            id="loadingPercent"
+            class="loading-percent"
+        >
+            0%
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="toast.js"></script>
+</body>
+</html>

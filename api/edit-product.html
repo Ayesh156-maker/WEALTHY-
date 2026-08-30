@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Edit Product</title>
+
+  <link rel="stylesheet" href="edit-product.css">
+
+  <script type="module" src="edit-product.js"></script>
+</head>
+
+<body>
+
+
+
+<div class="container">
+
+  <a href="products.html" class="backBtn">
+    ← Back to Products
+  </a>
+
+  <h1>Edit Product</h1>
+
+  <div class="preview-box">
+    <img id="previewImage" src="" alt="Product Preview">
+</div>
+
+  <form id="editForm">
+
+    <input
+      type="text"
+      id="brand"
+      placeholder="Brand Name"
+      required
+    >
+
+    <input
+      type="number"
+      id="price"
+      placeholder="Price"
+      required
+    >
+
+    <input
+      type="text"
+      id="image"
+      placeholder="Image URL"
+      required
+    >
+
+    <textarea
+      id="description"
+      placeholder="Product Description"
+    ></textarea>
+
+    <button type="submit">
+      Update Product
+    </button>
+
+  </form>
+
+</div>
+
+<script src="toast.js"></script>
+</body>
+</html>

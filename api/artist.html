@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Become an Artist | LeanGelo</title>
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.2/build/css/intlTelInput.css"
+>
+    <link rel="stylesheet" href="artist.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- ==================================================
+         HEADER
+    ================================================== -->
+
+    <h1>Become a LeanGelo Artist</h1>
+
+    <p>
+        Join our luxury marketplace and sell your artwork worldwide.
+    </p>
+
+
+    <!-- ==================================================
+         ARTIST FORM
+    ================================================== -->
+
+    <form id="artistForm">
+
+        <!-- ==================================================
+             PERSONAL INFORMATION
+        ================================================== -->
+
+        <h2>Personal Information</h2>
+
+
+        <label for="name">
+            Full Name *
+        </label>
+
+        <input
+            type="text"
+            id="name"
+            placeholder="John Smith"
+            required
+        >
+
+
+        <label for="email">
+            Google Email *
+        </label>
+
+        <input
+            type="email"
+            id="email"
+            placeholder="your@gmail.com"
+            readonly
+            required
+        >
+
+
+        <!-- ==================================================
+             GOOGLE ACCOUNT
+        ================================================== -->
+
+        <div class="google-login-box">
+
+            <p>
+                Verify your Google account before becoming an artist.
+            </p>
+
+            <button
+                type="button"
+                id="googleSignInBtn"
+            >
+                Continue with Google
+            </button>
+
+            <div
+                id="googleStatus"
+                style="margin-top:10px;"
+            ></div>
+
+        </div>
+<label for="phone">
+    Phone Number *
+</label>
+
+<input
+    type="tel"
+    id="phone"
+    placeholder="77 123 4567"
+    required
+>
+
+        <!-- ==================================================
+             LOCATION
+        ================================================== -->
+
+        <h2>Location</h2>
+
+
+        <label for="country">
+            Country *
+        </label>
+
+        <select
+            id="country"
+            required
+        >
+
+            <option value="">
+                Loading countries...
+            </option>
+
+        </select>
+
+
+        <label for="city">
+            City *
+        </label>
+
+        <select
+            id="city"
+            required
+            disabled
+        >
+
+            <option value="">
+                Select country first
+            </option>
+
+        </select>
+
+
+        <label for="address">
+            Full Address *
+        </label>
+
+        <textarea
+            id="address"
+            rows="4"
+            placeholder="House number, street, area, etc."
+            required
+        ></textarea>
+
+
+        <label for="postalCode">
+            Postal Code *
+        </label>
+
+        <input
+            type="text"
+            id="postalCode"
+            placeholder="10100"
+            required
+        >
+
+
+        <!-- ==================================================
+             PROFILE
+        ================================================== -->
+
+
+
+        <label for="bio">
+            Bio *
+        </label>
+
+        <textarea
+            id="bio"
+            rows="5"
+            placeholder="Tell us about yourself..."
+            required
+        ></textarea>
+
+
+        <!-- ==================================================
+             ART INFORMATION
+        ================================================== -->
+
+        <h2>Art Information</h2>
+
+
+        <label id="categoryLabel">
+            Art Categories * (0/5)
+        </label>
+
+
+<div id="categoryBox">
+
+    <div id="selectedCategories"></div>
+
+    <select id="category">
+
+        <option value="">
+            Select Category
+        </option>
+
+
+        <!-- ==================================================
+             DIGITAL ART
+        ================================================== -->
+
+        <optgroup label="DIGITAL ART">
+
+            <option value="Digital Art">
+                Digital Art
+            </option>
+
+            <option value="Printable Art">
+                Printable Art
+            </option>
+
+            <option value="Digital Illustrations">
+                Digital Illustrations
+            </option>
+
+            <option value="Digital Typography">
+                Digital Typography
+            </option>
+
+            <option value="Digital Posters">
+                Digital Posters
+            </option>
+
+            <option value="Digital Photography">
+                Digital Photography
+            </option>
+
+            <option value="3D Art & Models">
+                3D Art & Models
+            </option>
+
+            <option value="Graphics & Design">
+                Graphics & Design
+            </option>
+
+            <option value="Templates">
+                Templates
+            </option>
+
+            <option value="Fonts & Typography">
+                Fonts & Typography
+            </option>
+
+            <option value="Digital Crafts">
+                Digital Crafts
+            </option>
+
+            <option value="Digital Resources">
+                Digital Resources
+            </option>
+
+        </optgroup>
+
+
+        <!-- ==================================================
+             TRADITIONAL / PHYSICAL ART
+        ================================================== -->
+
+        <optgroup label="TRADITIONAL & PHYSICAL ART">
+
+            <option value="Wall Art">
+                Wall Art
+            </option>
+
+            <option value="Paintings">
+                Paintings
+            </option>
+
+            <option value="Drawings">
+                Drawings
+            </option>
+
+            <option value="Illustrations">
+                Illustrations
+            </option>
+
+            <option value="Sculpture">
+                Sculpture
+            </option>
+
+            <option value="Photography">
+                Photography
+            </option>
+
+            <option value="Posters">
+                Posters
+            </option>
+
+            <option value="Prints">
+                Prints
+            </option>
+
+            <option value="Crafts">
+                Crafts
+            </option>
+
+            <option value="Wood Art">
+                Wood Art
+            </option>
+
+            <option value="Metal Art">
+                Metal Art
+            </option>
+
+            <option value="Ceramic Art">
+                Ceramic Art
+            </option>
+
+            <option value="Glass Art">
+                Glass Art
+            </option>
+
+            <option value="Textile Art">
+                Textile Art
+            </option>
+
+            <option value="Calligraphy">
+                Calligraphy
+            </option>
+
+            <option value="Portrait Art">
+                Portrait Art
+            </option>
+
+            <option value="Custom Art">
+                Custom Art
+            </option>
+
+            <option value="Decorative Art">
+                Decorative Art
+            </option>
+
+            <option value="Art Collectibles">
+                Art Collectibles
+            </option>
+
+            <option value="Traditional Art">
+                Traditional Art
+            </option>
+
+        </optgroup>
+
+    </select>
+
+</div>
+
+        <!-- ==================================================
+             EXPERIENCE
+        ================================================== -->
+
+        <label for="experience">
+            Years of Experience *
+        </label>
+
+        <input
+            type="number"
+            id="experience"
+            min="0"
+            max="60"
+            placeholder="5"
+            required
+        >
+
+
+        <!-- ==================================================
+             COMMISSION
+        ================================================== -->
+
+        <label for="commission">
+            Commission Available
+        </label>
+
+        <select id="commission">
+
+            <option value="Yes">
+                Yes
+            </option>
+
+            <option value="No">
+                No
+            </option>
+
+        </select>
+
+
+        <!-- ==================================================
+             PORTFOLIO
+        ================================================== -->
+
+        <h2>Portfolio Images</h2>
+
+
+        <label for="portfolio">
+            Upload Your Best Artwork
+        </label>
+
+        <input
+            type="file"
+            id="portfolio"
+            accept="image/*"
+            multiple
+        >
+
+
+        <!-- ==================================================
+             TERMS
+        ================================================== -->
+
+        <div class="terms">
+
+            <input
+                type="checkbox"
+                id="agree"
+                required
+            >
+
+            <label for="agree">
+
+                I agree to the
+                <a href="#">
+                    Terms & Conditions
+                </a>
+
+                and
+
+                <a href="#">
+                    Privacy Policy
+                </a>.
+
+            </label>
+
+        </div>
+
+
+        <br>
+
+
+        <!-- ==================================================
+             SUBMIT
+        ================================================== -->
+
+        <button
+            type="submit"
+            id="submitBtn"
+            disabled
+        >
+
+            <span id="btnText">
+                Verify Google Account First
+            </span>
+
+            <span
+                id="loader"
+                class="loader"
+                style="display:none;"
+            ></span>
+
+        </button>
+
+
+    </form>
+
+</div>
+
+
+<!-- ==================================================
+     FIREBASE JS
+================================================== -->
+
+<script
+    type="module"
+    src="artist.js"
+>
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.2/build/js/intlTelInput.min.js"></script>
+<script src="toast.js"></script>
+<script src="toast.js"></script>
+</body>
+
+</html>

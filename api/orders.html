@@ -1,0 +1,3103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Seller Orders | LeanGelo</title>
+
+    <style>
+/* =========================================================
+   LEANGELO SELLER ORDERS
+   BLACK + GOLD LUXURY THEME
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --black: #050505;
+    --black-2: #0a0a0a;
+    --black-3: #11100d;
+
+    --gold: #d4af37;
+    --gold-light: #f3d675;
+    --gold-dark: #8f6f16;
+    --gold-soft: #b9972e;
+
+    --text: #f5f5f5;
+    --muted: #9b9b9b;
+
+    --border: rgba(212, 175, 55, 0.18);
+    --border-hover: rgba(212, 175, 55, 0.55);
+
+    --glass: rgba(255, 255, 255, 0.035);
+}
+
+
+/* =========================================================
+   BODY
+========================================================= */
+
+body {
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background:
+
+        radial-gradient(
+            circle at 10% 0%,
+            rgba(212, 175, 55, 0.10),
+            transparent 28%
+        ),
+
+        radial-gradient(
+            circle at 90% 10%,
+            rgba(212, 175, 55, 0.07),
+            transparent 25%
+        ),
+
+        radial-gradient(
+            circle at 50% 100%,
+            rgba(212, 175, 55, 0.045),
+            transparent 35%
+        ),
+
+        #050505;
+
+    color: var(--text);
+
+    min-height: 100vh;
+
+    padding: 25px;
+
+    overflow-x: hidden;
+}
+
+
+/* subtle luxury light */
+
+body::before {
+
+    content: "";
+
+    position: fixed;
+
+    width: 500px;
+    height: 500px;
+
+    top: -250px;
+    left: -250px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(212,175,55,0.07),
+            transparent 65%
+        );
+
+    pointer-events: none;
+
+    animation: ambientGlow 8s ease-in-out infinite alternate;
+
+    z-index: -1;
+}
+
+
+@keyframes ambientGlow {
+
+    from {
+        transform: translate(0, 0);
+        opacity: 0.5;
+    }
+
+    to {
+        transform: translate(120px, 80px);
+        opacity: 1;
+    }
+}
+
+
+/* =========================================================
+   MAIN CONTAINER
+========================================================= */
+
+.container {
+
+    max-width: 1450px;
+
+    margin: auto;
+}
+
+
+/* =========================================================
+   TOP BAR
+========================================================= */
+
+.top-bar {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 25px;
+
+    animation:
+        fadeDown 0.7s ease both;
+}
+
+
+@keyframes fadeDown {
+
+    from {
+        opacity: 0;
+        transform: translateY(-15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.brand {
+
+    font-size: 26px;
+
+    font-weight: 900;
+
+    letter-spacing: 2px;
+
+    color: #fff;
+
+    text-transform: uppercase;
+
+    position: relative;
+}
+
+
+.brand span {
+
+    color: var(--gold);
+
+    text-shadow:
+        0 0 10px rgba(212,175,55,0.35);
+
+}
+
+
+/* =========================================================
+   TOP BUTTONS
+========================================================= */
+
+.top-actions {
+
+    display: flex;
+
+    gap: 10px;
+}
+
+
+.top-btn {
+
+    border: 1px solid var(--border);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.05),
+            rgba(255,255,255,0.015)
+        );
+
+    color: #ddd;
+
+    padding: 11px 18px;
+
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    transition:
+        0.3s ease;
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+
+.top-btn::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -120%;
+
+    width: 80%;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,0.12),
+            transparent
+        );
+
+    transform: skewX(-20deg);
+
+    transition: 0.5s;
+}
+
+
+.top-btn:hover::before {
+
+    left: 140%;
+}
+
+
+.top-btn:hover {
+
+    color: var(--gold-light);
+
+    border-color: var(--gold);
+
+    background:
+        rgba(212,175,55,0.06);
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 25px rgba(212,175,55,0.10);
+}
+
+
+/* =========================================================
+   PROFILE CARD
+========================================================= */
+
+.profile-card {
+
+    position: relative;
+
+    background:
+
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.055),
+            rgba(255,255,255,0.012)
+        );
+
+    border: 1px solid var(--border);
+
+    border-radius: 22px;
+
+    padding: 28px;
+
+    display: grid;
+
+    grid-template-columns:
+        auto
+        1fr
+        auto
+        auto;
+
+    align-items: center;
+
+    gap: 25px;
+
+    box-shadow:
+
+        0 25px 80px rgba(0,0,0,0.55),
+
+        inset 0 1px 0
+        rgba(255,255,255,0.035);
+
+    backdrop-filter: blur(15px);
+
+    animation:
+        cardAppear 0.8s ease both;
+
+    overflow: hidden;
+}
+
+
+@keyframes cardAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+
+/* gold top line */
+
+.profile-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 8%;
+    right: 8%;
+
+    height: 1px;
+
+    background:
+
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--gold),
+            transparent
+        );
+
+    opacity: 0.7;
+}
+
+
+/* moving glow */
+
+.profile-card::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 180px;
+    height: 180px;
+
+    right: -100px;
+    top: -100px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(212,175,55,0.12),
+            transparent 70%
+        );
+
+    animation:
+        floatingGlow 6s ease-in-out infinite alternate;
+
+    pointer-events: none;
+}
+
+
+@keyframes floatingGlow {
+
+    from {
+        transform: translate(0,0);
+    }
+
+    to {
+        transform: translate(-80px,80px);
+    }
+}
+
+
+/* =========================================================
+   AVATAR
+========================================================= */
+
+.avatar {
+
+    width: 92px;
+    height: 92px;
+
+    border-radius: 18px;
+
+    object-fit: cover;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #18150c,
+            #050505
+        );
+
+    border: 1px solid var(--gold-dark);
+
+    box-shadow:
+
+        0 0 0 1px
+        rgba(212,175,55,0.08),
+
+        0 12px 35px
+        rgba(0,0,0,0.6),
+
+        0 0 25px
+        rgba(212,175,55,0.08);
+
+    transition: 0.35s ease;
+
+    animation:
+        avatarFloat 4s ease-in-out infinite;
+}
+
+
+@keyframes avatarFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-4px);
+    }
+}
+
+
+.avatar:hover {
+
+    transform: scale(1.04);
+
+    border-color: var(--gold);
+
+    box-shadow:
+        0 0 30px
+        rgba(212,175,55,0.18);
+}
+
+
+/* =========================================================
+   PROFILE INFO
+========================================================= */
+
+.profile-info h1 {
+
+    font-size: 25px;
+
+    margin-bottom: 8px;
+
+    letter-spacing: 0.3px;
+}
+
+
+.profile-info p {
+
+    color: var(--muted);
+
+    font-size: 14px;
+
+    margin-bottom: 12px;
+}
+
+
+/* =========================================================
+   SELLER BADGE
+========================================================= */
+
+.seller-badge {
+
+    display: inline-block;
+
+    padding: 7px 13px;
+
+    border-radius: 999px;
+
+    background:
+        rgba(212,175,55,0.08);
+
+    border:
+        1px solid
+        rgba(212,175,55,0.35);
+
+    color: var(--gold-light);
+
+    font-size: 12px;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+
+    box-shadow:
+        0 0 15px
+        rgba(212,175,55,0.05);
+
+    animation:
+        badgePulse 3s ease-in-out infinite;
+}
+
+
+@keyframes badgePulse {
+
+    0%,
+    100% {
+        box-shadow:
+            0 0 10px
+            rgba(212,175,55,0.04);
+    }
+
+    50% {
+        box-shadow:
+            0 0 22px
+            rgba(212,175,55,0.12);
+    }
+}
+
+
+/* =========================================================
+   PROFILE ORDER
+========================================================= */
+
+.profile-order {
+
+    text-align: center;
+
+    min-width: 150px;
+
+    padding: 10px 20px;
+}
+
+
+.profile-order-icon {
+
+    font-size: 30px;
+
+    margin-bottom: 5px;
+
+    filter:
+        drop-shadow(
+            0 0 8px
+            rgba(212,175,55,0.3)
+        );
+}
+
+
+.profile-order-title {
+
+    color: #929292;
+
+    font-size: 13px;
+}
+
+
+.profile-order-price {
+
+    margin-top: 5px;
+
+    color: var(--gold-light);
+
+    font-size: 21px;
+
+    font-weight: bold;
+
+    text-shadow:
+        0 0 15px
+        rgba(212,175,55,0.25);
+}
+
+
+/* =========================================================
+   CONTACT
+========================================================= */
+
+.contact-box {
+
+    min-width: 190px;
+}
+
+
+.contact-item {
+
+    color: #c8c8c8;
+
+    margin: 9px 0;
+
+    font-size: 14px;
+
+    transition: 0.25s;
+}
+
+
+.contact-item:hover {
+
+    color: #fff;
+
+    transform: translateX(3px);
+}
+
+
+.contact-item span:first-child {
+
+    color: var(--gold);
+
+    margin-right: 7px;
+
+    filter:
+        drop-shadow(
+            0 0 5px
+            rgba(212,175,55,0.35)
+        );
+}
+
+
+/* =========================================================
+   ORDERS SECTION
+========================================================= */
+
+.orders-section {
+
+    position: relative;
+
+    margin-top: 25px;
+
+    background:
+
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.045),
+            rgba(255,255,255,0.01)
+        );
+
+    border: 1px solid var(--border);
+
+    border-radius: 22px;
+
+    padding: 25px;
+
+    box-shadow:
+
+        0 25px 80px
+        rgba(0,0,0,0.45),
+
+        inset 0 1px 0
+        rgba(255,255,255,0.025);
+
+    backdrop-filter: blur(15px);
+
+    animation:
+        cardAppear 1s ease both;
+
+    overflow: hidden;
+}
+
+
+.orders-section::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 10%;
+    right: 10%;
+
+    height: 1px;
+
+    background:
+
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(212,175,55,0.45),
+            transparent
+        );
+}
+
+
+/* =========================================================
+   ORDERS HEADER
+========================================================= */
+
+.orders-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 25px;
+
+    gap: 15px;
+}
+
+
+.orders-title {
+
+    font-size: 27px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.5px;
+}
+
+
+.orders-title::after {
+
+    content: "";
+
+    display: block;
+
+    width: 60px;
+    height: 3px;
+
+    background:
+
+        linear-gradient(
+            90deg,
+            var(--gold-dark),
+            var(--gold-light),
+            var(--gold-dark)
+        );
+
+    margin-top: 9px;
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 0 12px
+        rgba(212,175,55,0.25);
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+.search-box {
+
+    background:
+        rgba(0,0,0,0.35);
+
+    border:
+        1px solid
+        rgba(255,255,255,0.08);
+
+    color: white;
+
+    padding: 12px 15px;
+
+    border-radius: 12px;
+
+    width: 260px;
+
+    outline: none;
+
+    transition: 0.3s;
+}
+
+
+.search-box::placeholder {
+
+    color: #6e6e6e;
+}
+
+
+.search-box:focus {
+
+    border-color: var(--gold);
+
+    box-shadow:
+
+        0 0 0 3px
+        rgba(212,175,55,0.07),
+
+        0 0 20px
+        rgba(212,175,55,0.06);
+}
+
+
+/* =========================================================
+   ORDERS GRID
+========================================================= */
+
+#ordersContainer {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
+}
+
+
+/* =========================================================
+   ORDER CARD
+========================================================= */
+
+.order-card {
+
+    position: relative;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,0.035),
+            rgba(255,255,255,0.008)
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,0.075);
+
+    border-radius: 18px;
+
+    padding: 20px;
+
+    display: grid;
+
+    grid-template-columns:
+        1.1fr
+        1.4fr
+        0.55fr;
+
+    gap: 20px;
+
+    align-items: center;
+
+    transition:
+        transform 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+
+    animation:
+        orderAppear 0.5s ease both;
+}
+
+
+@keyframes orderAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+.order-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    top: 15%;
+
+    width: 2px;
+    height: 70%;
+
+    background:
+
+        linear-gradient(
+            transparent,
+            var(--gold),
+            transparent
+        );
+
+    opacity: 0;
+
+    transition: 0.3s;
+}
+
+
+.order-card:hover {
+
+    transform: translateY(-4px);
+
+    border-color: var(--border-hover);
+
+    box-shadow:
+
+        0 18px 50px
+        rgba(0,0,0,0.5),
+
+        0 0 25px
+        rgba(212,175,55,0.05);
+}
+
+
+.order-card:hover::before {
+
+    opacity: 1;
+}
+
+
+/* =========================================================
+   CUSTOMER
+========================================================= */
+
+.customer {
+
+    min-width: 0;
+}
+
+
+.customer-top {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 15px;
+}
+
+
+.customer-avatar {
+
+    width: 48px;
+    height: 48px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #241f10,
+            #0b0b09
+        );
+
+    border:
+        1px solid
+        rgba(212,175,55,0.35);
+
+    color: var(--gold-light);
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+    box-shadow:
+        0 0 15px
+        rgba(212,175,55,0.06);
+
+    transition: 0.3s;
+}
+
+
+.order-card:hover .customer-avatar {
+
+    border-color: var(--gold);
+
+    box-shadow:
+        0 0 20px
+        rgba(212,175,55,0.12);
+}
+
+
+.customer-name {
+
+    font-size: 17px;
+
+    font-weight: bold;
+}
+
+
+.customer-email {
+
+    font-size: 12px;
+
+    color: #858585;
+
+    margin-top: 4px;
+}
+
+
+.info {
+
+    color: #bdbdbd;
+
+    font-size: 13px;
+
+    margin: 8px 0;
+
+    line-height: 1.4;
+}
+
+
+.info-icon {
+
+    display: inline-block;
+
+    width: 24px;
+
+    color: var(--gold);
+}
+
+
+/* =========================================================
+   ORDER ID
+========================================================= */
+
+.order-id {
+
+    margin-top: 13px;
+
+    font-size: 11px;
+
+    color: var(--gold-soft);
+
+    background:
+        rgba(212,175,55,0.06);
+
+    border:
+        1px solid
+        rgba(212,175,55,0.12);
+
+    display: inline-block;
+
+    padding: 6px 9px;
+
+    border-radius: 7px;
+}
+
+
+/* =========================================================
+   PRODUCT
+========================================================= */
+
+.product-box {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 17px;
+
+    background:
+        rgba(0,0,0,0.32);
+
+    border:
+        1px solid
+        rgba(255,255,255,0.07);
+
+    padding: 13px;
+
+    border-radius: 15px;
+
+    transition: 0.3s;
+}
+
+
+.product-box:hover {
+
+    border-color:
+        rgba(212,175,55,0.3);
+
+    background:
+        rgba(212,175,55,0.025);
+}
+
+
+.product-image {
+
+    width: 90px;
+    height: 90px;
+
+    border-radius: 10px;
+
+    object-fit: cover;
+
+    background:
+        linear-gradient(
+            135deg,
+            #1b1913,
+            #090909
+        );
+
+    border:
+        1px solid
+        rgba(212,175,55,0.18);
+
+    transition: 0.35s;
+}
+
+
+.product-box:hover .product-image {
+
+    transform: scale(1.04);
+
+    border-color:
+        rgba(212,175,55,0.5);
+}
+
+
+.product-placeholder {
+
+    width: 90px;
+    height: 90px;
+
+    border-radius: 10px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background:
+        #15140f;
+
+    border:
+        1px solid
+        rgba(212,175,55,0.15);
+
+    font-size: 32px;
+}
+
+
+.product-info {
+
+    min-width: 0;
+}
+
+
+.product-name {
+
+    font-size: 17px;
+
+    font-weight: bold;
+
+    margin-bottom: 8px;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+
+.product-category {
+
+    color: #808080;
+
+    font-size: 12px;
+
+    margin-bottom: 10px;
+}
+
+
+.product-price {
+
+    color: var(--gold-light);
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    text-shadow:
+        0 0 12px
+        rgba(212,175,55,0.18);
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.status-box {
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-end;
+
+    gap: 18px;
+}
+
+
+.status {
+
+    display: inline-block;
+
+    padding: 8px 14px;
+
+    border-radius: 999px;
+
+    background:
+        rgba(212,175,55,0.08);
+
+    border:
+        1px solid
+        rgba(212,175,55,0.30);
+
+    color: var(--gold-light);
+
+    font-size: 12px;
+
+    font-weight: bold;
+
+    box-shadow:
+        0 0 15px
+        rgba(212,175,55,0.05);
+}
+
+
+.total-label {
+
+    color: #777;
+
+    font-size: 12px;
+}
+
+
+.total-price {
+
+    color: var(--gold-light);
+
+    font-size: 21px;
+
+    font-weight: bold;
+
+    margin-top: 4px;
+
+    text-shadow:
+        0 0 15px
+        rgba(212,175,55,0.2);
+}
+
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.empty {
+
+    text-align: center;
+
+    padding: 70px 20px;
+
+    color: #777;
+
+    animation:
+        fadeIn 0.6s ease;
+}
+
+
+@keyframes fadeIn {
+
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+
+.empty-icon {
+
+    font-size: 50px;
+
+    margin-bottom: 15px;
+
+    filter:
+        grayscale(0.3);
+}
+
+
+.empty h3 {
+
+    color: white;
+
+    margin-bottom: 8px;
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.stats {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    margin-top: 20px;
+
+    background:
+        rgba(0,0,0,0.35);
+
+    border:
+        1px solid
+        rgba(212,175,55,0.14);
+
+    border-radius: 18px;
+
+    overflow: hidden;
+
+    box-shadow:
+        inset 0 1px 0
+        rgba(255,255,255,0.025);
+}
+
+
+.stat {
+
+    text-align: center;
+
+    padding: 25px 15px;
+
+    border-right:
+        1px solid
+        rgba(212,175,55,0.10);
+
+    transition: 0.3s;
+}
+
+
+.stat:last-child {
+
+    border-right: none;
+}
+
+
+.stat:hover {
+
+    background:
+        rgba(212,175,55,0.025);
+
+    transform: translateY(-2px);
+}
+
+
+.stat-icon {
+
+    font-size: 28px;
+
+    margin-bottom: 8px;
+
+    transition: 0.3s;
+}
+
+
+.stat:hover .stat-icon {
+
+    transform:
+        translateY(-4px)
+        scale(1.08);
+}
+
+
+.stat-title {
+
+    color: #858585;
+
+    font-size: 12px;
+
+    margin-bottom: 7px;
+}
+
+
+.stat-value {
+
+    font-size: 23px;
+
+    font-weight: bold;
+
+    color: #eee;
+}
+
+
+.purple {
+
+    color: var(--gold);
+}
+
+
+.green {
+
+    color: var(--gold-light);
+}
+
+
+.yellow {
+
+    color: #e5c45c;
+}
+
+
+.blue {
+
+    color: #c9aa42;
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+.login-screen {
+
+    min-height: 80vh;
+
+    display: none;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+
+.login-card {
+
+    width: 380px;
+
+    background:
+
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.045),
+            rgba(255,255,255,0.01)
+        );
+
+    border:
+        1px solid
+        rgba(212,175,55,0.20);
+
+    border-radius: 20px;
+
+    padding: 35px;
+
+    text-align: center;
+
+    box-shadow:
+
+        0 30px 90px
+        rgba(0,0,0,0.65),
+
+        0 0 40px
+        rgba(212,175,55,0.04);
+
+    backdrop-filter: blur(15px);
+
+    animation:
+        loginAppear 0.7s ease both;
+}
+
+
+@keyframes loginAppear {
+
+    from {
+        opacity: 0;
+        transform: scale(0.94) translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+
+.login-card h1 {
+
+    margin-bottom: 10px;
+
+    letter-spacing: 0.5px;
+}
+
+
+.login-card p {
+
+    color: #8e8e95;
+
+    margin-bottom: 25px;
+}
+
+
+/* =========================================================
+   GOOGLE BUTTON
+========================================================= */
+
+.google-btn {
+
+    width: 100%;
+
+    border:
+        1px solid
+        rgba(212,175,55,0.35);
+
+    padding: 14px;
+
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #d4af37,
+            #f1d36a,
+            #b8860b
+        );
+
+    color: #090909;
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    transition: 0.3s;
+
+    box-shadow:
+        0 8px 25px
+        rgba(212,175,55,0.12);
+}
+
+
+.google-btn:hover {
+
+    transform: translateY(-3px);
+
+    box-shadow:
+
+        0 12px 35px
+        rgba(212,175,55,0.22);
+}
+
+
+.google-btn:active {
+
+    transform:
+        translateY(0)
+        scale(0.98);
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.loading {
+
+    text-align: center;
+
+    padding: 50px;
+
+    color: #aaa;
+}
+
+
+.spinner {
+
+    width: 35px;
+    height: 35px;
+
+    border:
+        3px solid
+        rgba(212,175,55,0.12);
+
+    border-top-color:
+        var(--gold);
+
+    border-right-color:
+        var(--gold-light);
+
+    border-radius: 50%;
+
+    animation:
+        spin 0.8s linear infinite;
+
+    margin:
+        auto auto 15px;
+
+    box-shadow:
+        0 0 18px
+        rgba(212,175,55,0.08);
+}
+
+
+@keyframes spin {
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+::-webkit-scrollbar {
+
+    width: 8px;
+}
+
+
+::-webkit-scrollbar-track {
+
+    background: #050505;
+}
+
+
+::-webkit-scrollbar-thumb {
+
+    background:
+        linear-gradient(
+            180deg,
+            #8f6f16,
+            #d4af37,
+            #8f6f16
+        );
+
+    border-radius: 10px;
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+
+    background:
+        #f1d36a;
+}
+
+
+/* =========================================================
+   SELECTION
+========================================================= */
+
+::selection {
+
+    background:
+        rgba(212,175,55,0.25);
+
+    color: white;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 1000px) {
+
+    .profile-card {
+
+        grid-template-columns:
+            auto 1fr;
+    }
+
+
+    .profile-order {
+
+        text-align: left;
+    }
+
+
+    .contact-box {
+
+        grid-column:
+            1 / -1;
+    }
+
+
+    .order-card {
+
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .status-box {
+
+        flex-direction: row;
+
+        align-items: center;
+
+        justify-content: space-between;
+    }
+
+
+    .stats {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+
+    .stat:nth-child(2) {
+
+        border-right: none;
+    }
+
+
+    .stat:nth-child(-n+2) {
+
+        border-bottom:
+            1px solid
+            rgba(212,175,55,0.10);
+    }
+}
+
+
+/* =========================================================
+   MOBILE SMALL
+========================================================= */
+
+@media (max-width: 650px) {
+
+    body {
+
+        padding: 12px;
+    }
+
+
+    .top-bar {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 15px;
+    }
+
+
+    .top-actions {
+
+        width: 100%;
+    }
+
+
+    .top-btn {
+
+        flex: 1;
+    }
+
+
+    .profile-card {
+
+        grid-template-columns:
+            1fr;
+
+        text-align: center;
+
+        padding: 22px;
+    }
+
+
+    .avatar {
+
+        margin: auto;
+    }
+
+
+    .profile-order {
+
+        text-align: center;
+
+        margin: auto;
+    }
+
+
+    .contact-box {
+
+        text-align: left;
+
+        width: 100%;
+    }
+
+
+    .orders-section {
+
+        padding: 15px;
+    }
+
+
+    .orders-header {
+
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+
+    .search-box {
+
+        width: 100%;
+    }
+
+
+    .product-box {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+
+    .product-image,
+    .product-placeholder {
+
+        width: 100%;
+
+        height: 170px;
+    }
+
+
+    .stats {
+
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .stat {
+
+        border-right: none !important;
+
+        border-bottom:
+            1px solid
+            rgba(212,175,55,0.10);
+    }
+
+
+    .stat:last-child {
+
+        border-bottom: none;
+    }
+
+
+    .login-card {
+
+        width: 100%;
+
+        max-width: 380px;
+
+        padding: 28px 20px;
+    }
+}
+
+
+/* =========================================================
+   REDUCE MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+
+        animation-duration: 0.01ms !important;
+
+        animation-iteration-count: 1 !important;
+
+        transition-duration: 0.01ms !important;
+    }
+}
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- =========================
+         TOP BAR
+    ========================= -->
+
+    <div class="top-bar">
+
+        <div class="brand">
+            Lean<span>Gelo</span>
+        </div>
+
+        <div class="top-actions">
+
+            <button
+                class="top-btn"
+                onclick="location.href='artist-login.html'">
+                ← Main
+            </button>
+
+            <button
+                class="top-btn"
+                onclick="logout()">
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         LOGIN
+    ========================= -->
+
+    <div
+        id="loginScreen"
+        class="login-screen">
+
+        <div class="login-card">
+
+            <h1>Seller Orders</h1>
+
+            <p>
+                Sign in to view your orders
+            </p>
+
+            <button
+                class="google-btn"
+                onclick="googleLogin()">
+
+                🔐 Continue with Google
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         DASHBOARD
+    ========================= -->
+
+    <div id="dashboard">
+
+        <!-- PROFILE -->
+
+        <div class="profile-card">
+
+            <img
+                id="userPhoto"
+                class="avatar"
+                src="default.png"
+                alt="Profile">
+
+            <div class="profile-info">
+
+                <h1 id="userName">
+                    Seller
+                </h1>
+
+                <p id="userEmail">
+                    -
+                </p>
+
+                <span class="seller-badge">
+                    NEW SELLER
+                </span>
+
+            </div>
+
+
+            <div class="profile-order">
+
+                <div class="profile-order-icon">
+                    🛍️
+                </div>
+
+                <div class="profile-order-title">
+                    Latest Order
+                </div>
+
+                <div
+                    id="latestOrderPrice"
+                    class="profile-order-price">
+
+                    Rs 0
+
+                </div>
+
+            </div>
+
+
+            <div class="contact-box">
+
+                <div class="contact-item">
+                    <span>📞</span>
+                    <span id="latestPhone">
+                        -
+                    </span>
+                </div>
+
+                <div class="contact-item">
+                    <span>📍</span>
+                    <span id="latestAddress">
+                        -
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ORDERS -->
+
+<div class="orders-section">
+
+    <!-- =========================
+         STATS - TOP
+    ========================= -->
+
+    <div class="stats">
+
+        <div class="stat">
+
+            <div class="stat-icon purple">
+                🛍️
+            </div>
+
+            <div class="stat-title">
+                Total Orders
+            </div>
+
+            <div
+                id="totalOrders"
+                class="stat-value">
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon green">
+                📦
+            </div>
+
+            <div class="stat-title">
+                Total Items
+            </div>
+
+            <div
+                id="totalItems"
+                class="stat-value">
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon yellow">
+                💰
+            </div>
+
+            <div class="stat-title">
+                Total Revenue
+            </div>
+
+            <div
+                id="totalRevenue"
+                class="stat-value">
+                Rs 0
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon blue">
+                👥
+            </div>
+
+            <div class="stat-title">
+                Customers
+            </div>
+
+            <div
+                id="totalCustomers"
+                class="stat-value">
+                0
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         ORDERS HEADER
+    ========================= -->
+
+    <div class="orders-header">
+
+        <div>
+
+            <div class="orders-title">
+                Orders
+            </div>
+
+        </div>
+
+        <input
+            id="searchInput"
+            class="search-box"
+            type="text"
+            placeholder="🔍 Search orders..."
+        >
+
+    </div>
+
+
+    <!-- =========================
+         ORDERS
+    ========================= -->
+
+    <div id="ordersContainer">
+
+        <div class="loading">
+
+            <div class="spinner"></div>
+
+            Loading orders...
+
+        </div>
+
+    </div>
+
+</div>
+
+    </div>
+
+</div>
+
+
+<script type="module">
+
+    import {
+        initializeApp
+    } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+
+
+    import {
+        GoogleAuthProvider,
+        signInWithPopup,
+        signOut,
+        getAuth,
+        onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+
+
+    import {
+        getFirestore,
+        collection,
+        onSnapshot
+    } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+
+
+    /* =========================
+       FIREBASE
+    ========================= */
+
+    const firebaseConfig = {
+
+        apiKey:
+            "AIzaSyBASJQed83D5iCtGOYES8LfqAv5M0iwUaM",
+
+        authDomain:
+            "mylamborghini.firebaseapp.com",
+
+        projectId:
+            "mylamborghini",
+
+        storageBucket:
+            "mylamborghini.firebasestorage.app",
+
+        messagingSenderId:
+            "817085836076",
+
+        appId:
+            "1:817085836076:web:dafa36f41d1ec24a5c5a89"
+
+    };
+
+
+    const app =
+        initializeApp(firebaseConfig);
+
+
+    const db =
+        getFirestore(app);
+
+
+    const auth =
+        getAuth(app);
+
+
+    const provider =
+        new GoogleAuthProvider();
+
+
+    /* =========================
+       VARIABLES
+    ========================= */
+
+    let allOrders = [];
+
+    let currentSellerEmail = "";
+
+
+    /* =========================
+       SAFE HTML
+    ========================= */
+
+    function escapeHTML(value) {
+
+        if (value === null ||
+            value === undefined) {
+
+            return "";
+        }
+
+        return String(value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
+
+    /* =========================
+       MONEY
+    ========================= */
+
+    function money(value) {
+
+        const number =
+            Number(value) || 0;
+
+        return number.toLocaleString(
+            "en-LK"
+        );
+
+    }
+
+
+    /* =========================
+       GOOGLE LOGIN
+    ========================= */
+
+    window.googleLogin = async function () {
+
+        try {
+
+            await signInWithPopup(
+                auth,
+                provider
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Login error:",
+                error
+            );
+
+            showToast(
+                "Login failed. Please try again."
+            );
+
+        }
+
+    };
+
+
+    /* =========================
+       LOGOUT
+    ========================= */
+
+    window.logout = async function () {
+
+        try {
+
+            await signOut(auth);
+
+            location.href = "Main.html";
+
+        } catch (error) {
+
+            console.error(
+                "Logout error:",
+                error
+            );
+
+        }
+
+    };
+
+
+    /* =========================
+       LOAD ORDERS
+    ========================= */
+
+    function loadOrders(email) {
+
+        currentSellerEmail =
+            email.toLowerCase().trim();
+
+
+        const ordersRef =
+            collection(db, "orders");
+
+
+        onSnapshot(
+            ordersRef,
+
+            (snapshot) => {
+
+                const orders = [];
+
+
+                snapshot.forEach(
+                    (docSnap) => {
+
+                        const order =
+                            docSnap.data();
+
+
+                        if (!order.cart)
+                            return;
+
+
+                        const sellerItems =
+                            order.cart.filter(
+                                (item) => {
+
+                                    const sellerEmail =
+                                        (
+                                            item.sellerEmail ||
+                                            ""
+                                        )
+                                        .toLowerCase()
+                                        .trim();
+
+
+                                    return sellerEmail ===
+                                        currentSellerEmail;
+
+                                }
+                            );
+
+
+                        if (
+                            sellerItems.length === 0
+                        ) {
+
+                            return;
+
+                        }
+
+
+                        orders.push({
+
+                            id: docSnap.id,
+
+                            fullname:
+                                order.fullname ||
+                                "Customer",
+
+                            userEmail:
+                                order.userEmail ||
+                                "-",
+
+                            phone:
+                                order.phone ||
+                                "-",
+
+                            address:
+                                order.address ||
+                                "-",
+
+                            items:
+                                sellerItems,
+
+                            createdAt:
+                                order.createdAt ||
+                                null
+
+                        });
+
+                    }
+                );
+
+
+                /*
+                 * Newest first
+                 */
+
+                orders.reverse();
+
+
+                allOrders = orders;
+
+
+                renderOrders(
+                    allOrders
+                );
+
+
+                updateStats(
+                    allOrders
+                );
+
+
+                updateLatest(
+                    allOrders
+                );
+
+            },
+
+            (error) => {
+
+                console.error(
+                    "Firestore error:",
+                    error
+                );
+
+
+                document.getElementById(
+                    "ordersContainer"
+                ).innerHTML = `
+
+                    <div class="empty">
+
+                        <div class="empty-icon">
+                            ⚠️
+                        </div>
+
+                        <h3>
+                            Unable to load orders
+                        </h3>
+
+                        <p>
+                            Check your Firestore permissions.
+                        </p>
+
+                    </div>
+
+                `;
+
+            }
+        );
+
+    }
+
+
+    /* =========================
+       RENDER ORDERS
+    ========================= */
+
+    function renderOrders(orders) {
+
+        const box =
+            document.getElementById(
+                "ordersContainer"
+            );
+
+
+        if (!orders.length) {
+
+            box.innerHTML = `
+
+                <div class="empty">
+
+                    <div class="empty-icon">
+                        📦
+                    </div>
+
+                    <h3>
+                        No Orders Yet
+                    </h3>
+
+                    <p>
+                        New customer orders will appear here.
+                    </p>
+
+                </div>
+
+            `;
+
+            return;
+        }
+
+
+        let html = "";
+
+
+        orders.forEach(
+            (order) => {
+
+                order.items.forEach(
+                    (item) => {
+
+                        const customerName =
+                            escapeHTML(
+                                order.fullname
+                            );
+
+
+                        const customerEmail =
+                            escapeHTML(
+                                order.userEmail
+                            );
+
+
+                        const phone =
+                            escapeHTML(
+                                order.phone
+                            );
+
+
+                        const address =
+                            escapeHTML(
+                                order.address
+                            );
+
+
+                        const productName =
+                            escapeHTML(
+                                item.name ||
+                                "Product"
+                            );
+
+
+                        const category =
+                            escapeHTML(
+                                item.category ||
+                                "Luxury"
+                            );
+
+
+                        const price =
+                            Number(
+                                item.price
+                            ) || 0;
+
+
+                        const image =
+                            item.image ||
+                            item.imageUrl ||
+                            "";
+
+
+                        const imageHTML =
+                            image
+
+                            ?
+
+                            `
+
+                            <img
+                                class="product-image"
+                                src="${escapeHTML(image)}"
+                                alt="${productName}"
+                                onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+                            >
+
+                            <div
+                                class="product-placeholder"
+                                style="display:none;">
+                                🖼️
+                            </div>
+
+                            `
+
+                            :
+
+                            `
+
+                            <div
+                                class="product-placeholder">
+
+                                🖼️
+
+                            </div>
+
+                            `;
+
+
+                        html += `
+
+                            <div
+                                class="order-card"
+                                data-search="
+                                    ${customerName.toLowerCase()}
+                                    ${customerEmail.toLowerCase()}
+                                    ${productName.toLowerCase()}
+                                    ${category.toLowerCase()}
+                                ">
+
+
+                                <!-- CUSTOMER -->
+
+                                <div class="customer">
+
+                                    <div class="customer-top">
+
+                                        <div class="customer-avatar">
+
+                                            ${customerName
+                                                .charAt(0)
+                                                .toUpperCase()}
+
+                                        </div>
+
+
+                                        <div>
+
+                                            <div class="customer-name">
+
+                                                ${customerName}
+
+                                            </div>
+
+
+                                            <div class="customer-email">
+
+                                                ${customerEmail}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="info">
+
+                                        <span class="info-icon">
+                                            📞
+                                        </span>
+
+                                        ${phone}
+
+                                    </div>
+
+
+                                    <div class="info">
+
+                                        <span class="info-icon">
+                                            📍
+                                        </span>
+
+                                        ${address}
+
+                                    </div>
+
+
+                                    <div class="order-id">
+
+                                        ORDER #${escapeHTML(
+                                            order.id
+                                        )}
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- PRODUCT -->
+
+                                <div class="product-box">
+
+                                    ${imageHTML}
+
+
+                                    <div class="product-info">
+
+                                        <div class="product-name">
+
+                                            ${productName}
+
+                                        </div>
+
+
+                                        <div class="product-category">
+
+                                            ${category}
+
+                                        </div>
+
+
+                                        <div class="product-price">
+
+                                            Rs ${money(price)}
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- STATUS -->
+
+                                <div class="status-box">
+
+                                    <span class="status">
+
+                                        NEW
+
+                                    </span>
+
+
+                                    <div>
+
+                                        <div class="total-label">
+
+                                            Total
+
+                                        </div>
+
+                                        <div class="total-price">
+
+                                            Rs ${money(price)}
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+                        `;
+
+                    }
+                );
+
+            }
+        );
+
+
+        box.innerHTML = html;
+
+    }
+
+
+    /* =========================
+       STATS
+    ========================= */
+
+    function updateStats(orders) {
+
+        let totalItems = 0;
+
+        let totalRevenue = 0;
+
+        const customers =
+            new Set();
+
+
+        orders.forEach(
+            (order) => {
+
+                customers.add(
+                    order.userEmail
+                );
+
+
+                order.items.forEach(
+                    (item) => {
+
+                        const quantity =
+                            Number(
+                                item.quantity
+                            ) || 1;
+
+
+                        const price =
+                            Number(
+                                item.price
+                            ) || 0;
+
+
+                        totalItems +=
+                            quantity;
+
+
+                        totalRevenue +=
+                            price * quantity;
+
+                    }
+                );
+
+            }
+        );
+
+
+        document.getElementById(
+            "totalOrders"
+        ).innerText =
+            orders.length;
+
+
+        document.getElementById(
+            "totalItems"
+        ).innerText =
+            totalItems;
+
+
+        document.getElementById(
+            "totalRevenue"
+        ).innerText =
+            "Rs " + money(
+                totalRevenue
+            );
+
+
+        document.getElementById(
+            "totalCustomers"
+        ).innerText =
+            customers.size;
+
+    }
+
+
+    /* =========================
+       LATEST ORDER
+    ========================= */
+
+    function updateLatest(orders) {
+
+        if (!orders.length) {
+
+            document.getElementById(
+                "latestOrderPrice"
+            ).innerText =
+                "Rs 0";
+
+
+            document.getElementById(
+                "latestPhone"
+            ).innerText =
+                "-";
+
+
+            document.getElementById(
+                "latestAddress"
+            ).innerText =
+                "-";
+
+
+            return;
+
+        }
+
+
+        const latest =
+            orders[0];
+
+
+        let latestTotal = 0;
+
+
+        latest.items.forEach(
+            (item) => {
+
+                const price =
+                    Number(
+                        item.price
+                    ) || 0;
+
+
+                const quantity =
+                    Number(
+                        item.quantity
+                    ) || 1;
+
+
+                latestTotal +=
+                    price * quantity;
+
+            }
+        );
+
+
+        document.getElementById(
+            "latestOrderPrice"
+        ).innerText =
+            "Rs " +
+            money(latestTotal);
+
+
+        document.getElementById(
+            "latestPhone"
+        ).innerText =
+            latest.phone;
+
+
+        document.getElementById(
+            "latestAddress"
+        ).innerText =
+            latest.address;
+
+    }
+
+
+    /* =========================
+       SEARCH
+    ========================= */
+
+    document.getElementById(
+        "searchInput"
+    ).addEventListener(
+        "input",
+        function () {
+
+            const search =
+                this.value
+                    .toLowerCase()
+                    .trim();
+
+
+            const cards =
+                document.querySelectorAll(
+                    ".order-card"
+                );
+
+
+            cards.forEach(
+                (card) => {
+
+                    const text =
+                        card.dataset.search ||
+                        "";
+
+
+                    if (
+                        text.includes(search)
+                    ) {
+
+                        card.style.display =
+                            "";
+
+                    } else {
+
+                        card.style.display =
+                            "none";
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+
+    /* =========================
+       AUTH STATE
+    ========================= */
+
+    onAuthStateChanged(
+        auth,
+        (user) => {
+
+            const loginScreen =
+                document.getElementById(
+                    "loginScreen"
+                );
+
+
+            const dashboard =
+                document.getElementById(
+                    "dashboard"
+                );
+
+
+            if (!user) {
+
+                loginScreen.style.display =
+                    "flex";
+
+                dashboard.style.display =
+                    "none";
+
+                return;
+
+            }
+
+
+            loginScreen.style.display =
+                "none";
+
+
+            dashboard.style.display =
+                "block";
+
+
+            document.getElementById(
+                "userPhoto"
+            ).src =
+                user.photoURL ||
+                "default.png";
+
+
+            document.getElementById(
+                "userName"
+            ).innerText =
+                user.displayName ||
+                "Seller";
+
+
+            document.getElementById(
+                "userEmail"
+            ).innerText =
+                user.email ||
+                "-";
+
+
+            loadOrders(
+                user.email
+                    .toLowerCase()
+                    .trim()
+            );
+
+        }
+    );
+
+</script>
+
+<script src="toast.js"></script>
+</body>
+
+</html>

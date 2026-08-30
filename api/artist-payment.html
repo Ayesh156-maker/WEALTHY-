@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Artist Payment | LeanGelo</title>
+
+<link rel="stylesheet" href="artist-payment.css">
+
+</head>
+
+<body>
+
+<div class="payment-container">
+
+<h1>Complete Your Artist Registration</h1>
+
+<p>
+Choose the perfect membership plan and start selling your artwork worldwide.
+</p>
+
+
+<div class="plans">
+
+
+<div class="plan">
+
+<h2>Free Starter</h2>
+
+<h3>$0/month</h3>
+
+<p>Perfect for new artists starting their journey.</p>
+
+<ul>
+<li>Create Artist Profile</li>
+<li>Upload up to 5 artworks</li>
+<li>Sell Artwork</li>
+<li>Basic Artist Dashboard</li>
+<li>Community Exposure</li>
+</ul>
+
+<button onclick="window.location.href='dashboard.html'">
+Choose Plan
+</button>
+
+</div>
+
+
+
+<div class="plan">
+
+<h2>Starter Artist</h2>
+
+<h3>$9/month</h3>
+
+<p>For artists who want to grow their audience.</p>
+
+<ul>
+<li>Upload up to 50 artworks</li>
+<li>Sell Digital & Physical Art</li>
+<li>Artist Portfolio Page</li>
+<li>Basic Analytics</li>
+<li>Customer Messaging</li>
+</ul>
+
+<button>
+Choose Plan
+</button>
+
+</div>
+
+
+
+<div class="plan premium">
+
+<div class="badge">
+POPULAR
+</div>
+
+<h2>Premium Artist</h2>
+
+<h3>$19/month</h3>
+
+<p>Best choice for professional creators.</p>
+
+<ul>
+<li>Unlimited Portfolio</li>
+<li>Featured Artist Badge</li>
+<li>Higher Search Visibility</li>
+<li>Advanced Analytics</li>
+<li>Priority Support</li>
+<li>Marketing Promotion</li>
+</ul>
+
+<button>
+Choose Plan
+</button>
+
+</div>
+
+
+
+<div class="plan">
+
+<h2>Professional Artist</h2>
+
+<h3>$49/month</h3>
+
+<p>For established artists and studios.</p>
+
+<ul>
+<li>Homepage Promotion</li>
+<li>Unlimited Uploads</li>
+<li>Advanced Sales Reports</li>
+<li>Dedicated Support</li>
+<li>Brand Promotion</li>
+<li>Early Feature Access</li>
+</ul>
+
+<button>
+Choose Plan
+</button>
+
+</div>
+
+
+</div>
+
+
+<div class="payment-info">
+
+<h2>Secure Artist Membership</h2>
+
+<p>
+Your subscription helps maintain the LeanGelo marketplace,
+artist tools and global promotion services.
+</p>
+
+<div class="security">
+
+<span>🔒 Secure Payment</span>
+<span>🌎 Global Marketplace</span>
+<span>🎨 Artist Community</span>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<script>
+
+const plans = document.querySelectorAll(".plan");
+
+plans.forEach(plan => {
+
+    plan.addEventListener("dblclick", () => {
+
+        const title = plan.querySelector("h2").innerText;
+
+
+        localStorage.setItem(
+            "selectedPlan",
+            title
+        );
+
+
+        if(title === "Free Starter"){
+
+            window.location.href = "customize.html";
+
+        }
+        else{
+
+            window.location.href = "payment.html";
+
+        }
+
+    });
+
+});
+</script>
+
+
+<script src="toast.js"></script>
+</body>
+
+</html>

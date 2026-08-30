@@ -1,0 +1,239 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Poppins',sans-serif;
+
+    background:
+    radial-gradient(
+      circle at top left,
+      #13203b,
+      #050816 60%
+    );
+
+    color:white;
+
+    min-height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    padding:30px;
+}
+
+/* FORM CARD */
+
+.container{
+
+    width:100%;
+    max-width:750px;
+
+    background:
+    rgba(255,255,255,0.05);
+
+    backdrop-filter:
+    blur(15px);
+
+    border:
+    1px solid rgba(
+      255,255,255,.08
+    );
+
+    border-radius:25px;
+
+    padding:35px;
+
+    box-shadow:
+    0 20px 40px
+    rgba(0,0,0,.35);
+}
+
+.container h1{
+
+    text-align:center;
+
+    color:#ffb547;
+
+    margin-bottom:30px;
+
+    font-size:32px;
+}
+
+/* FORM */
+
+#editForm{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+}
+
+#editForm input,
+#editForm textarea{
+
+    width:100%;
+
+    padding:16px 18px;
+
+    background:
+    rgba(255,255,255,.05);
+
+    border:
+    1px solid rgba(
+      255,255,255,.08
+    );
+
+    border-radius:14px;
+
+    color:white;
+
+    outline:none;
+
+    transition:.3s;
+}
+
+#editForm textarea{
+
+    min-height:140px;
+
+    resize:vertical;
+}
+
+#editForm input::placeholder,
+#editForm textarea::placeholder{
+
+    color:#94a3b8;
+}
+
+#editForm input:focus,
+#editForm textarea:focus{
+
+    border-color:#ffb547;
+
+    box-shadow:
+    0 0 20px
+    rgba(255,181,71,.2);
+}
+
+/* BUTTON */
+
+#editForm button{
+
+    height:55px;
+
+    border:none;
+
+    border-radius:14px;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+    font-weight:700;
+
+    color:black;
+
+    background:
+    linear-gradient(
+      135deg,
+      #ffb547,
+      #ff9800
+    );
+
+    transition:.3s;
+}
+
+#editForm button:hover{
+
+    transform:
+    translateY(-3px);
+
+    box-shadow:
+    0 10px 25px
+    rgba(255,152,0,.4);
+}
+
+/* IMAGE PREVIEW */
+
+.preview-box{
+
+    display:flex;
+
+    justify-content:center;
+
+    margin-bottom:20px;
+}
+
+.preview-box img{
+
+    width:250px;
+
+    height:250px;
+
+    object-fit:cover;
+
+    border-radius:20px;
+
+    border:
+    2px solid rgba(
+      255,255,255,.1
+    );
+
+    background:#111827;
+}
+
+/* BACK BUTTON */
+
+.backBtn{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    margin-bottom:25px;
+
+    text-decoration:none;
+
+    color:#ffb547;
+
+    font-weight:600;
+
+    transition:.3s;
+}
+
+.backBtn:hover{
+
+    transform:
+    translateX(-4px);
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+    .container{
+
+        padding:25px;
+    }
+
+    .container h1{
+
+        font-size:26px;
+    }
+
+    .preview-box img{
+
+        width:180px;
+        height:180px;
+    }
+}
