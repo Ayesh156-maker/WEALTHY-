@@ -1199,10 +1199,63 @@ const CITIES_API =
     "https://countriesnow.space/api/v0.1/countries/cities";
 
 
+
+
 // ======================================================
 // LOAD COUNTRIES
 // ======================================================
+// ======================================================
+// SRI LANKA CITIES
+// ======================================================
 
+const sriLankaCities = [
+
+    "Colombo",
+    "Sri Jayawardenepura Kotte",
+    "Dehiwala-Mount Lavinia",
+    "Moratuwa",
+    "Negombo",
+    "Gampaha",
+    "Kalutara",
+    "Panadura",
+
+    "Kandy",
+    "Matale",
+    "Nuwara Eliya",
+
+    "Galle",
+    "Hikkaduwa",
+    "Bentota",
+    "Matara",
+    "Weligama",
+    "Hambantota",
+
+    "Jaffna",
+    "Kilinochchi",
+    "Mannar",
+    "Vavuniya",
+
+    "Kurunegala",
+    "Puttalam",
+    "Chilaw",
+
+    "Anuradhapura",
+    "Polonnaruwa",
+    "Dambulla",
+
+    "Trincomalee",
+    "Batticaloa",
+    "Kalmunai",
+
+    "Badulla",
+    "Bandarawela",
+    "Ella",
+
+    "Ratnapura",
+    "Kegalle",
+    "Avissawella"
+
+];
 async function loadCountries() {
 
     try {
@@ -1299,6 +1352,44 @@ countrySelect.addEventListener(
 
         const country =
             countrySelect.value;
+        
+        // ======================================================
+// SRI LANKA CUSTOM CITY LIST
+// ======================================================
+
+if(country === "Sri Lanka"){
+
+    citySelect.innerHTML = `
+        <option value="">
+            Select City
+        </option>
+    `;
+
+
+    sriLankaCities.forEach(city => {
+
+        const option =
+            document.createElement("option");
+
+
+        option.value =
+            city;
+
+
+        option.textContent =
+            city;
+
+
+        citySelect.appendChild(option);
+
+    });
+
+
+    citySelect.disabled = false;
+
+    return;
+
+}
 
 
         citySelect.innerHTML = `

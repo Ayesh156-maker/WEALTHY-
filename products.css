@@ -1256,3 +1256,62 @@ body {
     font-weight:700;
     font-size:14px;
 }
+.reviews-section{
+    margin:40px auto;
+    max-width:1200px;
+    padding:25px;
+    background:#161616;
+    border-radius:15px;
+    color:#fff;
+}
+
+.review-summary{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+    border-bottom:1px solid rgba(255,255,255,.1);
+    padding-bottom:15px;
+}
+
+.review-form{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+    margin-bottom:30px;
+}
+
+.review-form select,
+.review-form textarea{
+
+    width:100%;
+    padding:12px;
+    border-radius:10px;
+    border:none;
+    background:#222;
+    color:#fff;
+}
+
+.review-form textarea{
+    min-height:120px;
+    resize:vertical;
+}
+
+.review-card{
+
+    background:#1e1e1e;
+    border:1px solid rgba(255,255,255,.08);
+    padding:20px;
+    border-radius:12px;
+    margin-bottom:18px;
+}
+
+.review-card strong{
+    color:#ffd700;
+}
+
+.review-card p{
+    margin-top:10px;
+    color:#ddd;
+    line-height:1.6;
+}

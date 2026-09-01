@@ -109,7 +109,7 @@ const password = document.getElementById("password").value.trim();
 
 if(!email || !password){
 
-showToast("Please enter email and password");
+showToast("Please enter your right details here.");
 
 return;
 

@@ -1,13 +1,11 @@
-// firebase-config.js
-
 import { initializeApp } from
-    "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+"https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
 
 import {
     getAuth,
     onAuthStateChanged
 } from
-    "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+"https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
 
 import {
     getFirestore,
@@ -15,7 +13,7 @@ import {
     addDoc,
     serverTimestamp
 } from
-    "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+"https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
 
 
 // =====================================================

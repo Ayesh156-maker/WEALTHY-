@@ -1,393 +1,860 @@
+/* ==========================================================================
+   1. GLOBAL VARIABLES & RESET
+   ========================================================================== */
+:root {
+    --bg-main: #0a0a0c;
+    --bg-card: rgba(18, 18, 22, 0.75);
+    --bg-card-hover: rgba(28, 28, 35, 0.85);
+    --gold-primary: #d4af37;
+    --gold-light: #f3e5ab;
+    --gold-gradient: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7);
+    --text-main: #f5f5f7;
+    --text-muted: #a1a1a6;
+    --border-gold: rgba(212, 175, 55, 0.25);
+    --border-gold-hover: rgba(212, 175, 55, 0.6);
+    --shadow-gold: 0 10px 30px -10px rgba(212, 175, 55, 0.15);
+    --glass-blur: blur(12px);
+    --transition-fast: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Segoe UI", Arial, sans-serif;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
 }
 
 body {
-    background: #0d0d0d;
-    color: white;
-    padding: 40px 20px;
+    background-color: var(--bg-main);
+    background-image: 
+        radial-gradient(circle at 15% 20%, rgba(212, 175, 55, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 85% 80%, rgba(212, 175, 55, 0.03) 0%, transparent 40%);
+    color: var(--text-main);
+    padding-top: 90px;
+    padding-bottom: 50px;
+    line-height: 1.6;
 }
 
-/* MAIN CARD - 2 COLUMN GRID */
+/* Keyframe Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes goldGlow {
+    0% { box-shadow: 0 0 5px rgba(212, 175, 55, 0.2); }
+    50% { box-shadow: 0 0 15px rgba(212, 175, 55, 0.5); }
+    100% { box-shadow: 0 0 5px rgba(212, 175, 55, 0.2); }
+}
+
+/* ==========================================================================
+   2. NAVBAR & GLASS EFFECT
+   ========================================================================== */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 15px 40px;
+    transition: var(--transition-fast);
+}
+
+.glass {
+    background: rgba(10, 10, 12, 0.8);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border-bottom: 1px solid var(--border-gold);
+}
+
+.nav-container {
+    max-width: 1250px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.brand-logo {
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-decoration: none;
+    transition: var(--transition-fast);
+}
+
+.brand-logo:hover {
+    filter: brightness(1.2);
+}
+
+.nav-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 350px;
+}
+
+.nav-search input {
+    width: 100%;
+    padding: 10px 45px 10px 18px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-gold);
+    border-radius: 25px;
+    color: var(--text-main);
+    outline: none;
+    transition: var(--transition-fast);
+}
+
+.nav-search input:focus {
+    border-color: var(--gold-primary);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.nav-search button {
+    position: absolute;
+    right: 12px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    filter: grayscale(1);
+    transition: var(--transition-fast);
+}
+
+.nav-search button:hover {
+    filter: grayscale(0);
+    transform: scale(1.1);
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-link {
+    color: var(--text-main);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: var(--transition-fast);
+}
+
+.nav-link:hover {
+    color: var(--gold-primary);
+}
+
+.icon-btn, .cart-icon {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-gold);
+    color: var(--text-main);
+    padding: 8px 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    transition: var(--transition-fast);
+}
+
+.icon-btn:hover, .cart-icon:hover {
+    border-color: var(--gold-primary);
+    background: rgba(212, 175, 55, 0.1);
+    transform: translateY(-2px);
+}
+
+.badge, #cartCount {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: var(--gold-primary);
+    color: #000;
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 10px;
+}
+
+.profile-area {
+    position: relative;
+    cursor: pointer;
+}
+
+.profile-area img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid var(--gold-primary);
+    transition: var(--transition-fast);
+}
+
+.profile-area:hover img {
+    box-shadow: 0 0 10px var(--gold-primary);
+}
+
+.profile-dropdown {
+    position: absolute;
+    right: 0;
+    top: 50px;
+    width: 200px;
+    background: rgba(15, 15, 18, 0.95);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--border-gold);
+    border-radius: 12px;
+    padding: 10px 0;
+    display: none;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.profile-area:hover .profile-dropdown {
+    display: block;
+}
+
+.profile-dropdown a {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-main);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: var(--transition-fast);
+}
+
+.profile-dropdown a:hover {
+    background: rgba(212, 175, 55, 0.15);
+    color: var(--gold-primary);
+    padding-left: 25px;
+}
+
+/* ==========================================================================
+   3. MAIN SELLER & PRODUCT CARD
+   ========================================================================== */
 .seller-card {
     max-width: 1200px;
-    margin: auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
-    background: #141414;
-    border: 1px solid #2a2a2a;
+    margin: 20px auto 40px;
+    background: var(--bg-card);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--border-gold);
     border-radius: 20px;
     padding: 30px;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 40px;
+    box-shadow: var(--shadow-gold);
+    animation: fadeIn 0.6s ease;
 }
 
-/* LEFT COLUMN: IMAGE STYLING */
 .product-image-container {
     position: relative;
-    background: #080808;
-    border: 1px solid #2a2a2a;
-    border-radius: 18px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    border-radius: 15px;
+    overflow: hidden;
+    background: #000;
+    border: 1px solid var(--border-gold);
 }
 
 .badge-featured {
-    background: #d4af37;
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: var(--gold-gradient);
     color: #000;
-    font-weight: bold;
-    font-size: 12px;
-    padding: 5px 12px;
-    border-radius: 12px;
-    margin-bottom: 15px;
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+    z-index: 2;
     text-transform: uppercase;
 }
 
-.image-box {
+.image-box img {
     width: 100%;
     height: 100%;
-    min-height: 450px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
+    object-fit: cover;
+    display: block;
+    transition: var(--transition-fast);
 }
 
-#productImage {
-    max-width: 100%;
-    max-height: 550px;
-    object-fit: contain;
-    border-radius: 12px;
-    transition: transform 0.3s ease;
+.image-box:hover img {
+    transform: scale(1.03);
 }
 
-#productImage:hover {
-    transform: scale(1.02);
-}
-
-/* RIGHT COLUMN: INFO & DETAILS */
 .product-info-container {
     display: flex;
     flex-direction: column;
+    gap: 15px;
 }
 
 .header-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 15px;
 }
 
 #productName {
-    font-size: 32px;
-    color: #ffffff;
+    font-size: 2rem;
     font-weight: 700;
+    color: var(--text-main);
 }
 
 .stock-badge {
-    background: #10b981;
-    color: white;
-    font-size: 13px;
-    font-weight: bold;
-    padding: 6px 14px;
-    border-radius: 20px;
-    white-space: nowrap;
-}
-
-.rating-box {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 8px;
-    margin-bottom: 15px;
+    background: rgba(46, 204, 113, 0.15);
+    color: #2ecc71;
+    border: 1px solid #2ecc71;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 0.8rem;
 }
 
 .stars {
-    color: #ffb703;
-    font-size: 16px;
+    color: var(--gold-primary);
+    letter-spacing: 2px;
 }
 
 .rating-text {
-    color: #a0a0a0;
-    font-size: 14px;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-left: 8px;
 }
 
 #productPrice {
-    font-size: 32px;
-    color: #00d2ff;
+    font-size: 2.2rem;
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     font-weight: 800;
+    margin-top: 5px;
 }
 
 .tax-note {
-    color: #777;
-    font-size: 12px;
-    margin-bottom: 20px;
-    display: block;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: -10px;
 }
 
-/* SELLER INFO BOX */
 .seller-info-box {
-    background: #1f1f1f;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-gold);
     border-radius: 12px;
     padding: 15px;
-    margin-bottom: 20px;
+    margin: 10px 0;
 }
 
-.seller-title {
-    display: block;
-    color: #aaa;
-    font-size: 13px;
-    margin-bottom: 6px;
+.seller-info-box h3 {
+    color: var(--gold-primary);
+    font-size: 1rem;
+    margin-bottom: 10px;
 }
 
-.seller-name-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.verified-tag {
-    color: #00d2ff;
-    font-size: 13px;
-    font-weight: 600;
-}
-
-#productCategory {
-    display: inline-block;
-    background: #262626;
-    color: #ffd700;
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 600;
-    align-self: flex-start;
-    margin-bottom: 15px;
-}
-
-/* SECTIONS & GRIDS */
-.details-section {
-    margin-top: 15px;
-    padding: 18px;
-    background: #181818;
-    border-radius: 14px;
-    border: 1px solid #282828;
-}
-
-.details-section h3 {
-    color: #ffd700;
-    font-size: 16px;
-    margin-bottom: 12px;
-    border-bottom: 1px solid #282828;
-    padding-bottom: 8px;
-}
-
-.details-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 12px;
-}
-
-.detail-item {
-    background: #111111;
-    border: 1px solid #2a2a2a;
-    padding: 12px;
-    border-radius: 10px;
-}
-
-.detail-label {
-    display: block;
-    color: #888;
-    font-size: 11px;
-    text-transform: uppercase;
+.seller-info-box p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
     margin-bottom: 4px;
 }
 
-.detail-value {
-    color: white;
-    font-size: 14px;
-    font-weight: 600;
+.seller-info-box span {
+    color: var(--text-main);
 }
 
-#description {
-    color: #ccc;
-    line-height: 1.6;
-    font-size: 14px;
+.quantity-box {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 10px 0;
 }
 
-/* CONTACT SELLER BUTTON */
+.qty-controls {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-gold);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.qty-controls button {
+    background: none;
+    border: none;
+    color: var(--text-main);
+    padding: 8px 15px;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.qty-controls button:hover {
+    background: var(--gold-primary);
+    color: #000;
+}
+
+.qty-controls span {
+    padding: 0 12px;
+    font-weight: bold;
+}
+
 .contact-btn {
     width: 100%;
-    margin-top: 25px;
-    padding: 16px;
+    padding: 15px;
+    background: var(--gold-gradient);
     border: none;
     border-radius: 12px;
-    background: linear-gradient(135deg, #ffd700, #b8860b);
-    color: black;
-    font-size: 18px;
-    font-weight: 800;
+    color: #000;
+    font-weight: 700;
+    font-size: 1rem;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: var(--transition-fast);
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
 }
 
 .contact-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+    filter: brightness(1.1);
 }
 
-/* RESPONSIVE DESIGN FOR MOBILE */
-@media (max-width: 900px) {
+/* ==========================================================================
+   4. STORE CARD SECTION
+   ========================================================================== */
+.store-card {
+    max-width: 1200px;
+    margin: 0 auto 40px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-gold);
+    border-radius: 16px;
+    padding: 20px 30px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    animation: fadeIn 0.8s ease;
+}
+
+.store-logo {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid var(--gold-primary);
+}
+
+.store-details {
+    flex-grow: 1;
+}
+
+.store-details h3 {
+    font-size: 1.2rem;
+    color: var(--text-main);
+}
+
+.verified-tag {
+    color: var(--gold-primary);
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.visit-store {
+    background: transparent;
+    border: 1px solid var(--gold-primary);
+    color: var(--gold-primary);
+    padding: 10px 24px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: var(--transition-fast);
+}
+
+.visit-store:hover {
+    background: var(--gold-primary);
+    color: #000;
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+}
+
+/* ==========================================================================
+   5. DETAILS & SPECIFICATIONS SECTIONS
+   ========================================================================== */
+.details-section {
+    max-width: 1200px;
+    margin: 0 auto 30px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-gold);
+    border-radius: 16px;
+    padding: 25px;
+    animation: fadeIn 1s ease;
+}
+
+.details-section h2, .details-section h3 {
+    color: var(--gold-primary);
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+    padding-bottom: 10px;
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 15px;
+}
+
+.detail-item {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    padding: 12px 18px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    transition: var(--transition-fast);
+}
+
+.detail-item:hover {
+    border-color: var(--gold-primary);
+    background: rgba(212, 175, 55, 0.05);
+    transform: translateY(-2px);
+}
+
+.detail-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.detail-item span:nth-child(2) {
+    color: var(--text-main);
+    font-weight: 600;
+    margin-top: 4px;
+}
+
+/* ==========================================================================
+   6. REVIEWS SECTION
+   ========================================================================== */
+.reviews-section {
+    max-width: 1200px;
+    margin: 0 auto 50px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-gold);
+    border-radius: 16px;
+    padding: 25px;
+}
+
+.reviews-section h2 {
+    color: var(--gold-primary);
+    margin-bottom: 20px;
+}
+
+/* Dynamic Content Loader Styling for JS Reviews */
+#reviewsContainer .review-card {
+    background: rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid var(--border-gold);
+    padding: 15px 0;
+    margin-bottom: 10px;
+}
+
+/* ==========================================================================
+   7. RESPONSIVE DESIGN (MOBILE & TABLET)
+   ========================================================================== */
+@media (max-width: 992px) {
     .seller-card {
         grid-template-columns: 1fr;
-        padding: 20px;
     }
     
-    .image-box {
-        min-height: 300px;
-    }
-    
-    #productName {
-        font-size: 24px;
-    }
-    
-    #productPrice {
-        font-size: 26px;
+    .nav-search {
+        width: 200px;
     }
 }
-.nav-container{
+
+@media (max-width: 768px) {
+    .navbar {
+        padding: 15px 20px;
+    }
+    
+    .nav-search {
+        display: none; /* Can be toggled with JS on mobile */
+    }
+
+    .store-card {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .visit-store {
+        width: 100%;
+    }
+}
+.product-image-container .details-section{
+    margin-top:25px;
+    padding:20px;
+    border-radius:18px;
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(15px);
+}
+
+
+.product-image-container .details-section h3{
+    margin-bottom:12px;
+    font-size:20px;
+}
+
+
+.product-image-container .details-section p{
+    line-height:1.6;
+    color:#ddd;
+}
+.reviews-section{
+    margin:40px auto;
+    max-width:1200px;
+    padding:25px;
+    background:#161616;
+    border-radius:15px;
+    color:#fff;
+}
+
+.review-summary{
     display:flex;
-    align-items:center;
     justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+    border-bottom:1px solid rgba(255,255,255,.1);
+    padding-bottom:15px;
 }
 
-
-.profile-area{
-    width:45px;
-    height:45px;
-    border-radius:50%;
-    overflow:hidden;
-    cursor:pointer;
-    margin-left:20px;
-    border:2px solid #d4af37;
+.review-form{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+    margin-bottom:30px;
 }
 
+.review-form select,
+.review-form textarea{
 
-.profile-area img{
     width:100%;
-    height:100%;
-    object-fit:cover;
+    padding:12px;
+    border-radius:10px;
+    border:none;
+    background:#222;
+    color:#fff;
 }
-.profile-area{
-    width:45px;
-    height:45px;
-    border-radius:50%;
-    overflow:hidden;
-    border:2px solid #d4af37;
+
+.review-form textarea{
+    min-height:120px;
+    resize:vertical;
+}
+
+.review-card{
+
+    background:#1e1e1e;
+    border:1px solid rgba(255,255,255,.08);
+    padding:20px;
+    border-radius:12px;
+    margin-bottom:18px;
+}
+
+.review-card strong{
+    color:#ffd700;
+}
+
+.review-card p{
+    margin-top:10px;
+    color:#ddd;
+    line-height:1.6;
+}
+.login-box{
+    margin:20px 0;
+    padding:20px;
+    text-align:center;
+    border:1px solid #ddd;
+    border-radius:12px;
+    background:#fff;
+}
+
+.google-login-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:12px 24px;
+    border:none;
+    border-radius:8px;
+    background:#fff;
+    color:#333;
     cursor:pointer;
+    font-weight:600;
+    box-shadow:0 2px 8px rgba(0,0,0,.15);
 }
 
-
-.profile-area img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
+.google-login-btn:hover{
+    transform:translateY(-2px);
 }
-.nav-container{
-
+.google-login-btn{
     display:flex;
     align-items:center;
-    gap:25px;
+    gap:8px;
+    padding:8px 14px;
+    border:none;
+    border-radius:25px;
+    background:#fff;
+    color:#222;
+    cursor:pointer;
+    font-weight:600;
+    transition:.3s;
 }
 
-
-.nav-links{
-
-    display:flex;
-    gap:18px;
+.google-login-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 4px 12px rgba(0,0,0,.2);
 }
 
+.google-login-btn img{
+    width:20px;
+    height:20px;
+}
+/* =========================
+   LEANGELO SIDEBAR
+========================= */
 
-.nav-links a{
+.sidebar-menu{
+    position:fixed;
+    top:0;
+    left:-380px;
+    width:380px;
+    height:100vh;
 
-    color:white;
-    text-decoration:none;
-    font-size:14px;
+    background:rgba(15,15,18,.96);
+    backdrop-filter:blur(20px);
 
+    border-right:1px solid rgba(212,175,55,.3);
+
+    box-shadow:15px 0 40px rgba(0,0,0,.45);
+
+    padding:30px 22px;
+
+    overflow-y:auto;
+
+    transition:.45s cubic-bezier(.23,1,.32,1);
+
+    z-index:99999;
 }
 
+.sidebar-menu.active{
+    left:0;
+}
 
-.nav-actions{
+/* Scrollbar */
+
+.sidebar-menu::-webkit-scrollbar{
+    width:8px;
+}
+
+.sidebar-menu::-webkit-scrollbar-thumb{
+    background:#d4af37;
+    border-radius:10px;
+}
+
+/* Login Button */
+
+.sidebar-menu .google-login-btn{
+    width:100%;
+    justify-content:center;
+    margin-bottom:25px;
+}
+
+/* Menu */
+
+.sidebar-menu a{
 
     display:flex;
     align-items:center;
     gap:15px;
 
-}
+    width:100%;
 
+    color:#fff;
 
-.notification-icon{
-
-    position:relative;
-    font-size:22px;
-    cursor:pointer;
-
-}
-
-
-.notification-count{
-
-    position:absolute;
-    top:-8px;
-    right:-8px;
-
-    background:red;
-    color:white;
-
-    width:18px;
-    height:18px;
-
-    border-radius:50%;
-
-    font-size:11px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-}
-
-
-.seller-link{
-
-    color:#d4af37;
     text-decoration:none;
 
+    font-size:17px;
+
+    font-weight:600;
+
+    padding:16px 18px;
+
+    border-radius:14px;
+
+    transition:.3s;
 }
 
+.sidebar-menu a:hover{
 
-.profile-area{
+    background:rgba(212,175,55,.12);
 
-    width:45px;
-    height:45px;
+    color:#FFD700;
+
+    padding-left:28px;
+
+    transform:translateX(6px);
+
+}
+
+.sidebar-menu hr{
+
+    border:none;
+
+    height:1px;
+
+    background:rgba(255,255,255,.08);
+
+    margin:20px 0;
+
+}
+
+/* Logout */
+
+.sidebar-menu #logoutBtn{
+
+    color:#ff5b5b;
+
+}
+
+.sidebar-menu #logoutBtn:hover{
+
+    background:rgba(255,0,0,.12);
+
+}
+
+/* Profile Header */
+
+.sidebar-header{
+
+    text-align:center;
+
+    margin-bottom:25px;
+
+}
+
+.sidebar-header img{
+
+    width:90px;
+
+    height:90px;
 
     border-radius:50%;
 
-    overflow:hidden;
+    border:3px solid gold;
 
-    border:2px solid #d4af37;
+    object-fit:cover;
+
+    margin-bottom:12px;
 
 }
 
+.sidebar-header h3{
 
-.profile-area img{
+    color:#FFD700;
 
-    width:100%;
-    height:100%;
+    margin-bottom:5px;
 
-    object-fit:cover;
+}
+
+.sidebar-header p{
+
+    color:#aaa;
+
+    font-size:14px;
 
 }
