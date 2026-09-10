@@ -1,0 +1,852 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>LeanGelo | Notification</title>
+
+    <link
+        rel="stylesheet"
+        href="notification.css"
+    >
+
+</head>
+
+<body>
+<!-- =========================================
+     LEANGELO NAVBAR
+========================================= -->
+
+<!-- =========================================
+     LEANGELO NAVBAR
+========================================= -->
+
+<nav class="main-navbar">
+
+    <div class="nav-container">
+
+        <!-- LOGO -->
+        <a href="index.html" class="nav-logo">
+            LEANGELO
+        </a>
+
+        <!-- NAV LINKS -->
+        <div class="nav-links">
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="buyer-dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="notifications.html" class="active">
+                Notifications
+            </a>
+
+            <a href="chat.html">
+                Chat
+            </a>
+
+        </div>
+
+
+        <!-- RIGHT SIDE -->
+        <div class="nav-actions">
+
+            <!-- PROFILE BUTTON -->
+            <button
+                class="profile-btn"
+                id="profileBtn"
+                aria-label="Open Profile Sidebar"
+            >
+
+                <img
+                    id="navProfilePhoto"
+                    class="nav-profile-photo"
+                    src=""
+                    alt="Profile"
+                >
+
+                <span
+                    id="navProfileFallback"
+                    class="nav-profile-fallback"
+                >
+                    👤
+                </span>
+
+            </button>
+
+
+            <!-- MOBILE MENU -->
+            <button
+                class="menu-btn"
+                id="menuBtn"
+                aria-label="Open menu"
+            >
+                ☰
+            </button>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- =========================================
+     SIDEBAR OVERLAY
+========================================= -->
+
+
+
+<!-- =========================================
+     PROFILE SIDEBAR
+========================================= -->
+
+<!-- =========================================
+     PROFILE SIDEBAR
+========================================= -->
+
+<aside id="sideBar" class="side-bar">
+
+    <!-- HEADER -->
+    <div class="sidebar-header">
+
+        <div class="sidebar-brand">
+            <img
+                src="https://res.cloudinary.com/dxpizcvi5/image/upload/v1786175381/ChatGPT_Image_Apr_28_2026_05_39_55_PM_ewybbi.png"
+                alt="LeanGelo"
+            >
+        </div>
+
+        <button
+            class="sidebar-close"
+            id="sidebarClose"
+            aria-label="Close sidebar"
+        >
+            ×
+        </button>
+
+    </div>
+
+
+    <div class="sidebar-line"></div>
+
+
+    <!-- USER -->
+    <div class="sidebar-user">
+
+        <img
+            id="sidebarProfilePhoto"
+            src="https://res.cloudinary.com/dxpizcvi5/image/upload/v1786175381/ChatGPT_Image_Apr_28_2026_05_39_55_PM_ewybbi.png"
+            alt="Profile"
+        >
+
+        <div class="sidebar-user-info">
+
+            <h3 id="sidebarUserName">
+                Guest
+            </h3>
+
+            <p id="sidebarUserEmail">
+                Not logged in
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="sidebar-line"></div>
+
+
+    <!-- NAVIGATION -->
+    <div class="sidebar-menu">
+
+        <a href="landing.html">
+            <span>🏠</span>
+            <span>Home</span>
+        </a>
+
+
+        <a href="dashboard.html">
+            <span>📊</span>
+            <span>Revenue Dashboard</span>
+        </a>
+
+
+        <div class="sidebar-line"></div>
+
+
+        <!-- BUYER -->
+        <a
+            href="buyer-dashboard.html"
+            onclick="goProfile(); return false;"
+        >
+            <span>👤</span>
+            <span>My Profile</span>
+        </a>
+
+
+        <a
+            href="#"
+            onclick="goOrders(); return false;"
+        >
+            <span>📦</span>
+            <span>My Orders</span>
+        </a>
+
+
+        <a
+            href="wishlist.html"
+            onclick="goWishlist(); return false;"
+        >
+            <span>❤️</span>
+            <span>Wishlist</span>
+        </a>
+
+
+        <a
+            href="cart.html"
+            onclick="goCart(); return false;"
+        >
+            <span>🛒</span>
+            <span>My Cart</span>
+        </a>
+
+
+        <div class="sidebar-line"></div>
+
+
+        <!-- SELLER -->
+        <a
+            href="seller-form.html"
+        >
+            <span>🚀</span>
+            <span>Add Products</span>
+        </a>
+
+
+        <a
+            href="products.html"
+            onclick="goMyProducts(); return false;"
+        >
+            <span>🎨</span>
+            <span>My Products</span>
+        </a>
+
+
+        <div class="sidebar-line"></div>
+
+
+        <!-- SETTINGS -->
+        <a
+            href="settings.html"
+            onclick="goSettings(); return false;"
+        >
+            <span>⚙️</span>
+            <span>Settings</span>
+        </a>
+
+
+        <a
+            href="#"
+            onclick="goHelp(); return false;"
+        >
+            <span>❓</span>
+            <span>Help & Support</span>
+        </a>
+
+
+        <a
+            href="#"
+            onclick="logout(); return false;"
+            class="logout-link"
+        >
+            <span>🚪</span>
+            <span>Logout</span>
+        </a>
+
+    </div>
+
+</aside>
+
+    <div class="notification-page">
+
+        <button
+            class="back-btn"
+            onclick="history.back()"
+        >
+            ← Back
+        </button>
+
+
+        <div
+            id="notificationContainer"
+            class="notification-card"
+        >
+
+            <div class="notification-loading">
+                Loading notification...
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script type="module">
+
+        import {
+            initializeApp
+        } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+
+        import {
+            getAuth,
+            onAuthStateChanged
+        } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+
+        import {
+            getFirestore,
+            doc,
+            getDoc,
+            updateDoc,
+            serverTimestamp
+        } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+
+
+        // ================= FIREBASE =================
+
+        const firebaseConfig = {
+
+            apiKey: "AIzaSyBASJQed83D5iCtGOYES8LfqAv5M0iwUaM",
+            authDomain: "mylamborghini.firebaseapp.com",
+            projectId: "mylamborghini",
+            storageBucket: "mylamborghini.firebasestorage.app",
+            messagingSenderId: "817085836076",
+            appId: "1:817085836076:web:dafa36f41d1ec24a5c5a89"
+
+        };
+
+
+        const app =
+            initializeApp(firebaseConfig);
+
+        const auth =
+            getAuth(app);
+
+        const db =
+            getFirestore(app);
+
+
+        // ================= GET NOTIFICATION ID =================
+
+        const params =
+            new URLSearchParams(window.location.search);
+
+        const notificationId =
+            params.get("id");
+
+
+        // ================= LOAD NOTIFICATION =================
+
+        async function loadNotification() {
+
+            const container =
+                document.getElementById(
+                    "notificationContainer"
+                );
+
+
+            if (!notificationId) {
+
+                container.innerHTML = `
+
+                    <div class="notification-error">
+
+                        <h2>Notification Not Found</h2>
+
+                        <p>
+                            No notification was selected.
+                        </p>
+
+                    </div>
+
+                `;
+
+                return;
+            }
+
+
+            onAuthStateChanged(auth, async (user) => {
+
+                if (!user) {
+
+                    container.innerHTML = `
+
+                        <div class="notification-error">
+
+                            <h2>Please Login</h2>
+
+                            <p>
+                                Login to view this notification.
+                            </p>
+
+                        </div>
+
+                    `;
+
+                    return;
+                }
+
+
+                try {
+
+                    const notificationRef =
+                        doc(
+                            db,
+                            "users",
+                            user.uid,
+                            "notifications",
+                            notificationId
+                        );
+
+
+                    const notificationSnap =
+                        await getDoc(notificationRef);
+
+
+                    if (!notificationSnap.exists()) {
+
+                        container.innerHTML = `
+
+                            <div class="notification-error">
+
+                                <h2>Notification Not Found</h2>
+
+                                <p>
+                                    This notification does not exist.
+                                </p>
+
+                            </div>
+
+                        `;
+
+                        return;
+                    }
+
+
+                    const data =
+                        notificationSnap.data();
+
+
+                    // ================= MARK AS READ =================
+
+                    if (data.read === false) {
+
+                        await updateDoc(
+                            notificationRef,
+                            {
+                                read: true,
+                                readAt: serverTimestamp()
+                            }
+                        );
+
+                    }
+
+
+                    // ================= DATE =================
+
+                    let dateText = "";
+
+
+                    if (data.createdAt) {
+
+                        dateText =
+                            data.createdAt
+                                .toDate()
+                                .toLocaleString();
+
+                    }
+
+
+                    // ================= CHAT DATA =================
+
+                    /*
+                        Notification document එකේ
+                        chatId / senderId / senderEmail
+                        තිබුණොත් ඒවා use කරනවා.
+                    */
+
+                    const chatId =
+                        data.chatId || "";
+
+                    const senderId =
+                        data.senderId || "";
+
+                    const senderEmail =
+                        data.senderEmail || "";
+
+
+                    // ================= DISPLAY =================
+
+                    container.innerHTML = `
+
+                        <div class="notification-icon">
+                            🔔
+                        </div>
+
+
+                        <div class="notification-content">
+
+                            <span class="notification-type">
+                                ${data.type || "Notification"}
+                            </span>
+
+
+                            <h1>
+                                ${data.title || "Notification"}
+                            </h1>
+
+
+                            <div class="notification-date">
+                                ${dateText}
+                            </div>
+                            <div class="notification-sender">
+    <span class="sender-label">From</span>
+    <span class="sender-email">
+        ${data.senderEmail || "Unknown sender"}
+    </span>
+</div>
+
+
+                            <div class="notification-divider"></div>
+
+
+                            <p class="notification-message-full">
+                                ${data.message || ""}
+                            </p>
+
+
+                            <!-- ================= REPLY BUTTON ================= -->
+
+                            <div class="notification-actions">
+
+                                <button
+                                    id="replyNotificationBtn"
+                                    class="reply-btn"
+                                >
+
+                                    <span class="reply-icon">
+                                        💬
+                                    </span>
+
+                                    <span>
+                                        Reply
+                                    </span>
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+
+                    // ================= REPLY BUTTON =================
+
+                    const replyBtn =
+                        document.getElementById(
+                            "replyNotificationBtn"
+                        );
+
+
+                    replyBtn.addEventListener(
+                        "click",
+                        () => {
+
+                            /*
+                                Chat ID තියෙනවා නම්
+                                direct chat එකට යනවා.
+                            */
+
+                            if (chatId) {
+
+                                window.location.href =
+                                    `chat.html?chatId=${encodeURIComponent(chatId)}`;
+
+                                return;
+                            }
+
+
+                            /*
+                                chatId නැත්නම් senderId එක
+                                use කරන fallback එක.
+                            */
+
+                            if (senderId) {
+
+                                window.location.href =
+                                    `chat.html?userId=${encodeURIComponent(senderId)}`;
+
+                                return;
+                            }
+
+
+                            /*
+                                senderEmail එක විතරක් තිබුණොත්.
+                            */
+
+                            if (senderEmail) {
+
+                                window.location.href =
+                                    `chat.html?email=${encodeURIComponent(senderEmail)}`;
+
+                                return;
+                            }
+
+
+                            /*
+                                කිසිම chat information එකක් නැත්නම්.
+                            */
+
+                            alert(
+                                "This notification is not connected to a chat."
+                            );
+
+                        }
+                    );
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Notification loading error:",
+                        error
+                    );
+
+
+                    container.innerHTML = `
+
+                        <div class="notification-error">
+
+                            <h2>Something went wrong</h2>
+
+                            <p>
+                                Unable to load this notification.
+                            </p>
+
+                        </div>
+
+                    `;
+
+                }
+
+            });
+
+        }
+
+
+        loadNotification();
+onAuthStateChanged(auth, async (user) => {
+
+    if (!user) {
+        window.location.href = "login.html";
+        return;
+    }
+// =========================================
+// SIDEBAR USER DETAILS
+// =========================================
+
+const sidebarProfilePhoto =
+    document.getElementById("sidebarProfilePhoto");
+
+const sidebarUserName =
+    document.getElementById("sidebarUserName");
+
+const sidebarUserEmail =
+    document.getElementById("sidebarUserEmail");
+
+
+// USER NAME
+if (sidebarUserName) {
+    sidebarUserName.textContent =
+        user.displayName || "LeanGelo User";
+}
+
+
+// USER GMAIL
+if (sidebarUserEmail) {
+    sidebarUserEmail.textContent =
+        user.email || "No email";
+}
+
+
+// USER PROFILE PHOTO
+if (sidebarProfilePhoto) {
+
+    if (user.photoURL) {
+
+        sidebarProfilePhoto.src = user.photoURL;
+
+    } else {
+
+        sidebarProfilePhoto.src =
+            "https://res.cloudinary.com/dxpizcvi5/image/upload/v1786175381/ChatGPT_Image_Apr_28_2026_05_39_55_PM_ewybbi.png";
+
+    }
+
+}
+if (sidebarProfilePhoto) {
+
+    if (user.photoURL) {
+
+        sidebarProfilePhoto.src = user.photoURL;
+
+        sidebarProfilePhoto.onerror = () => {
+
+            sidebarProfilePhoto.src =
+                "https://res.cloudinary.com/dxpizcvi5/image/upload/v1786175381/ChatGPT_Image_Apr_28_2026_05_39_55_PM_ewybbi.png";
+
+        };
+
+    } else {
+
+        sidebarProfilePhoto.src =
+            "https://res.cloudinary.com/dxpizcvi5/image/upload/v1786175381/ChatGPT_Image_Apr_28_2026_05_39_55_PM_ewybbi.png";
+
+    }
+
+}
+    // =========================================
+    // SHOW LOGGED-IN USER PROFILE PHOTO
+    // =========================================
+
+    const profilePhoto =
+        document.getElementById("navProfilePhoto");
+
+    const profileFallback =
+        document.getElementById("navProfileFallback");
+
+    if (user.photoURL) {
+
+        profilePhoto.src = user.photoURL;
+
+        profilePhoto.onload = () => {
+            profilePhoto.classList.add("show");
+            profileFallback.classList.add("hide");
+        };
+
+        profilePhoto.onerror = () => {
+            profilePhoto.classList.remove("show");
+            profileFallback.classList.remove("hide");
+        };
+
+    } else {
+
+        profilePhoto.classList.remove("show");
+        profileFallback.classList.remove("hide");
+
+    }
+
+    // =========================================
+    // YOUR EXISTING NOTIFICATION CODE
+    // =========================================
+
+    // ...
+});
+
+
+// =========================================
+// PROFILE SIDEBAR
+// =========================================
+
+const profileBtn =
+    document.getElementById("profileBtn");
+
+const sidebar =
+    document.getElementById("sideBar");
+
+const sidebarOverlay =
+    document.getElementById("sidebarOverlay");
+
+const sidebarClose =
+    document.getElementById("sidebarClose");
+
+
+// OPEN SIDEBAR
+if (profileBtn) {
+
+    profileBtn.addEventListener(
+        "click",
+        () => {
+
+            if (sidebar) {
+                sidebar.classList.add("active");
+            }
+
+            if (sidebarOverlay) {
+                sidebarOverlay.classList.add("active");
+            }
+
+        }
+    );
+
+}
+
+
+// CLOSE SIDEBAR
+if (sidebarClose) {
+
+    sidebarClose.addEventListener(
+        "click",
+        () => {
+
+            if (sidebar) {
+                sidebar.classList.remove("active");
+            }
+
+            if (sidebarOverlay) {
+                sidebarOverlay.classList.remove("active");
+            }
+
+        }
+    );
+
+}
+
+
+// CLOSE WHEN CLICKING OVERLAY
+if (sidebarOverlay) {
+
+    sidebarOverlay.addEventListener(
+        "click",
+        () => {
+
+            if (sidebar) {
+                sidebar.classList.remove("active");
+            }
+
+            sidebarOverlay.classList.remove("active");
+
+        }
+    );
+
+}
+    </script>
+
+</body>
+
+</html>
+

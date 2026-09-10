@@ -50,19 +50,50 @@
                 ❤️
             </a>
 
-            <!-- Notifications -->
-            <button class="icon-btn" id="notificationBtn" title="Notifications">
-                🔔
-                <span class="badge">3</span>
-            </button>
 
-            <!-- Cart -->
-            <div class="cart-icon" onclick="toggleCart()">
-                🛒
-                <span id="cartCount">0</span>
-            </div>
+<!-- Notifications -->
+<div class="notification-wrapper">
 
-            <div class="profile-area">
+    <button
+        class="icon-btn"
+        id="notificationBtn"
+        title="Notifications"
+        type="button"
+    >
+        🔔
+        <span
+            class="notification-badge"
+            style="display:none;"
+        >
+            0
+        </span>
+    </button>
+
+    <!-- Notification Dropdown -->
+    <div
+        id="notificationDropdown"
+        class="notification-dropdown"
+    >
+
+        <div class="notification-header">
+            <h3>Notifications</h3>
+        </div>
+
+        <div
+            id="notificationList"
+            class="notification-list"
+        >
+            <p class="no-notifications">
+                No notifications
+            </p>
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="profile-area">
 
     <img
         id="profileImage"
@@ -123,7 +154,7 @@
 
     <hr>
 
-    <a href="seller-dashboard.html">
+    <a href="seller-form.html">
         🚀 Add Products
     </a>
 
@@ -217,30 +248,39 @@
 
     </div>
 
-    <!-- Store Section -->
-    <section class="store-card">
+<section class="store-card">
 
-        <img src="profile.png" class="store-logo" alt="Store Logo">
+    <img
+        id="storeLogo"
+        src="profile.png"
+        class="store-logo"
+        alt="Store Logo">
 
-        <div class="store-details">
+    <div class="store-details">
 
-            <h3 id="sellerStoreName"></h3>
+        <h3 id="sellerStoreName">
+            Loading Store...
+        </h3>
 
-            <span class="verified-tag">
-                ✓ Verified Official Store
-            </span>
+        <span class="verified-tag">
+            ✓ Verified Official Store
+        </span>
 
-            <p>
-                High Quality & Fast Dispatch
-            </p>
+        <p>
+            High Quality & Fast Dispatch
+        </p>
 
-        </div>
+    </div>
 
-        <button class="visit-store">
-            Visit Store
-        </button>
+    <button
+        id="visitStoreBtn"
+        class="visit-store">
 
-    </section>
+        Visit Store
+
+    </button>
+
+</section>
     <section id="productSpecifications" class="details-section">
 
     <h2>📐 Product Specifications</h2>
@@ -345,60 +385,46 @@
 </section>
 
 
-<section class="reviews-section">
+    <section class="reviews-section glass">
 
-    <h2>⭐ Customer Reviews</h2>
+      <div class="reviews-header">
+        <div>
+          <h2 id="reviewCount">0 Reviews</h2>
+          <div id="averageRating" class="avg-rating">0.0 ⭐</div>
+          <small>Verified Buyer Ratings</small>
+        </div>
+      </div>
 
-    <div class="review-summary">
-        <h3 id="averageRating">0.0 ⭐</h3>
-        <p id="reviewCount">0 Reviews</p>
-    </div>
-
-
-
-    <!-- REVIEW FORM -->
-    <div class="review-form" style="display:none;">
-
-        ...
-
-    </div>
-
-    <div id="reviewsContainer"></div>
-
-</section>
-
-    <!-- Add Review -->
-    <div class="review-form" style="display:none;">
-
-        <h3>Write a Review</h3>
-
+      <!-- ADD REVIEW FORM -->
+      <div class="add-review">
+        <h3>Write a Customer Review</h3>
         <select id="reviewRating">
-            <option value="5">⭐⭐⭐⭐⭐ (5)</option>
-            <option value="4">⭐⭐⭐⭐ (4)</option>
-            <option value="3">⭐⭐⭐ (3)</option>
-            <option value="2">⭐⭐ (2)</option>
-            <option value="1">⭐ (1)</option>
+          <option value="5">⭐⭐⭐⭐⭐ (5/5)</option>
+          <option value="4">⭐⭐⭐⭐☆ (4/5)</option>
+          <option value="3">⭐⭐⭐☆☆ (3/5)</option>
+          <option value="2">⭐⭐☆☆☆ (2/5)</option>
+          <option value="1">⭐☆☆☆☆ (1/5)</option>
         </select>
 
-        <textarea
-            id="reviewComment"
-            placeholder="Write your review..."
-        ></textarea>
+        <textarea id="reviewComment" placeholder="Share your experience with this product..."></textarea>
 
-        <button
-            id="submitReview"
-            class="contact-btn">
-            Submit Review
-        </button>
+        <button id="submitReview">Submit Review</button>
+      </div>
 
-    </div>
+      <!-- REVIEWS LIST -->
+      <div id="reviewsContainer">
+        Loading customer feedback...
+      </div>
 
-    <!-- Reviews -->
-    <div id="reviewsContainer"></div>
+    </section>
 
 </section>
 
     <script type="module" src="contact-seller.js"></script>
+    
     <script src="toast.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<script src="notification-email.js"></script>
 </body>
 </html>

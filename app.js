@@ -21,7 +21,10 @@ import {
     setDoc,
     deleteDoc,
     serverTimestamp,
-    increment
+    increment,
+    query,
+    orderBy,
+    onSnapshot
 } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
 import {
   getDatabase
@@ -49,6 +52,301 @@ const realtimeDB = getDatabase(app);
 
 
 window.auth = auth;
+
+// =====================================================
+// LEANGELO CENTRAL EMAIL NOTIFICATION SYSTEM
+// =====================================================
+
+const LEANGELO_EMAIL_SERVICE = "service_rwcvykn";
+const LEANGELO_EMAIL_TEMPLATE = "template_9yppg1b";
+
+const LEANGELO_EMAIL_PUBLIC_KEY =
+    "0z-Ke_4pMy9FgPDep";
+
+
+// =====================================================
+// INITIALIZE EMAILJS
+// =====================================================
+
+function initializeLeanGeloEmail() {
+
+    if (typeof emailjs === "undefined") {
+
+        console.error(
+            "❌ LeanGelo EmailJS: EmailJS library not loaded."
+        );
+
+        return false;
+    }
+
+    emailjs.init({
+        publicKey: LEANGELO_EMAIL_PUBLIC_KEY
+    });
+
+    console.log(
+        "✅ LeanGelo EmailJS initialized successfully."
+    );
+
+    return true;
+}
+
+
+// =====================================================
+// SEND LEANGELO NOTIFICATION EMAIL
+// =====================================================
+
+window.sendLeanGeloNotificationEmail = async function({
+
+    toEmail = "",
+
+    toName = "LeanGelo User",
+
+    title = "LeanGelo Notification",
+
+    message = "",
+
+    link = ""
+
+} = {}) {
+
+    try {
+
+        // =================================================
+        // CHECK RECIPIENT
+        // =================================================
+
+        if (!toEmail) {
+
+            console.warn(
+                "⚠️ LeanGelo notification email skipped: recipient email missing."
+            );
+
+            return {
+
+                success: false,
+
+                reason: "missing_email"
+
+            };
+
+        }
+
+
+        // =================================================
+        // CHECK EMAILJS
+        // =================================================
+
+        if (typeof emailjs === "undefined") {
+
+            console.error(
+                "❌ LeanGelo EmailJS library is not loaded."
+            );
+
+            return {
+
+                success: false,
+
+                reason: "emailjs_not_loaded"
+
+            };
+
+        }
+
+
+        // =================================================
+        // SEND EMAIL
+        // =================================================
+
+        const response = await emailjs.send(
+
+            LEANGELO_EMAIL_SERVICE,
+
+            LEANGELO_EMAIL_TEMPLATE,
+
+            {
+
+                to_email: toEmail,
+
+                to_name: toName,
+
+                title: title,
+
+                message: message,
+
+                link:
+                    link ||
+                    window.location.origin
+
+            }
+
+        );
+
+
+        // =================================================
+        // SUCCESS
+        // =================================================
+
+        console.log(
+            "📧 LeanGelo notification email sent successfully:",
+            response.status,
+            response.text
+        );
+
+
+        return {
+
+            success: true,
+
+            status: response.status
+
+        };
+
+
+    } catch (error) {
+
+        // =================================================
+        // ERROR
+        // =================================================
+
+        console.error(
+            "❌ LeanGelo notification email failed:",
+            error
+        );
+
+
+        return {
+
+            success: false,
+
+            reason: "send_failed",
+
+            error: error
+
+        };
+
+    }
+
+};
+
+
+// =====================================================
+// INITIALIZE EMAILJS
+// =====================================================
+
+if (document.readyState === "loading") {
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        initializeLeanGeloEmail
+    );
+
+} else {
+
+    initializeLeanGeloEmail();
+
+}
+
+
+
+// =====================================================
+// LOAD FIRESTORE NOTIFICATIONS
+// =====================================================
+
+function loadNotifications() {
+
+    onAuthStateChanged(auth, (user) => {
+
+        if (!user) {
+            return;
+        }
+
+        const notificationRef = collection(
+            db,
+            "users",
+            user.uid,
+            "notifications"
+        );
+
+        const q = query(
+            notificationRef,
+            orderBy("createdAt", "desc")
+        );
+
+        onSnapshot(q, (snapshot) => {
+
+            const list =
+                document.getElementById("notificationList");
+
+            if (!list) {
+                return;
+            }
+
+            list.innerHTML = "";
+
+            let unread = 0;
+
+            snapshot.forEach((docSnap) => {
+
+                const data = docSnap.data();
+                const notificationId = docSnap.id;
+
+                if (data.read === false) {
+                    unread++;
+                }
+
+                list.innerHTML += `
+                    <div
+                        class="notification-message"
+                        onclick="openNotification('${notificationId}')"
+                    >
+
+                        <strong>
+                            ${data.title || "Notification"}
+                        </strong>
+
+                        <p>
+                            ${data.message || ""}
+                        </p>
+
+                    </div>
+                `;
+            });
+
+            const badge =
+                document.querySelector(".notification-badge");
+
+            if (badge) {
+                badge.innerText = unread;
+            }
+
+        }, (error) => {
+
+            console.error(
+                "Notification listener error:",
+                error
+            );
+
+        });
+
+    });
+
+}
+
+loadNotifications();
+
+
+// ================= OPEN FULL NOTIFICATION =================
+
+window.openNotification = function(notificationId) {
+
+    if (!notificationId) {
+        return;
+    }
+
+    window.location.href =
+        `notification.html?id=${encodeURIComponent(notificationId)}`;
+
+};
 // ================= USER ONLINE STATUS =================
 
 async function updateUserStatus(user,status){
@@ -391,7 +689,220 @@ Rs ${item.price * (item.quantity || 1)}
 }
 
 window.updateCart = updateCart;
+// CREATE NOTIFICATION
 
+// =====================================================
+// CREATE NOTIFICATION
+// FIRESTORE + EMAILJS GMAIL
+// =====================================================
+
+window.createNotification = async function(
+    userId,
+    title,
+    message,
+    type = "system",
+    link = ""
+) {
+
+    if (!userId) {
+
+        console.error(
+            "Notification error: userId missing."
+        );
+
+        return {
+            success: false,
+            reason: "missing_user_id"
+        };
+
+    }
+
+
+    try {
+
+        // =================================================
+        // 1. CREATE FIRESTORE NOTIFICATION
+        // =================================================
+
+        await addDoc(
+
+            collection(
+                db,
+                "users",
+                userId,
+                "notifications"
+            ),
+
+            {
+                title:
+                    title || "LeanGelo Notification",
+
+                message:
+                    message || "",
+
+                type:
+                    type,
+
+                link:
+                    link || "",
+
+                read:
+                    false,
+
+                createdAt:
+                    serverTimestamp()
+            }
+
+        );
+
+
+        console.log(
+            "🔔 Firestore notification created."
+        );
+
+
+        // =================================================
+        // 2. GET RECIPIENT USER DETAILS
+        // =================================================
+
+        let recipientEmail = "";
+        let recipientName = "LeanGelo User";
+
+
+        try {
+
+            const userSnap = await getDoc(
+                doc(
+                    db,
+                    "users",
+                    userId
+                )
+            );
+
+
+            if (userSnap.exists()) {
+
+                const userData =
+                    userSnap.data();
+
+
+                recipientEmail =
+                    userData.email || "";
+
+
+                recipientName =
+                    userData.name ||
+                    userData.displayName ||
+                    "LeanGelo User";
+
+            }
+
+        }
+        catch (userError) {
+
+            console.error(
+                "Unable to get notification recipient:",
+                userError
+            );
+
+        }
+
+
+        // =================================================
+        // 3. SEND EMAIL AUTOMATICALLY
+        // =================================================
+
+        if (
+            recipientEmail &&
+            typeof window.sendLeanGeloNotificationEmail === "function"
+        ) {
+
+            const emailResult =
+                await window.sendLeanGeloNotificationEmail({
+
+                    toEmail:
+                        recipientEmail,
+
+                    toName:
+                        recipientName,
+
+                    title:
+                        title || "LeanGelo Notification",
+
+                    message:
+                        message || "",
+
+                    link:
+                        link || window.location.origin
+
+                });
+
+
+            if (emailResult?.success) {
+
+                console.log(
+                    "📧 Gmail notification sent successfully."
+                );
+
+            }
+            else {
+
+                console.warn(
+                    "⚠️ Firestore notification created, but Gmail email was not sent.",
+                    emailResult
+                );
+
+            }
+
+        }
+        else {
+
+            console.warn(
+                "⚠️ Email notification skipped.",
+                {
+                    recipientEmail,
+                    emailFunctionAvailable:
+                        typeof window.sendLeanGeloNotificationEmail === "function"
+                }
+            );
+
+        }
+
+
+        // =================================================
+        // 4. RETURN SUCCESS
+        // =================================================
+
+        return {
+
+            success: true
+
+        };
+
+
+    }
+    catch (error) {
+
+        console.error(
+            "❌ Notification error:",
+            error
+        );
+
+
+        return {
+
+            success: false,
+
+            reason:
+                "notification_failed",
+
+            error
+
+        };
+
+    }
+
+};
 // ================= CHECKOUT PAGE REDIRECT =================
 window.goCheckoutPage = () => {
   if (cart.length === 0) {
@@ -428,6 +939,7 @@ console.log(product);
     {
 
       // Buyer
+      buyerId: buyer.uid,
       buyerEmail: buyer.email,
       buyerName: buyer.displayName || "",
       buyerPhoto: buyer.photoURL || "",
@@ -1285,7 +1797,15 @@ onAuthStateChanged(auth, async (user) => {
     if (sidebarUserEmail) sidebarUserEmail.textContent = user.email || "";
 
     localStorage.setItem("sellerEmail", user.email);
+    try {
+
     await updateUserStatus(user, true);
+
+} catch (error) {
+
+    console.error("User status update failed:", error);
+
+}
   } else {
     // Logged Out State
     if (loginBtn) loginBtn.parentElement.style.display = "list-item";
@@ -2034,3 +2554,50 @@ document.addEventListener(
     }
 );
 
+// ===============================
+// NOTIFICATION DROPDOWN
+// ===============================
+
+
+// ===============================
+// NOTIFICATION DROPDOWN
+// ===============================
+
+const notificationBtn =
+    document.getElementById("notificationBtn");
+
+const notificationDropdown =
+    document.getElementById("notificationDropdown");
+
+if (notificationBtn && notificationDropdown) {
+
+    notificationBtn.addEventListener("click", (e) => {
+
+        e.stopPropagation();
+
+        notificationDropdown.classList.toggle("active");
+
+    });
+
+    document.addEventListener("click", () => {
+
+        notificationDropdown.classList.remove("active");
+
+    });
+
+}
+
+
+
+
+// Close when clicking outside
+
+document.addEventListener(
+"click",
+()=>{
+
+    notificationDropdown.classList.remove(
+        "active"
+    );
+
+});

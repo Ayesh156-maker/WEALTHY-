@@ -48,7 +48,36 @@ const auth = getAuth(app);
 const realtimeDB = getDatabase(app);
 
 // ================= GLOBAL VARIABLES =================
-const chatId = localStorage.getItem("chatId");
+
+// ================= CHAT ID =================
+
+const urlParams =
+  new URLSearchParams(
+    window.location.search
+  );
+
+const urlChatId =
+  urlParams.get("id");
+
+const storedChatId =
+  localStorage.getItem("chatId");
+
+const chatId =
+  urlChatId ||
+  storedChatId;
+
+
+// Notification එකෙන් chat එක open වුණා නම්
+// future navigation සඳහා save කරන්න
+
+if (urlChatId) {
+
+  localStorage.setItem(
+    "chatId",
+    urlChatId
+  );
+}
+
 const messagesDiv = document.getElementById("messages");
 const typingIndicator = document.getElementById("typingIndicator");
 const genAI = new GoogleGenerativeAI("AQ.Ab8RN6KrESbnK0B8XZ7G1K7DeyeVO8cQI-9b41e-L00kliq0yQ");
@@ -191,7 +220,10 @@ function loadMessages(user) {
       const messageId = docSnap.id;
 
       // Mark unread incoming messages as seen
-      if (m.senderEmail !== user.email && m.seen === false) {
+      if (
+  m.senderId !== user.uid &&
+  m.seen === false
+) {
         updateDoc(doc(db, "chats", chatId, "messages", messageId), {
           seen: true
         }).catch(err => console.error("Error updating seen status:", err));
@@ -244,88 +276,241 @@ function loadMessages(user) {
         currentX = 0;
       });
 
-      if (m.senderEmail === user.email) {
+      if (m.senderId === user.uid) {
         div.classList.add("me");
       } else {
         div.classList.add("other");
       }
 
-      // Avatar
-      const img = document.createElement("img");
-      img.className = "msg-avatar";
-      img.src = m.senderPhotoURL || "https://placehold.co/100";
-      div.appendChild(img);
 
-      // Content Box
-      const contentDiv = document.createElement("div");
-      contentDiv.className = "msg-content";
+// ================= MESSAGE SENDER PROFILE =================
 
-      // Display reply preview if attached to this message
-      if (m.replyTo) {
-        const replyQuote = document.createElement("div");
-        replyQuote.className = "reply-quote-box";
-        replyQuote.style.borderLeft = "3px solid #007bff";
-        replyQuote.style.paddingLeft = "6px";
-        replyQuote.style.marginBottom = "4px";
-        replyQuote.style.fontSize = "0.85em";
-        replyQuote.style.opacity = "0.8";
-        replyQuote.innerText = `${m.replyTo.sender || 'User'}: ${m.replyTo.text}`;
-        contentDiv.appendChild(replyQuote);
-      }
+const senderName =
+  m.senderName ||
+  m.senderEmail?.split("@")[0] ||
+  "User";
 
-      // Text Message
-      if (m.text) {
-        const textSpan = document.createElement("p");
-        textSpan.innerText = m.text;
-        contentDiv.appendChild(textSpan);
+const senderPhoto =
+  m.senderPhotoURL ||
+  "https://placehold.co/100";
 
-        if (m.senderEmail === user.email) {
-          const tick = document.createElement("span");
-          tick.className = "message-tick";
-          if (m.seen) {
-            tick.innerHTML = " ✓✓";
-            tick.style.color = "blue";
-          } else {
-            tick.innerHTML = " ✓";
-            tick.style.color = "gray";
-          }
-          contentDiv.appendChild(tick);
-        }
-      }
 
-      // File / Image Attachment
-      if (m.fileURL) {
-        if (m.fileType === "image") {
-          const chatImg = document.createElement("img");
-          chatImg.src = m.fileURL;
-          chatImg.className = "chat-media-img";
-          chatImg.style.maxWidth = "200px";
-          chatImg.style.borderRadius = "8px";
-          contentDiv.appendChild(chatImg);
-        } else {
-          const fileLink = document.createElement("a");
-          fileLink.href = m.fileURL;
-          fileLink.target = "_blank";
-          fileLink.innerText = "📁 Download Attachment";
-          contentDiv.appendChild(fileLink);
-        }
-      }
+// ================= AVATAR =================
 
-      // Reactions Display
-      if (m.reactions && Object.keys(m.reactions).length > 0) {
-        const reactionBox = document.createElement("div");
-        reactionBox.className = "reaction-display";
+const img = document.createElement("img");
 
-        for (const emoji of Object.values(m.reactions)) {
-          const span = document.createElement("span");
-          span.innerText = emoji;
-          span.className = "emoji-reaction";
-          reactionBox.appendChild(span);
-        }
-        contentDiv.appendChild(reactionBox);
-      }
+img.className = "msg-avatar";
 
-      div.appendChild(contentDiv);
+img.src = senderPhoto;
+
+img.alt = senderName;
+
+div.appendChild(img);
+
+
+// ================= CONTENT =================
+
+const contentDiv =
+  document.createElement("div");
+
+contentDiv.className = "msg-content";
+
+
+// ================= SENDER NAME =================
+// Other user's name display කරන්න
+
+if (m.senderId !== user.uid) {
+
+  const nameDiv =
+    document.createElement("div");
+
+  nameDiv.className =
+    "message-sender-name";
+
+  nameDiv.innerText =
+    senderName;
+
+  contentDiv.appendChild(nameDiv);
+}
+
+
+// ================= REPLY PREVIEW =================
+
+if (m.replyTo) {
+
+  const replyQuote =
+    document.createElement("div");
+
+  replyQuote.className =
+    "reply-quote-box";
+
+  replyQuote.style.borderLeft =
+    "3px solid #007bff";
+
+  replyQuote.style.paddingLeft =
+    "6px";
+
+  replyQuote.style.marginBottom =
+    "4px";
+
+  replyQuote.style.fontSize =
+    "0.85em";
+
+  replyQuote.style.opacity =
+    "0.8";
+
+  replyQuote.innerText =
+    `${m.replyTo.sender || "User"}: ${m.replyTo.text}`;
+
+  contentDiv.appendChild(
+    replyQuote
+  );
+}
+
+
+// ================= TEXT =================
+
+if (m.text) {
+
+  const textSpan =
+    document.createElement("p");
+
+  textSpan.innerText =
+    m.text;
+
+  contentDiv.appendChild(
+    textSpan
+  );
+
+  // Seen / sent ticks
+  if (m.senderId === user.uid) {
+
+    const tick =
+      document.createElement("span");
+
+    tick.className =
+      "message-tick";
+
+    if (m.seen) {
+
+      tick.innerHTML =
+        " ✓✓";
+
+      tick.style.color =
+        "blue";
+
+    } else {
+
+      tick.innerHTML =
+        " ✓";
+
+      tick.style.color =
+        "gray";
+    }
+
+    contentDiv.appendChild(
+      tick
+    );
+  }
+}
+
+
+// ================= FILE / IMAGE =================
+
+if (m.fileURL) {
+
+  if (m.fileType === "image") {
+
+    const chatImg =
+      document.createElement("img");
+
+    chatImg.src =
+      m.fileURL;
+
+    chatImg.className =
+      "chat-media-img";
+
+    chatImg.style.maxWidth =
+      "200px";
+
+    chatImg.style.borderRadius =
+      "8px";
+
+    contentDiv.appendChild(
+      chatImg
+    );
+
+  } else {
+
+    const fileLink =
+      document.createElement("a");
+
+    fileLink.href =
+      m.fileURL;
+
+    fileLink.target =
+      "_blank";
+
+    fileLink.rel =
+      "noopener noreferrer";
+
+    fileLink.innerText =
+      "📁 Download Attachment";
+
+    contentDiv.appendChild(
+      fileLink
+    );
+  }
+}
+
+
+// ================= REACTIONS =================
+
+if (
+  m.reactions &&
+  Object.keys(m.reactions).length > 0
+) {
+
+  const reactionBox =
+    document.createElement("div");
+
+  reactionBox.className =
+    "reaction-display";
+
+  for (
+    const emoji of
+    Object.values(m.reactions)
+  ) {
+
+    const span =
+      document.createElement("span");
+
+    span.innerText =
+      emoji;
+
+    span.className =
+      "emoji-reaction";
+
+    reactionBox.appendChild(
+      span
+    );
+  }
+
+  contentDiv.appendChild(
+    reactionBox
+  );
+}
+
+
+div.appendChild(
+  contentDiv
+);
+
+messagesDiv.appendChild(
+  div
+);
+
+
       messagesDiv.appendChild(div);
     });
 
@@ -465,6 +650,42 @@ return isSmartBlocked(message);
 }
 
 }
+window.createNotification = async function(
+    userId,
+    title,
+    message,
+    type,
+    link = "",
+    senderEmail = "",
+    senderId = "",
+    chatId = ""
+) {
+
+    await addDoc(
+        collection(
+            db,
+            "users",
+            userId,
+            "notifications"
+        ),
+        {
+            title,
+            message,
+            type,
+            link,
+
+            // Sender information
+            senderEmail,
+            senderId,
+            chatId,
+
+            read: false,
+
+            createdAt:
+                serverTimestamp()
+        }
+    );
+};
 // ================= AI BOT LOGIC =================
 function getAIReply(message) {
   if (!message) return "🤖 Thank you for contacting LeanGelo. Seller will reply soon.";
@@ -485,18 +706,31 @@ function getAIReply(message) {
 }
 
 async function sendAutoReply(chatId, userMessage) {
-  try {
-    const replyText = getAIReply(userMessage);
-    await addDoc(collection(db, "chats", chatId, "messages"), {
-      text: replyText,
-      senderEmail: "AI",
-      senderPhotoURL: "https://cdn-icons-png.flaticon.com/512/4712/4712109.png",
-      createdAt: serverTimestamp(),
-      seen: false
-    });
-  } catch (err) {
-    console.error("Error sending AI auto reply:", err);
-  }
+    try {
+
+        const replyText = getAIReply(userMessage);
+
+        // AI reply → Chat එකට විතරයි
+        await addDoc(
+            collection(db, "chats", chatId, "messages"),
+            {
+                text: replyText,
+                senderEmail: "AI",
+                senderPhotoURL:
+                    "https://cdn-icons-png.flaticon.com/512/4712/4712109.png",
+                createdAt: serverTimestamp(),
+                seen: false
+            }
+        );
+
+    } catch (err) {
+
+        console.error(
+            "Error sending AI auto reply:",
+            err
+        );
+
+    }
 }
 
 // ================= SEND MESSAGE =================
@@ -559,19 +793,88 @@ return;
       fileType = selectedFile.type.startsWith("image") ? "image" : "file";
     }
 
-    let senderPhoto = auth.currentUser.photoURL || "https://placehold.co/100";
+// ================= CURRENT USER PROFILE =================
+const currentUser = auth.currentUser;
 
-    // Save Message
-    await addDoc(collection(db, "chats", chatId, "messages"), {
-      text: text,
-      senderEmail: auth.currentUser.email,
-      senderPhotoURL: senderPhoto,
-      fileURL: fileURL,
-      fileType: fileType,
-      replyTo: selectedReply || null,
-      createdAt: serverTimestamp(),
-      seen: false
-    });
+let senderName =
+  currentUser.displayName ||
+  currentUser.email?.split("@")[0] ||
+  "User";
+
+let senderPhoto =
+  currentUser.photoURL ||
+  "https://placehold.co/100";
+
+// Seller profile එකෙන් actual name/photo ගන්න
+if (currentRole === "seller") {
+
+  senderName =
+    currentChatData.sellerName ||
+    senderName;
+
+  senderPhoto =
+    currentChatData.sellerPhoto ||
+    senderPhoto;
+
+} else {
+
+  senderName =
+    currentChatData.buyerName ||
+    senderName;
+
+  // Buyer store logo තිබේ නම් ඒක priority
+  try {
+
+    const storeRef = doc(db, "stores", currentUser.uid);
+    const storeSnap = await getDoc(storeRef);
+
+    if (
+      storeSnap.exists() &&
+      storeSnap.data().logo
+    ) {
+      senderPhoto = storeSnap.data().logo;
+    }
+
+  } catch (error) {
+
+    console.log(
+      "Buyer profile photo error:",
+      error
+    );
+
+  }
+}
+
+
+// ================= SAVE MESSAGE =================
+await addDoc(
+  collection(
+    db,
+    "chats",
+    chatId,
+    "messages"
+  ),
+  {
+    text: text,
+
+    // IMPORTANT
+    senderId: currentUser.uid,
+    senderEmail: currentUser.email || "",
+    senderName: senderName,
+    senderPhotoURL: senderPhoto,
+
+    fileURL: fileURL,
+    fileType: fileType,
+
+    replyTo: selectedReply || null,
+
+    createdAt: serverTimestamp(),
+
+    seen: false
+  }
+);
+
+
 
     // Debounced AI Auto-Reply if Seller is Offline and Buyer sends message
     if (!sellerOnline && currentRole === "buyer") {
@@ -601,7 +904,42 @@ updatedAt: serverTimestamp()
     }
 
     await updateDoc(chatRef, updateData);
+    // CREATE MESSAGE NOTIFICATION
 
+let receiverUid = "";
+
+if (currentRole === "buyer") {
+    receiverUid = currentChatData.sellerId;
+} else {
+    receiverUid = currentChatData.buyerId;
+}
+
+if (receiverUid) {
+
+    const notificationMessage =
+        text
+            ? `${auth.currentUser.displayName || "User"}: ${text}`
+            : (fileType === "image"
+                ? `${auth.currentUser.displayName || "User"} sent a photo 📷`
+                : `${auth.currentUser.displayName || "User"} sent an attachment 📎`);
+
+    await window.createNotification(
+    receiverUid,
+    "New Message",
+    notificationMessage,
+    "message",
+    `chat.html?id=${chatId}`,
+
+    // Sender Gmail
+    auth.currentUser.email,
+
+    // Sender UID
+    auth.currentUser.uid,
+
+    // Chat ID
+    chatId
+);
+}
     // Reset Form UI
     if (input) input.value = "";
     selectedReply = null;

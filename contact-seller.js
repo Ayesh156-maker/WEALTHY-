@@ -19,9 +19,10 @@ import {
     where,
     getDocs,
     addDoc,
-    serverTimestamp
+    serverTimestamp,
+    orderBy,
+    onSnapshot
 } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
-
 
 /* =========================================
    FIREBASE CONFIGURATION
@@ -41,6 +42,236 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
+/* =========================================
+   NOTIFICATION SYSTEM
+========================================= */
+
+let notificationUnsubscribe = null;
+
+
+/* =========================================
+   LOAD USER NOTIFICATIONS
+========================================= */
+
+function loadNotifications() {
+
+    if (notificationUnsubscribe) {
+        notificationUnsubscribe();
+        notificationUnsubscribe = null;
+    }
+
+    const user = auth.currentUser;
+
+    if (!user) {
+        updateNotificationBadge(0);
+        return;
+    }
+
+    const notificationRef = collection(
+        db,
+        "users",
+        user.uid,
+        "notifications"
+    );
+
+    const notificationQuery = query(
+        notificationRef,
+        orderBy("createdAt", "desc")
+    );
+
+    notificationUnsubscribe = onSnapshot(
+        notificationQuery,
+        (snapshot) => {
+
+            const list =
+                document.getElementById(
+                    "notificationList"
+                );
+
+            let unread = 0;
+
+            if (list) {
+                list.innerHTML = "";
+            }
+
+            snapshot.forEach((docSnap) => {
+
+                const data = docSnap.data();
+
+                const notificationId =
+                    docSnap.id;
+
+                if (data.read === false) {
+                    unread++;
+                }
+
+                if (list) {
+
+                    const item =
+                        document.createElement("div");
+
+                    item.className =
+                        "notification-message";
+
+                    item.dataset.id =
+                        notificationId;
+
+                    const title =
+                        document.createElement("strong");
+
+                    title.textContent =
+                        data.title || "Notification";
+
+                    const message =
+                        document.createElement("p");
+
+                    message.textContent =
+                        data.message || "";
+
+                    item.appendChild(title);
+                    item.appendChild(message);
+
+                    item.addEventListener(
+                        "click",
+                        () => {
+
+                            openNotification(
+                                notificationId
+                            );
+
+                        }
+                    );
+
+                    list.appendChild(item);
+                }
+
+            });
+
+            updateNotificationBadge(unread);
+
+        },
+        (error) => {
+
+            console.error(
+                "Notification listener error:",
+                error
+            );
+
+        }
+    );
+}
+
+
+/* =========================================
+   UPDATE NOTIFICATION BADGE
+========================================= */
+
+function updateNotificationBadge(count) {
+
+    const badges =
+        document.querySelectorAll(
+            ".notification-badge"
+        );
+
+    badges.forEach((badge) => {
+
+        badge.textContent = count;
+
+        if (count > 0) {
+
+            badge.style.display = "flex";
+
+        } else {
+
+            badge.style.display = "none";
+
+        }
+
+    });
+
+}
+
+
+/* =========================================
+   OPEN NOTIFICATION
+========================================= */
+
+window.openNotification = function(
+    notificationId
+) {
+
+    if (!notificationId) return;
+
+    window.location.href =
+        `notification.html?id=${encodeURIComponent(
+            notificationId
+        )}`;
+
+};
+
+
+/* =========================================
+   CREATE NOTIFICATION
+========================================= */
+
+window.createNotification = async function(
+    userId,
+    title,
+    message,
+    type = "system",
+    link = ""
+) {
+
+    if (!userId) {
+        console.error(
+            "Notification user ID missing."
+        );
+        return;
+    }
+
+    try {
+
+        await addDoc(
+            collection(
+                db,
+                "users",
+                userId,
+                "notifications"
+            ),
+            {
+
+                title:
+                    title || "Notification",
+
+                message:
+                    message || "",
+
+                type,
+
+                link,
+
+                read: false,
+
+                createdAt:
+                    serverTimestamp()
+
+            }
+        );
+
+        console.log(
+            "Notification created successfully."
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Create notification error:",
+            error
+        );
+
+    }
+
+};
 
 
 /* =========================================
@@ -103,120 +334,150 @@ function showNotification(message) {
 
 
 /* =========================================
-   LOAD REVIEWS
-========================================= */
-
-async function loadReviews() {
-    const container = document.getElementById("reviewsContainer");
-
-    if (!container) return;
-
-    try {
-        const q = query(
-            collection(db, "reviews"),
-            where("productId", "==", productId)
-        );
-
-        const snap = await getDocs(q);
-
-        const avgRatingEl = document.getElementById("averageRating");
-        const revCountEl = document.getElementById("reviewCount");
-
-        if (snap.empty) {
-            if (avgRatingEl) avgRatingEl.textContent = "0.0 ⭐";
-            if (revCountEl) revCountEl.textContent = "0 Reviews";
-
-            container.innerHTML = "<p style='padding: 10px; color: #777;'>No reviews yet. Be the first to review!</p>";
-            return;
-        }
-
-        let total = 0;
-        let html = "";
-
-        snap.forEach(docSnap => {
-            const r = docSnap.data();
-            const ratingValue = Number(r.rating || 0);
-            total += ratingValue;
-
-            html += `
-            <div class="review-card" style="border-bottom: 1px solid #eee; padding: 15px 0;">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <strong>${r.userEmail || "Anonymous User"}</strong>
-                    <span style="color: #f39c12; font-size: 16px;">${"⭐".repeat(ratingValue)}</span>
-                </div>
-                <p style="margin-top: 8px; color: #444;">${r.comment || ""}</p>
-            </div>
-            `;
-        });
-
-        const average = (total / snap.size).toFixed(1);
-
-        if (avgRatingEl) {
-            avgRatingEl.textContent = `${average} ⭐`;
-        }
-
-        if (revCountEl) {
-            revCountEl.textContent = `${snap.size} Review${snap.size > 1 ? "s" : ""}`;
-        }
-
-        container.innerHTML = html;
-
-    } catch (error) {
-        console.error("Error loading reviews:", error);
-    }
-}
-
-
-/* =========================================
    SUBMIT REVIEW
 ========================================= */
 
+let submittingReview = false;
+
 async function submitReview() {
+
+    if (submittingReview) return;
+
     if (!currentUser) {
-        showNotification("Please log in to submit a review.");
+
+        showNotification(
+            "Please log in to submit a review."
+        );
+
         return;
     }
 
     if (!productId) {
-        showNotification("Product ID is missing.");
+
+        showNotification(
+            "Product ID is missing."
+        );
+
         return;
     }
 
-    const ratingEl = document.getElementById("reviewRating");
-    const commentEl = document.getElementById("reviewComment");
+    const ratingEl =
+        document.getElementById("reviewRating");
 
-    const rating = ratingEl ? Number(ratingEl.value) : 5;
-    const comment = commentEl ? commentEl.value.trim() : "";
+    const commentEl =
+        document.getElementById("reviewComment");
+
+    const submitBtn =
+        document.getElementById("submitReview");
+
+    const rating =
+        Number(ratingEl?.value || 5);
+
+    const comment =
+        commentEl?.value.trim() || "";
 
     if (!comment) {
-        showNotification("Please write a comment for your review.");
+
+        showNotification(
+            "Please write a comment for your review."
+        );
+
+        return;
+    }
+
+    if (rating < 1 || rating > 5) {
+
+        showNotification(
+            "Please select a valid rating."
+        );
+
         return;
     }
 
     try {
-        await addDoc(collection(db, "reviews"), {
-            productId: productId,
-            userId: currentUser.uid,
-            userEmail: currentUser.email || "Anonymous",
-            rating: rating,
-            comment: comment,
-            createdAt: serverTimestamp()
-        });
 
-        showNotification("Review added successfully!");
+        submittingReview = true;
 
-        // Reset Form
-        if (commentEl) commentEl.value = "";
-        if (ratingEl) ratingEl.value = "5";
+        if (submitBtn) {
 
-        // Reload Reviews
+            submitBtn.disabled = true;
+
+            submitBtn.textContent =
+                "Submitting...";
+
+        }
+
+        await addDoc(
+            collection(db, "reviews"),
+            {
+
+                productId,
+
+                userId:
+                    currentUser.uid,
+
+                userName:
+                    currentUser.displayName ||
+                    "Anonymous User",
+
+                userEmail:
+                    currentUser.email ||
+                    "Anonymous",
+
+                userPhoto:
+                    currentUser.photoURL ||
+                    "",
+
+                rating,
+
+                comment,
+
+                createdAt:
+                    serverTimestamp()
+
+            }
+        );
+
+        showNotification(
+            "Review added successfully! ⭐"
+        );
+
+        if (commentEl)
+            commentEl.value = "";
+
+        if (ratingEl)
+            ratingEl.value = "5";
+
         await loadReviews();
 
     } catch (error) {
-        console.error("Error submitting review:", error);
-        showNotification("Failed to submit review. Please try again.");
+
+        console.error(
+            "Error submitting review:",
+            error
+        );
+
+        showNotification(
+            "Failed to submit review. Please try again."
+        );
+
+    } finally {
+
+        submittingReview = false;
+
+        if (submitBtn) {
+
+            submitBtn.disabled = false;
+
+            submitBtn.textContent =
+                "Submit Review";
+
+        }
+
     }
+
 }
+
 
 
 /* =========================================
@@ -326,6 +587,104 @@ async function loadProduct() {
 
         const sellerStoreName = document.getElementById("sellerStoreName");
         if (sellerStoreName) sellerStoreName.textContent = product.sellerStoreName || product.sellerName || "-";
+        /* =========================================
+   LOAD SELLER STORE LOGO
+========================================= */
+
+const sellerId =
+    product.sellerId ||
+    product.artistUID ||
+    product.sellerUID;
+
+if (sellerId) {
+
+    try {
+
+        const storeRef =
+            doc(
+                db,
+                "stores",
+                sellerId
+            );
+
+        const storeSnap =
+            await getDoc(storeRef);
+
+        if (storeSnap.exists()) {
+
+            const store =
+                storeSnap.data();
+
+            console.log(
+                "STORE DATA:",
+                store
+            );
+
+            const storeLogo =
+                document.getElementById(
+                    "storeLogo"
+                );
+
+            if (storeLogo) {
+
+                if (store.logo) {
+
+                    storeLogo.src =
+                        store.logo;
+
+                    console.log(
+                        "STORE LOGO:",
+                        store.logo
+                    );
+
+                } else {
+
+                    storeLogo.src =
+                        "profile.png";
+
+                    console.warn(
+                        "Store logo not found."
+                    );
+
+                }
+
+            }
+
+            // Store Name
+            const sellerStoreName =
+                document.getElementById(
+                    "sellerStoreName"
+                );
+
+            if (sellerStoreName) {
+
+                sellerStoreName.textContent =
+                    store.name ||
+                    product.sellerStoreName ||
+                    product.sellerName ||
+                    "Store";
+
+            }
+
+        } else {
+
+            console.warn(
+                "Store document not found:",
+                sellerId
+            );
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Error loading store:",
+            error
+        );
+
+    }
+
+}
 
         const sellerEmail = document.getElementById("sellerEmail");
         if (sellerEmail) sellerEmail.textContent = product.sellerEmail || "-";
@@ -335,6 +694,7 @@ async function loadProduct() {
 
         const sku = document.getElementById("sku");
         if (sku) sku.textContent = product.sku || "-";
+        
 
         const description = document.getElementById("description");
         if (description) {
@@ -375,6 +735,9 @@ onAuthStateChanged(auth, (user) => {
 
     currentUser = user;
 
+    loadNotifications();
+
+
     const profileImage = document.getElementById("profileImage");
     const loginBox = document.getElementById("loginBox");
     const reviewForm = document.querySelector(".review-form");
@@ -404,16 +767,6 @@ onAuthStateChanged(auth, (user) => {
 
 });
 
-// Setup Submit Button Event Listener
-document.addEventListener("DOMContentLoaded", () => {
-    const submitBtn = document.getElementById("submitReview");
-    if (submitBtn) {
-        submitBtn.addEventListener("click", (e) => {
-            e.preventDefault();
-            submitReview();
-        });
-    }
-});
 
 // App Start
 loadProduct();
@@ -508,3 +861,305 @@ if(loginBtn){
     });
 
 }
+/* =========================================
+   VISIT SELLER STORE
+========================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const visitStoreBtn =
+        document.getElementById("visitStoreBtn");
+
+    if (!visitStoreBtn) {
+        console.warn("Visit Store button not found.");
+        return;
+    }
+
+    visitStoreBtn.addEventListener("click", () => {
+
+        if (!product) {
+            showNotification(
+                "Product information is still loading..."
+            );
+            return;
+        }
+
+        console.log("Product:", product);
+
+        const sellerId =
+            product.sellerId ||
+            product.artistUID ||
+            product.sellerUID;
+
+        if (!sellerId) {
+
+            console.error(
+                "Seller ID missing from product:",
+                product
+            );
+
+            showNotification(
+                "Seller store information not available."
+            );
+
+            return;
+        }
+
+        console.log(
+            "Opening seller store:",
+            sellerId
+        );
+
+        window.location.href =
+            `seller2.html?id=${encodeURIComponent(sellerId)}`;
+
+    });
+
+});
+/* =========================================
+   LOAD REVIEWS
+========================================= */
+
+async function loadReviews() {
+
+    const container =
+        document.getElementById("reviewsContainer");
+
+    const averageRating =
+        document.getElementById("averageRating");
+
+    const reviewCount =
+        document.getElementById("reviewCount");
+
+    if (!container || !productId) return;
+
+    try {
+
+        const reviewsQuery = query(
+            collection(db, "reviews"),
+            where("productId", "==", productId)
+        );
+
+        const snapshot =
+            await getDocs(reviewsQuery);
+
+        /* NO REVIEWS */
+
+        if (snapshot.empty) {
+
+            if (averageRating)
+                averageRating.textContent = "0.0 ⭐";
+
+            if (reviewCount)
+                reviewCount.textContent = "0 Reviews";
+
+            container.innerHTML = `
+                <p style="
+                    padding:20px;
+                    text-align:center;
+                    color:#888;
+                ">
+                    No reviews yet.
+                    Be the first to review this product! ⭐
+                </p>
+            `;
+
+            return;
+        }
+
+        let totalRating = 0;
+
+        const reviews = [];
+
+        snapshot.forEach(reviewDoc => {
+
+            const data =
+                reviewDoc.data();
+
+            const rating =
+                Number(data.rating || 0);
+
+            totalRating += rating;
+
+            reviews.push({
+                ...data,
+                rating
+            });
+
+        });
+
+        /* NEWEST FIRST */
+
+        reviews.sort((a, b) => {
+
+            const aTime =
+                a.createdAt?.seconds || 0;
+
+            const bTime =
+                b.createdAt?.seconds || 0;
+
+            return bTime - aTime;
+
+        });
+
+        /* AVERAGE */
+
+        const average =
+            (totalRating / reviews.length)
+                .toFixed(1);
+
+        if (averageRating) {
+
+            averageRating.textContent =
+                `${average} ⭐`;
+
+        }
+
+        if (reviewCount) {
+
+            reviewCount.textContent =
+                `${reviews.length} Review${
+                    reviews.length === 1
+                        ? ""
+                        : "s"
+                }`;
+
+        }
+
+        container.innerHTML = "";
+
+        /* DISPLAY REVIEWS */
+
+        reviews.forEach(review => {
+
+            const card =
+                document.createElement("div");
+
+            card.className =
+                "review-card";
+
+            const header =
+                document.createElement("div");
+
+            header.style.cssText = `
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+                gap:10px;
+            `;
+
+            const user =
+                document.createElement("strong");
+
+            user.textContent =
+                review.userName ||
+                review.userEmail ||
+                "Anonymous User";
+
+            const stars =
+                document.createElement("span");
+
+            stars.style.cssText = `
+                color:#f39c12;
+                white-space:nowrap;
+            `;
+
+            stars.textContent =
+                "⭐".repeat(
+                    Math.max(
+                        0,
+                        Math.min(5, review.rating)
+                    )
+                );
+
+            header.appendChild(user);
+            header.appendChild(stars);
+
+            const comment =
+                document.createElement("p");
+
+            comment.textContent =
+                review.comment || "";
+
+            const date =
+                document.createElement("small");
+
+            if (review.createdAt) {
+
+                date.textContent =
+                    review.createdAt
+                        .toDate()
+                        .toLocaleDateString(
+                            "en-US",
+                            {
+                                year: "numeric",
+                                month: "short",
+                                day: "numeric"
+                            }
+                        );
+
+            }
+
+            card.appendChild(header);
+            card.appendChild(comment);
+            card.appendChild(date);
+
+            container.appendChild(card);
+
+        });
+
+    } catch (error) {
+
+        console.error(
+            "Error loading reviews:",
+            error
+        );
+
+        container.innerHTML = `
+            <p style="color:red;">
+                Failed to load reviews.
+            </p>
+        `;
+
+    }
+
+}
+/* =========================================
+   NOTIFICATION DROPDOWN
+========================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const notificationBtn =
+        document.getElementById("notificationBtn");
+
+    const notificationDropdown =
+        document.getElementById("notificationDropdown");
+
+    if (!notificationBtn || !notificationDropdown) {
+        return;
+    }
+
+    notificationBtn.addEventListener("click", (e) => {
+
+        e.stopPropagation();
+
+        notificationDropdown.classList.toggle("active");
+
+    });
+
+    document.addEventListener("click", (e) => {
+
+        if (
+            !notificationDropdown.contains(e.target) &&
+            e.target !== notificationBtn
+        ) {
+
+            notificationDropdown.classList.remove("active");
+
+        }
+
+    });
+
+});
+

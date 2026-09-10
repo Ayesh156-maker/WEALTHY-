@@ -858,3 +858,158 @@ body {
     font-size:14px;
 
 }
+
+/* =========================================
+   NOTIFICATION SYSTEM
+========================================= */
+
+.notification-wrapper {
+    position: relative;
+}
+
+.notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+
+    min-width: 18px;
+    height: 18px;
+
+    padding: 0 5px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #d4af37;
+    color: #000;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    border: 2px solid #050505;
+
+    box-sizing: border-box;
+}
+
+.notification-dropdown {
+    position: absolute;
+
+    top: 55px;
+    right: 0;
+
+    width: 340px;
+    max-height: 450px;
+
+    background: #111;
+    border: 1px solid rgba(212, 175, 55, 0.35);
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.5);
+
+    overflow: hidden;
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease,
+        visibility 0.2s ease;
+
+    z-index: 9999;
+}
+
+.notification-dropdown.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.notification-header {
+    padding: 15px 18px;
+
+    border-bottom: 1px solid
+        rgba(255, 255, 255, 0.08);
+}
+
+.notification-header h3 {
+    margin: 0;
+
+    color: #d4af37;
+
+    font-size: 16px;
+}
+
+.notification-list {
+    max-height: 390px;
+
+    overflow-y: auto;
+}
+
+.notification-message {
+    padding: 14px 16px;
+
+    border-bottom: 1px solid
+        rgba(255, 255, 255, 0.06);
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease;
+}
+
+.notification-message:hover {
+    background: rgba(212, 175, 55, 0.08);
+}
+
+.notification-message strong {
+    display: block;
+
+    color: #fff;
+
+    margin-bottom: 5px;
+}
+
+.notification-message p {
+    margin: 0;
+
+    color: #aaa;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+}
+
+.no-notifications {
+    padding: 25px 15px;
+
+    text-align: center;
+
+    color: #777;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+    .notification-dropdown {
+
+        position: fixed;
+
+        top: 70px;
+        left: 10px;
+        right: 10px;
+
+        width: auto;
+
+    }
+
+}
+

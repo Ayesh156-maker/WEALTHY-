@@ -17,128 +17,123 @@
     href="seller-form.css"
 >
 
-<style>
 
-.section-title{
-    margin-top:25px;
-    margin-bottom:12px;
-}
-
-.hidden{
-    display:none !important;
-}
-
-.spec-note{
-    font-size:12px;
-    opacity:.65;
-    margin-top:5px;
-    margin-bottom:12px;
-}
-
-/* =====================================================
-   CATEGORY / SUBCATEGORY
-===================================================== */
-
-#category,
-#subcategory{
-    width:100%;
-}
-
-#subcategoryWrapper{
-    display:block !important;
-    visibility:visible !important;
-    opacity:1 !important;
-    margin-top:15px;
-}
-
-#subcategoryWrapper.hidden{
-    display:block !important;
-}
-
-#subcategory:disabled{
-    opacity:.6;
-}
-
-
-/* =====================================================
-   LOADING SCREEN
-===================================================== */
-
-#loadingScreen{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.88);
-    z-index:9999;
-    display:none;
-    align-items:center;
-    justify-content:center;
-}
-
-.loaderBox{
-    text-align:center;
-    padding:30px;
-}
-
-.neonSpinner{
-    width:55px;
-    height:55px;
-    border:4px solid rgba(255,255,255,.15);
-    border-top:4px solid #d4af37;
-    border-radius:50%;
-    animation:spin 1s linear infinite;
-    margin:0 auto 20px;
-}
-
-@keyframes spin{
-    to{
-        transform:rotate(360deg);
-    }
-}
-.section-title{
-    margin-top:25px;
-    margin-bottom:12px;
-}
-
-.hidden{
-    display:none !important;
-}
-
-.spec-note{
-    font-size:12px;
-    opacity:.65;
-    margin-top:5px;
-    margin-bottom:12px;
-}
-
-/* =========================================
-   SUBCATEGORY FORCE DISPLAY
-========================================= */
-
-#subcategoryWrapper{
-    display:block !important;
-    visibility:visible !important;
-    opacity:1 !important;
-    height:auto !important;
-    max-height:none !important;
-    overflow:visible !important;
-}
-
-#subcategory{
-    display:block !important;
-    visibility:visible !important;
-    opacity:1 !important;
-    width:100% !important;
-}
-
-
-</style>
 
 </head>
 
 
 <body>
 
+<!-- =========================
+     LEANGELO SELLER NAVBAR
+========================= -->
 
+<header class="seller-navbar">
+
+    <div class="nav-left">
+
+        <a href="landing.html" class="logo">
+            <img src="https://res.cloudinary.com/dxpizcvi5/image/upload/v1786175381/ChatGPT_Image_Apr_28_2026_05_39_55_PM_ewybbi.png">
+            <span class="logo-text">LeanGelo</span>
+        </a>
+
+    </div>
+
+    <nav class="nav-center">
+
+        <a href="seller-dashboard.html">
+            Dashboard
+        </a>
+
+
+        <a
+            href="seller-form.html"
+            class="active"
+        >
+            Add Product
+        </a>
+
+    </nav>
+<div class="nav-right">
+
+    <button
+        type="button"
+        id="saveDraftBtn"
+        class="nav-btn"
+    >
+        💾 Save Draft
+    </button>
+
+    <button
+        type="button"
+        class="icon-btn"
+        title="Notifications"
+    >
+        🔔
+    </button>
+
+    <button
+        type="button"
+        class="profile-btn"
+        title="Profile"
+    >
+        <img
+            id="profileImage"
+            src="https://ui-avatars.com/api/?name=User&background=222&color=fff"
+            alt="Profile"
+        >
+    </button>
+
+</div>
+
+</header>
+
+
+<!-- =========================
+     STEP PROGRESS
+========================= -->
+
+<div class="step-progress">
+
+    <div class="step active">
+        <div class="step-circle">
+            ✓
+        </div>
+
+        <span>
+            Product Details
+        </span>
+    </div>
+
+    <div class="step-line"></div>
+
+    <div class="step">
+
+        <div class="step-circle">
+            2
+        </div>
+
+        <span>
+            Images
+        </span>
+
+    </div>
+
+    <div class="step-line"></div>
+
+    <div class="step">
+
+        <div class="step-circle">
+            3
+        </div>
+
+        <span>
+            Publish
+        </span>
+
+    </div>
+
+</div>
 <div class="form-container">
 
 
@@ -146,10 +141,6 @@
     Add Product 🚀
 </h1>
 
-
-<!-- =====================================================
-     SELLER INFORMATION
-====================================================== -->
 
 <label class="field-label">
     Full Name
@@ -174,10 +165,6 @@
     required
 >
 
-
-<!-- =====================================================
-     PRODUCT INFORMATION
-====================================================== -->
 
 <label class="field-label">
     Product Name
@@ -216,10 +203,6 @@
 >
 
 
-<!-- =====================================================
-     PRODUCT TYPE
-====================================================== -->
-
 <label class="field-label">
     Product Type
 </label>
@@ -244,10 +227,6 @@
 </select>
 
 
-<!-- =====================================================
-     MAIN CATEGORY
-====================================================== -->
-
 <label class="field-label">
     Main Category
 </label>
@@ -264,10 +243,6 @@
 
 </select>
 
-
-<!-- =====================================================
-     SUBCATEGORY
-====================================================== -->
 
 <div id="subcategoryWrapper">
 
@@ -289,10 +264,6 @@
 
 </div>
 
-
-<!-- =====================================================
-     DIGITAL PRODUCT DETAILS
-====================================================== -->
 
 <div
     id="digitalDetails"
@@ -340,19 +311,11 @@
 </div>
 
 
-<!-- =====================================================
-     PHYSICAL PRODUCT DETAILS
-====================================================== -->
-
 <div
     id="physicalDetails"
     class="hidden"
 >
 
-
-<!-- =====================================================
-     INVENTORY
-====================================================== -->
 
 <div id="inventorySection">
 
@@ -399,18 +362,10 @@
 </div>
 
 
-<!-- =====================================================
-     PHYSICAL SPECIFICATIONS
-====================================================== -->
-
 <h3 class="section-title">
     📐 Product Specifications
 </h3>
 
-
-<!-- =====================================================
-     MATERIALS
-===================================================== -->
 
 <label class="field-label">
     Available Materials (Maximum 15)
@@ -548,18 +503,67 @@
     Finish
 </label>
 
-<select id="finish">
+<div class="finish-picker" id="finishPicker">
 
-    <option value="">
-        Select Finish
-    </option>
+    <button
+        type="button"
+        class="finish-picker-button"
+        id="finishPickerButton"
+    >
+        <span id="selectedFinishText">
+            Select Finish
+        </span>
 
-    <option>Matte</option>
-    <option>Glossy</option>
-    <option>Metallic</option>
-    <option>Wood Finish</option>
+        <span id="selectedFinishCount">
+            None
+        </span>
 
-</select>
+        <span>
+            ▼
+        </span>
+    </button>
+
+    <div
+        class="finish-dropdown"
+        id="finishDropdown"
+    >
+
+        <div class="finish-search-box">
+            <input
+                type="text"
+                id="finishSearch"
+                placeholder="Search finish..."
+            >
+        </div>
+
+        <div class="custom-finish-box">
+            <input
+                type="text"
+                id="customFinishInput"
+                placeholder="Type your own finish..."
+                maxlength="50"
+            >
+
+            <button
+                type="button"
+                id="addCustomFinishBtn"
+            >
+                + Add
+            </button>
+        </div>
+
+        <div
+            class="finish-list"
+            id="finishList"
+        ></div>
+
+    </div>
+
+</div>
+
+<p class="spec-note">
+    Select one finish or add your own.
+</p>
 
 
 <label class="field-label">
@@ -585,10 +589,6 @@
 
 </select>
 
-
-<!-- =====================================================
-     VARIANTS
-====================================================== -->
 
 <div id="variantSection">
 
@@ -699,9 +699,7 @@
             id="sizeList"
         >
 
-            <!-- Sizes loaded here -->
-
-        </div>
+            </div>
 
     </div>
 
@@ -725,29 +723,30 @@
 </div>
 
 
-<!-- =====================================================
-     SHIPPING
-====================================================== -->
-
 <div id="shippingSection">
 
 <h3 class="section-title">
-    🚚 Shipping
+    🚚 Processing / Dispatch Time
 </h3>
 
 
 <label class="field-label">
-    Shipping Time
+  Add your estimated shipping time. Choose the typical delivery time customers can expect after placing an order.
 </label>
 
-<select id="shipping">
+<div class="shipping-time-container">
+    <select id="shippingYears">
+        <option value="0">0 Years</option>
+        <option value="1">1 Year</option>
+        <option value="2">2 Years</option>
+    </select>
 
-    <option>1-3 Days</option>
-    <option>3-5 Days</option>
-    <option>5-7 Days</option>
-    <option>1-2 Weeks</option>
+    <select id="shippingMonths">
+        </select>
 
-</select>
+    <select id="shippingDays">
+        </select>
+</div>
 
 
 <label class="field-label">
@@ -784,10 +783,6 @@
 
 
 
-
-<!-- =====================================================
-     DIGITAL FILE
-===================================================== -->
 
 <div
     id="digitalFileContainer"
@@ -828,10 +823,6 @@
 </div>
 
 
-<!-- =====================================================
-     CONTINUE
-====================================================== -->
-
 <button
     class="btn"
     id="submitBtn"
@@ -849,10 +840,6 @@ Continue →
 
 </div>
 
-
-<!-- =====================================================
-     LOADING SCREEN
-====================================================== -->
 
 <div
     id="loadingScreen"
@@ -879,16 +866,15 @@ Continue →
 </div>
 
 
-<!-- =====================================================
-     FIREBASE
-====================================================== -->
-
 <script type="module">
 
 
 /* =====================================================
    FIREBASE IMPORTS
 ===================================================== */
+
+
+
 
 import {
     initializeApp
@@ -898,7 +884,8 @@ from
 
 
 import {
-    getAuth
+    getAuth,
+    onAuthStateChanged
 }
 from
 "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
@@ -954,7 +941,8 @@ const categorySelect =
     document.getElementById("category");
 const descriptionInput =
     document.getElementById("description");
-
+const profileImage =
+    document.getElementById("profileImage");
 const descriptionCounter =
     document.getElementById("descriptionCounter");
 const subcategorySelect =
@@ -1002,6 +990,76 @@ const skuInput =
 
 const countrySelect =
     document.getElementById("country");
+
+const shippingYears =
+    document.getElementById("shippingYears");
+
+const shippingMonths =
+    document.getElementById("shippingMonths");
+
+const shippingDays =
+    document.getElementById("shippingDays");
+
+
+onAuthStateChanged(auth, (user) => {
+
+    if (user) {
+
+        if (user.photoURL) {
+
+            profileImage.src = user.photoURL;
+
+        }
+
+    }
+
+});
+/* =====================================================
+   POPULATE SHIPPING MONTHS & DAYS
+===================================================== */
+
+function initShippingDropdowns(){
+
+    // Months (0 - 12)
+    for(let i = 0; i <= 12; i++){
+        const option = document.createElement("option");
+        option.value = i;
+        option.textContent = i === 1 ? `${i} Month` : `${i} Months`;
+        shippingMonths.appendChild(option);
+    }
+
+    // Days (0 - 31)
+    for(let i = 0; i <= 31; i++){
+        const option = document.createElement("option");
+        option.value = i;
+        option.textContent = i === 1 ? `${i} Day` : `${i} Days`;
+        shippingDays.appendChild(option);
+    }
+
+}
+
+initShippingDropdowns();
+
+
+/* =====================================================
+   GET FORMATTED SHIPPING TIME
+===================================================== */
+
+function getShippingTimeFormatted(){
+
+    const yrs = parseInt(shippingYears.value) || 0;
+    const mos = parseInt(shippingMonths.value) || 0;
+    const dys = parseInt(shippingDays.value) || 0;
+
+    let parts = [];
+
+    if(yrs > 0) parts.push(yrs === 1 ? "1 Year" : `${yrs} Years`);
+    if(mos > 0) parts.push(mos === 1 ? "1 Month" : `${mos} Months`);
+    if(dys > 0) parts.push(dys === 1 ? "1 Day" : `${dys} Days`);
+
+    return parts.length > 0 ? parts.join(" ") : "Not Specified";
+
+}
 
 
 /* =====================================================
@@ -1686,19 +1744,6 @@ subcategorySelect.addEventListener(
    COUNTRIES
 ===================================================== */
 
-/*
- * API එක use නොකර fixed country list එකක්
- * use කරනවා.
- *
- * ඒ නිසා:
- *
- * Failed to fetch
- * CORS
- * Network error
- *
- * වගේ errors එන්නේ නැහැ.
- */
-
 const countries = [
 
     "Afghanistan",
@@ -2182,7 +2227,7 @@ submitBtn.addEventListener(
 
                 material:
                     productType === "non-digital"
-                        ? getValue("material")
+                        ? selectedMaterials.join(", ")
                         : "",
 
                 length:
@@ -2207,9 +2252,9 @@ submitBtn.addEventListener(
 
 
                 finish:
-                    productType === "non-digital"
-                        ? getValue("finish")
-                        : "",
+    productType === "non-digital"
+        ? selectedFinish
+        : "",
 
                 frame:
                     productType === "non-digital"
@@ -2228,12 +2273,12 @@ submitBtn.addEventListener(
 
                 variantColors:
                     productType === "non-digital"
-                        ? getValue("variantColors")
+                        ? selectedColors.map(c => c.name).join(", ")
                         : "",
 
                 variantSizes:
                     productType === "non-digital"
-                        ? getValue("variantSizes")
+                        ? selectedSizes.join(", ")
                         : "",
 
                 customizable:
@@ -2243,13 +2288,28 @@ submitBtn.addEventListener(
 
 
                 /* =================================================
-                   SHIPPING
+                   SHIPPING (UPDATED DATA FORMAT)
                 ================================================= */
 
                 shipping:
                     productType === "non-digital"
-                        ? getValue("shipping")
+                        ? getShippingTimeFormatted()
                         : "",
+
+                shippingYears:
+                    productType === "non-digital"
+                        ? getNumber("shippingYears")
+                        : 0,
+
+                shippingMonths:
+                    productType === "non-digital"
+                        ? getNumber("shippingMonths")
+                        : 0,
+
+                shippingDays:
+                    productType === "non-digital"
+                        ? getNumber("shippingDays")
+                        : 0,
 
                 country:
                     productType === "non-digital"
@@ -2341,7 +2401,9 @@ submitBtn.addEventListener(
             /* =================================================
                NEXT PAGE
             ================================================= */
-
+localStorage.removeItem(
+    "leangelo_product_draft"
+);
             window.location.href =
                 "product-image-upload.html";
 
@@ -2400,1201 +2462,1570 @@ async function loadColors(){
     try{
 
         const response = await fetch(
-            "https://raw.githubusercontent.com/bahamas10/css-color-names/master/css-color-names.json"
-        );
-
-        if(!response.ok){
-
-            throw new Error(
-                "Color API request failed"
-            );
-
-        }
-
-        const colors =
-            await response.json();
-
-
-        allColors =
-            Object.entries(colors)
-            .map(([name, hex]) => ({
-                name: name,
-                hex: hex
-            }))
-            .sort((a,b) =>
-                a.name.localeCompare(b.name)
-            );
-
-
-        renderColors(allColors);
-
-
-        console.log(
-            "Colors loaded:",
-            allColors.length
-        );
-
-    }
-    catch(error){
-
-        console.error(
-            "Color loading error:",
-            error
-        );
-
-        colorList.innerHTML = `
-            <div class="no-colors">
-                Failed to load colors.
-            </div>
-        `;
-
-    }
-
-}
-
-
-/* =====================================================
-   RENDER COLORS
-===================================================== */
-
-function renderColors(colors){
-
-    colorList.innerHTML = "";
-
-    if(!colors.length){
-
-        colorList.innerHTML = `
-            <div class="no-colors">
-                No colors found.
-            </div>
-        `;
-
-        return;
-    }
-
-
-    colors.forEach(color => {
-
-        const label =
-            document.createElement("label");
-
-        label.className =
-            "color-option";
-
-
-        const checkbox =
-            document.createElement("input");
-
-        checkbox.type =
-            "checkbox";
-
-        checkbox.value =
-            color.name;
-
-
-        checkbox.checked =
-            selectedColors.some(
-                item =>
-                    item.name === color.name
-            );
-
-
-        checkbox.addEventListener(
-            "change",
-            function(){
-
-                if(this.checked){
-
-                    selectedColors.push({
-                        name: color.name,
-                        hex: color.hex
-                    });
-
-                }
-                else{
-
-                    selectedColors =
-                        selectedColors.filter(
-                            item =>
-                                item.name !== color.name
-                        );
-
-                }
-
-
-                updateColorCount();
-
-            }
-        );
-
-
-        const swatch =
-            document.createElement("span");
-
-        swatch.className =
-            "color-swatch";
-
-        swatch.style.backgroundColor =
-            color.hex;
-
-
-        const name =
-            document.createElement("span");
-
-        name.className =
-            "color-name";
-
-        name.textContent =
-            color.name;
-
-
-        const hex =
-            document.createElement("span");
-
-        hex.className =
-            "color-hex";
-
-        hex.textContent =
-            color.hex;
-
-
-        label.appendChild(
-            checkbox
-        );
-
-        label.appendChild(
-            swatch
-        );
-
-        label.appendChild(
-            name
-        );
-
-        label.appendChild(
-            hex
-        );
-
-
-        colorList.appendChild(
-            label
-        );
-
-    });
-
-}
-
-
-/* =====================================================
-   COLOR SEARCH
-===================================================== */
-
-colorSearch.addEventListener(
-    "input",
-    function(){
-
-        const search =
-            this.value
-            .toLowerCase()
-            .trim();
-
-
-        const filtered =
-            allColors.filter(
-                color =>
-                    color.name
-                    .toLowerCase()
-                    .includes(search)
-            );
-
-
-        renderColors(filtered);
-
-    }
-);
-
-
-/* =====================================================
-   OPEN / CLOSE COLOR DROPDOWN
-===================================================== */
-
-colorPickerButton.addEventListener(
-    "click",
-    function(){
-
-        colorDropdown.classList.toggle(
-            "show"
-        );
-
-    }
-);
-
-
-/* =====================================================
-   CLOSE WHEN CLICK OUTSIDE
-===================================================== */
-
-document.addEventListener(
-    "click",
-    function(event){
-
-        const picker =
-            document.getElementById(
-                "colorPicker"
-            );
-
-
-        if(
-            !picker.contains(event.target)
-        ){
-
-            colorDropdown.classList.remove(
-                "show"
-            );
-
-        }
-
-    }
-);
-
-
-/* =====================================================
-   UPDATE SELECTED COUNT
-===================================================== */
-
-function updateColorCount(){
-
-    const count =
-        selectedColors.length;
-
-
-    selectedColorCount.textContent =
-        `${count} selected`;
-
-
-    if(count === 0){
-
-        colorPickerButton
-            .querySelector("span:first-child")
-            .textContent =
-                "Select Colors";
-
-        return;
-
-    }
-
-
-    const names =
-        selectedColors
-        .slice(0,3)
-        .map(color => color.name)
-        .join(", ");
-
-
-    if(count > 3){
-
-        colorPickerButton
-            .querySelector("span:first-child")
-            .textContent =
-                `${names} +${count - 3} more`;
-
-    }
-    else{
-
-        colorPickerButton
-            .querySelector("span:first-child")
-            .textContent =
-                names;
-
-    }
-
-}
-
-
-/* =====================================================
-   START COLOR LOADING
-===================================================== */
-
-loadColors();
-/* =====================================================
-   SIZE PICKER
-===================================================== */
-
-const availableSizes = [
-
-    "XS",
-    "S",
-    "M",
-    "L",
-    "XL",
-    "XXL",
-    "XXXL",
-
-    "A5",
-    "A4",
-    "A3",
-    "A2",
-    "A1",
-    "A0",
-
-    "20 × 30 cm",
-    "30 × 40 cm",
-    "40 × 50 cm",
-    "50 × 70 cm",
-    "60 × 90 cm",
-    "70 × 100 cm",
-    "80 × 120 cm",
-    "90 × 120 cm",
-    "100 × 150 cm",
-
-    "12 × 18 inch",
-    "16 × 20 inch",
-    "18 × 24 inch",
-    "20 × 24 inch",
-    "24 × 36 inch",
-    "30 × 40 inch",
-
-    "Small",
-    "Medium",
-    "Large",
-
-    "Custom Size"
-
-];
-
-
-let selectedSizes = [];
-
-
-const sizePickerButton =
-    document.getElementById(
-        "sizePickerButton"
-    );
-
-const sizeDropdown =
-    document.getElementById(
-        "sizeDropdown"
-    );
-
-const sizeList =
-    document.getElementById(
-        "sizeList"
-    );
-
-const sizeSearch =
-    document.getElementById(
-        "sizeSearch"
-    );
-
-const selectedSizeText =
-    document.getElementById(
-        "selectedSizeText"
-    );
-
-const selectedSizeCount =
-    document.getElementById(
-        "selectedSizeCount"
-    );
-
-
-/* =====================================================
-   RENDER SIZES
-===================================================== */
-
-function renderSizes(sizes){
-
-    sizeList.innerHTML = "";
-
-
-    sizes.forEach(size => {
-
-        const label =
-            document.createElement(
-                "label"
-            );
-
-        label.className =
-            "size-option";
-
-
-        const checkbox =
-            document.createElement(
-                "input"
-            );
-
-        checkbox.type =
-            "checkbox";
-
-        checkbox.value =
-            size;
-
-
-        checkbox.checked =
-            selectedSizes.includes(size);
-
-
-        checkbox.addEventListener(
-            "change",
-            function(){
-
-                if(this.checked){
-
-                    if(
-                        !selectedSizes.includes(size)
-                    ){
-
-                        selectedSizes.push(size);
-
-                    }
-
-                }
-                else{
-
-                    selectedSizes =
-                        selectedSizes.filter(
-                            item =>
-                                item !== size
-                        );
-
-                }
-
-
-                updateSizeDisplay();
-
-            }
-        );
-
-
-        const name =
-            document.createElement(
-                "span"
-            );
-
-        name.className =
-            "size-name";
-
-        name.textContent =
-            size;
-
-
-        label.appendChild(
-            checkbox
-        );
-
-        label.appendChild(
-            name
-        );
-
-
-        sizeList.appendChild(
-            label
-        );
-
-    });
-
-}
-
-
-/* =====================================================
-   UPDATE SIZE DISPLAY
-===================================================== */
-
-function updateSizeDisplay(){
-
-    const count =
-        selectedSizes.length;
-
-
-    selectedSizeCount.textContent =
-        `${count} selected`;
-
-
-    if(count === 0){
-
-        selectedSizeText.textContent =
-            "Select Sizes";
-
-        return;
-
-    }
-
-
-    const names =
-        selectedSizes
-        .slice(0,3)
-        .join(", ");
-
-
-    if(count > 3){
-
-        selectedSizeText.textContent =
-            `${names} +${count - 3} more`;
-
-    }
-    else{
-
-        selectedSizeText.textContent =
-            names;
-
-    }
-
-}
-
-
-/* =====================================================
-   SIZE SEARCH
-===================================================== */
-
-sizeSearch.addEventListener(
-    "input",
-    function(){
-
-        const search =
-            this.value
-            .toLowerCase()
-            .trim();
-
-
-        const filtered =
-            availableSizes.filter(
-                size =>
-                    size
-                    .toLowerCase()
-                    .includes(search)
-            );
-
-
-        renderSizes(filtered);
-
-    }
-);
-
-
-/* =====================================================
-   OPEN / CLOSE SIZE DROPDOWN
-===================================================== */
-
-sizePickerButton.addEventListener(
-    "click",
-    function(){
-
-        sizeDropdown.classList.toggle(
-            "show"
-        );
-
-    }
-);
-
-
-/* =====================================================
-   CLOSE SIZE DROPDOWN OUTSIDE
-===================================================== */
-
-document.addEventListener(
-    "click",
-    function(event){
-
-        const picker =
-            document.getElementById(
-                "sizePicker"
-            );
-
-
-        if(
-            !picker.contains(event.target)
-        ){
-
-            sizeDropdown.classList.remove(
-                "show"
-            );
-
-        }
-
-    }
-);
-
-
-/* =====================================================
-   INITIALIZE
-===================================================== */
-
-renderSizes(
-    availableSizes
-);
-/* =====================================================
-   MATERIAL PICKER
-===================================================== */
-
-/* =====================================================
-   MATERIAL PICKER
-===================================================== */
-
-const materialPickerButton =
-    document.getElementById("materialPickerButton");
-
-const materialDropdown =
-    document.getElementById("materialDropdown");
-
-const materialList =
-    document.getElementById("materialList");
-
-const materialSearch =
-    document.getElementById("materialSearch");
-
-const selectedMaterialText =
-    document.getElementById("selectedMaterialText");
-
-const selectedMaterialCount =
-    document.getElementById("selectedMaterialCount");
-
-const materialLimit =
-    document.getElementById("materialLimit");
-
-const customMaterialInput =
-    document.getElementById("customMaterialInput");
-
-const addCustomMaterialBtn =
-    document.getElementById("addCustomMaterialBtn");
-
-
-/* =====================================================
-   MATERIAL DATABASE
-===================================================== */
-
-const availableMaterials = [
-
-    "Canvas",
-    "Cotton Canvas",
-    "Linen Canvas",
-
-    "Wood",
-    "MDF",
-    "Plywood",
-    "Bamboo",
-
-    "Metal",
-    "Aluminium",
-    "Steel",
-    "Iron",
-    "Copper",
-    "Brass",
-
-    "Acrylic",
-    "Perspex",
-    "Glass",
-    "Tempered Glass",
-
-    "Paper",
-    "Cardstock",
-    "Fine Art Paper",
-    "Archival Paper",
-    "Watercolor Paper",
-    "Photo Paper",
-
-    "Ceramic",
-    "Porcelain",
-    "Clay",
-    "Terracotta",
-
-    "Leather",
-    "Faux Leather",
-
-    "Fabric",
-    "Cotton",
-    "Silk",
-    "Velvet",
-    "Linen",
-    "Polyester",
-
-    "Resin",
-    "Epoxy Resin",
-
-    "Stone",
-    "Marble",
-    "Granite",
-
-    "Concrete",
-    "Plaster",
-
-    "Foam",
-    "PVC",
-    "Vinyl",
-
-    "Burlap",
-    "Jute",
-    "Wool",
-
-    "Recycled Materials",
-    "Mixed Media",
-    "Natural Materials",
-
-    "Other"
-
-].sort((a, b) =>
-    a.localeCompare(b)
-);
-
-
-const MAX_MATERIALS = 15;
-
-let selectedMaterials = [];
-
-
-/* =====================================================
-   UPDATE MATERIAL DISPLAY
-===================================================== */
-
-function updateMaterialDisplay(){
-
-    const count =
-        selectedMaterials.length;
-
-
-    selectedMaterialCount.textContent =
-        `${count} / ${MAX_MATERIALS} selected`;
-
-
-    materialLimit.textContent =
-        count >= MAX_MATERIALS
-            ? "Maximum 15 materials reached"
-            : `${MAX_MATERIALS - count} selections remaining`;
-
-
-    if(count === 0){
-
-        selectedMaterialText.textContent =
-            "Select Materials";
-
-        return;
-
-    }
-
-
-    const names =
-        selectedMaterials
-            .slice(0, 3)
-            .join(", ");
-
-
-    if(count > 3){
-
-        selectedMaterialText.textContent =
-            `${names} +${count - 3} more`;
-
-    }
-    else{
-
-        selectedMaterialText.textContent =
-            names;
-
-    }
-
-}
-
-
-/* =====================================================
-   RENDER MATERIALS
-===================================================== */
-
-function renderMaterials(materials){
-
-    materialList.innerHTML = "";
-
-
-    if(!materials.length){
-
-        materialList.innerHTML = `
-            <div style="
-                padding:15px;
-                text-align:center;
-                opacity:.6;
-            ">
-                No materials found.
-            </div>
-        `;
-
-        return;
-
-    }
-
-
-    materials.forEach(material => {
-
-        const label =
-            document.createElement("label");
-
-        label.className =
-            "material-option";
-
-
-        const checkbox =
-            document.createElement("input");
-
-        checkbox.type =
-            "checkbox";
-
-        checkbox.value =
-            material;
-
-
-        checkbox.checked =
-            selectedMaterials.includes(material);
-
-
-        /*
-         * Disable unselected materials
-         * when maximum is reached
-         */
-
-        if(
-            selectedMaterials.length >= MAX_MATERIALS &&
-            !selectedMaterials.includes(material)
-        ){
-
-            checkbox.disabled = true;
-
-            label.classList.add("disabled");
-
-        }
-
-
-        /* =================================================
-           CHECKBOX CHANGE
-        ================================================= */
-
-        checkbox.addEventListener(
-            "change",
-            function(){
-
-                if(this.checked){
-
-                    if(
-                        selectedMaterials.length >=
-                        MAX_MATERIALS
-                    ){
-
-                        this.checked = false;
-
-                        showToast(
-                            "You can select a maximum of 15 materials."
-                        );
-
-                        return;
-
-                    }
-
-
-                    if(
-                        !selectedMaterials.includes(material)
-                    ){
-
-                        selectedMaterials.push(
-                            material
-                        );
-
-                    }
-
-                }
-                else{
-
-                    selectedMaterials =
-                        selectedMaterials.filter(
-                            item =>
-                                item !== material
-                        );
-
-                }
-
-
-                updateMaterialDisplay();
-
-
-                /*
-                 * Re-render
-                 */
-
-                const currentSearch =
-                    materialSearch.value
-                        .toLowerCase()
-                        .trim();
-
-
-                const filtered =
-                    availableMaterials.filter(
-                        item =>
-                            item
-                                .toLowerCase()
-                                .includes(currentSearch)
-                    );
-
-
-                renderMaterials(filtered);
-
-            }
-        );
-
-
-        const name =
-            document.createElement("span");
-
-        name.className =
-            "material-name";
-
-        name.textContent =
-            material;
-
-
-        label.appendChild(checkbox);
-
-        label.appendChild(name);
-
-        materialList.appendChild(label);
-
-    });
-
-}
-
-
-/* =====================================================
-   ADD CUSTOM MATERIAL
-   IMPORTANT:
-   This MUST be OUTSIDE renderMaterials()
-===================================================== */
-
-function addCustomMaterial(){
-
-    const value =
-        customMaterialInput.value.trim();
-
-
-    /* Empty */
-
-    if(!value){
-
-        showToast(
-            "Please enter a material name."
-        );
-
-        customMaterialInput.focus();
-
-        return;
+            "https://raw.githubusercontent.com/bahamas10/css-color-names/master/css-color-names.json" 
+        ); 
+ 
+        if(!response.ok){ 
+ 
+            throw new Error( 
+                "Color API request failed" 
+            ); 
+ 
+        } 
+ 
+        const colors = 
+            await response.json(); 
+ 
+ 
+        allColors = 
+            Object.entries(colors) 
+            .map(([name, hex]) => ({ 
+                name: name, 
+                hex: hex 
+            })) 
+            .sort((a,b) => 
+                a.name.localeCompare(b.name) 
+            ); 
+ 
+ 
+        renderColors(allColors); 
+ 
+ 
+        console.log( 
+            "Colors loaded:", 
+            allColors.length 
+        ); 
+ 
+    } 
+    catch(error){ 
+ 
+        console.error( 
+            "Color loading error:", 
+            error 
+        ); 
+ 
+        colorList.innerHTML = ` 
+            <div class="no-colors"> 
+                Failed to load colors. 
+            </div> 
+        `; 
+ 
+    } 
+ 
+} 
+ 
+ 
+/* ===================================================== 
+   RENDER COLORS 
+===================================================== */ 
+ 
+function renderColors(colors){ 
+ 
+    colorList.innerHTML = ""; 
+ 
+    if(!colors.length){ 
+ 
+        colorList.innerHTML = ` 
+            <div class="no-colors"> 
+                No colors found. 
+            </div> 
+        `; 
+ 
+        return; 
+    } 
+ 
+ 
+    colors.forEach(color => { 
+ 
+        const label = 
+            document.createElement("label"); 
+ 
+        label.className = 
+            "color-option"; 
+ 
+ 
+        const checkbox = 
+            document.createElement("input"); 
+ 
+        checkbox.type = 
+            "checkbox"; 
+ 
+        checkbox.value = 
+            color.name; 
+ 
+ 
+        checkbox.checked = 
+            selectedColors.some( 
+                item => 
+                    item.name === color.name 
+            ); 
+ 
+ 
+        checkbox.addEventListener( 
+            "change", 
+            function(){ 
+ 
+                if(this.checked){ 
+ 
+                    selectedColors.push({ 
+                        name: color.name, 
+                        hex: color.hex 
+                    }); 
+ 
+                } 
+                else{ 
+ 
+                    selectedColors = 
+                        selectedColors.filter( 
+                            item => 
+                                item.name !== color.name 
+                        ); 
+ 
+                } 
+ 
+ 
+                updateColorCount(); 
+ 
+            } 
+        ); 
+ 
+ 
+        const swatch = 
+            document.createElement("span"); 
+ 
+        swatch.className = 
+            "color-swatch"; 
+ 
+        swatch.style.backgroundColor = 
+            color.hex; 
+ 
+ 
+        const name = 
+            document.createElement("span"); 
+ 
+        name.className = 
+            "color-name"; 
+ 
+        name.textContent = 
+            color.name; 
+ 
+ 
+        const hex = 
+            document.createElement("span"); 
+ 
+        hex.className = 
+            "color-hex"; 
+ 
+        hex.textContent = 
+            color.hex; 
+ 
+ 
+        label.appendChild( 
+            checkbox 
+        ); 
+ 
+        label.appendChild( 
+            swatch 
+        ); 
+ 
+        label.appendChild( 
+            name 
+        ); 
+ 
+        label.appendChild( 
+            hex 
+        ); 
+ 
+ 
+        colorList.appendChild( 
+            label 
+        ); 
+ 
+    }); 
+ 
+} 
+ 
+ 
+/* ===================================================== 
+   COLOR SEARCH 
+===================================================== */ 
+ 
+colorSearch.addEventListener( 
+    "input", 
+    function(){ 
+ 
+        const search = 
+            this.value 
+            .toLowerCase() 
+            .trim(); 
+ 
+ 
+        const filtered = 
+            allColors.filter( 
+                color => 
+                    color.name 
+                    .toLowerCase() 
+                    .includes(search) 
+            ); 
+ 
+ 
+        renderColors(filtered); 
+ 
+    } 
+); 
+ 
+ 
+/* ===================================================== 
+   OPEN / CLOSE COLOR DROPDOWN 
+===================================================== */ 
+ 
+colorPickerButton.addEventListener( 
+    "click", 
+    function(){ 
+ 
+        colorDropdown.classList.toggle( 
+            "show" 
+        ); 
+ 
+    } 
+); 
+ 
+ 
+/* ===================================================== 
+   CLOSE WHEN CLICK OUTSIDE 
+===================================================== */ 
+ 
+document.addEventListener( 
+    "click", 
+    function(event){ 
+ 
+        const picker = 
+            document.getElementById( 
+                "colorPicker" 
+            ); 
+ 
+ 
+        if( 
+            !picker.contains(event.target) 
+        ){ 
+ 
+            colorDropdown.classList.remove( 
+                "show" 
+            ); 
+ 
+        } 
+ 
+    } 
+); 
+ 
+ 
+/* ===================================================== 
+   UPDATE SELECTED COUNT 
+===================================================== */ 
+ 
+function updateColorCount(){ 
+ 
+    const count = 
+        selectedColors.length; 
+ 
+ 
+    selectedColorCount.textContent = 
+        `${count} selected`; 
+ 
+ 
+    if(count === 0){ 
+ 
+        colorPickerButton 
+            .querySelector("span:first-child") 
+            .textContent = 
+                "Select Colors"; 
+ 
+        return; 
+ 
+    } 
+ 
+ 
+    const names = 
+        selectedColors 
+        .slice(0,3) 
+        .map(color => color.name) 
+        .join(", "); 
+ 
+ 
+    if(count > 3){ 
+ 
+        colorPickerButton 
+            .querySelector("span:first-child") 
+            .textContent = 
+                `${names} +${count - 3} more`; 
+ 
+    } 
+    else{ 
+ 
+        colorPickerButton 
+            .querySelector("span:first-child") 
+            .textContent = 
+                names; 
+ 
+    } 
+ 
+} 
+ 
+ 
+/* ===================================================== 
+   START COLOR LOADING 
+===================================================== */ 
+ 
+loadColors(); 
+ 
+ 
+/* ===================================================== 
+   SIZE PICKER 
+===================================================== */ 
+ 
+const availableSizes = [ 
+ 
+    "XS", 
+    "S", 
+    "M", 
+    "L", 
+    "XL", 
+    "XXL", 
+    "XXXL", 
+ 
+    "A5", 
+    "A4", 
+    "A3", 
+    "A2", 
+    "A1", 
+    "A0", 
+ 
+    "20 × 30 cm", 
+    "30 × 40 cm", 
+    "40 × 50 cm", 
+    "50 × 70 cm", 
+    "60 × 90 cm", 
+    "70 × 100 cm", 
+    "80 × 120 cm", 
+    "90 × 120 cm", 
+    "100 × 150 cm", 
+ 
+    "12 × 18 inch", 
+    "16 × 20 inch", 
+    "18 × 24 inch", 
+    "20 × 24 inch", 
+    "24 × 36 inch", 
+    "30 × 40 inch", 
+ 
+    "Small", 
+    "Medium", 
+    "Large", 
+ 
+    "Custom Size" 
+ 
+]; 
+ 
+ 
+let selectedSizes = []; 
+ 
+ 
+const sizePickerButton = 
+    document.getElementById( 
+        "sizePickerButton" 
+    ); 
+ 
+const sizeDropdown = 
+    document.getElementById( 
+        "sizeDropdown" 
+    ); 
+ 
+const sizeList = 
+    document.getElementById( 
+        "sizeList" 
+    ); 
+ 
+const sizeSearch = 
+    document.getElementById( 
+        "sizeSearch" 
+    ); 
+ 
+const selectedSizeText = 
+    document.getElementById( 
+        "selectedSizeText" 
+    ); 
+ 
+const selectedSizeCount = 
+    document.getElementById( 
+        "selectedSizeCount" 
+    ); 
+ 
+ 
+/* ===================================================== 
+   RENDER SIZES 
+===================================================== */ 
+ 
+function renderSizes(sizes){ 
+ 
+    sizeList.innerHTML = ""; 
+ 
+ 
+    sizes.forEach(size => { 
+ 
+        const label = 
+            document.createElement( 
+                "label" 
+            ); 
+ 
+        label.className = 
+            "size-option"; 
+ 
+ 
+        const checkbox = 
+            document.createElement( 
+                "input" 
+            ); 
+ 
+        checkbox.type = 
+            "checkbox"; 
+ 
+        checkbox.value = 
+            size; 
+ 
+ 
+        checkbox.checked = 
+            selectedSizes.includes(size); 
+ 
+ 
+        checkbox.addEventListener( 
+            "change", 
+            function(){ 
+ 
+                if(this.checked){ 
+ 
+                    if( 
+                        !selectedSizes.includes(size) 
+                    ){ 
+ 
+                        selectedSizes.push(size); 
+ 
+                    } 
+ 
+                } 
+                else{ 
+ 
+                    selectedSizes = 
+                        selectedSizes.filter( 
+                            item => 
+                                item !== size 
+                        ); 
+ 
+                } 
+ 
+ 
+                updateSizeDisplay(); 
+ 
+            } 
+        ); 
+ 
+ 
+        const name = 
+            document.createElement( 
+                "span" 
+            ); 
+ 
+        name.className = 
+            "size-name"; 
+ 
+        name.textContent = 
+            size; 
+ 
+ 
+        label.appendChild( 
+            checkbox 
+        ); 
+ 
+        label.appendChild( 
+            name 
+        ); 
+ 
+ 
+        sizeList.appendChild( 
+            label 
+        ); 
+ 
+    }); 
+ 
+} 
+ 
+ 
+/* ===================================================== 
+   UPDATE SIZE DISPLAY 
+===================================================== */ 
+ 
+function updateSizeDisplay(){ 
+ 
+    const count = 
+        selectedSizes.length; 
+ 
+ 
+    selectedSizeCount.textContent = 
+        `${count} selected`; 
+ 
+ 
+    if(count === 0){ 
+ 
+        selectedSizeText.textContent = 
+            "Select Sizes"; 
+ 
+        return; 
+ 
+    } 
+ 
+ 
+    const names = 
+        selectedSizes 
+        .slice(0,3) 
+        .join(", "); 
+ 
+ 
+    if(count > 3){ 
+ 
+        selectedSizeText.textContent = 
+            `${names} +${count - 3} more`; 
+ 
+    } 
+    else{ 
+ 
+        selectedSizeText.textContent = 
+            names; 
+ 
+    } 
+ 
+} 
+ 
+ 
+/* ===================================================== 
+   SIZE SEARCH 
+===================================================== */ 
+ 
+sizeSearch.addEventListener( 
+    "input", 
+    function(){ 
+ 
+        const search = 
+            this.value 
+            .toLowerCase() 
+            .trim(); 
+ 
+ 
+        const filtered = 
+            availableSizes.filter( 
+                size => 
+                    size 
+                    .toLowerCase() 
+                    .includes(search) 
+            ); 
+ 
+ 
+        renderSizes(filtered); 
+ 
+    } 
+); 
+ 
+ 
+/* ===================================================== 
+   OPEN / CLOSE SIZE DROPDOWN 
+===================================================== */ 
+ 
+sizePickerButton.addEventListener( 
+    "click", 
+    function(){ 
+ 
+        sizeDropdown.classList.toggle( 
+            "show" 
+        ); 
+ 
+    } 
+); 
+ 
+ 
+/* ===================================================== 
+   CLOSE SIZE DROPDOWN OUTSIDE 
+===================================================== */ 
+ 
+document.addEventListener( 
+    "click", 
+    function(event){ 
+ 
+        const picker = 
+            document.getElementById( 
+                "sizePicker" 
+            ); 
+ 
+ 
+        if( 
+            !picker.contains(event.target) 
+        ){ 
+ 
+            sizeDropdown.classList.remove( 
+                "show" 
+            ); 
+ 
+        } 
+ 
+    } 
+); 
+ 
+ 
+/* ===================================================== 
+   INITIALIZE 
+===================================================== */ 
+ 
+renderSizes( 
+    availableSizes 
+); 
+ 
+ 
+/* ===================================================== 
+   MATERIAL PICKER 
+===================================================== */ 
+ 
+const materialPickerButton = 
+    document.getElementById("materialPickerButton"); 
+ 
+const materialDropdown = 
+    document.getElementById("materialDropdown"); 
+ 
+const materialList = 
+    document.getElementById("materialList"); 
+ 
+const materialSearch = 
+    document.getElementById("materialSearch"); 
+ 
+const selectedMaterialText = 
+    document.getElementById("selectedMaterialText"); 
+ 
+const selectedMaterialCount = 
+    document.getElementById("selectedMaterialCount"); 
+ 
+const materialLimit = 
+    document.getElementById("materialLimit"); 
+ 
+const customMaterialInput = 
+    document.getElementById("customMaterialInput"); 
+ 
+const addCustomMaterialBtn = 
+    document.getElementById("addCustomMaterialBtn"); 
+ 
+ 
+/* ===================================================== 
+   MATERIAL DATABASE 
+===================================================== */ 
+ 
+const availableMaterials = [ 
+ 
+    "Canvas", 
+    "Cotton Canvas", 
+    "Linen Canvas", 
+ 
+    "Wood", 
+    "MDF", 
+    "Plywood", 
+    "Bamboo", 
+ 
+    "Metal", 
+    "Aluminium", 
+    "Steel", 
+    "Iron", 
+    "Copper", 
+    "Brass", 
+ 
+    "Acrylic", 
+    "Perspex", 
+    "Glass", 
+    "Tempered Glass", 
+ 
+    "Paper", 
+    "Cardstock", 
+    "Fine Art Paper", 
+    "Archival Paper", 
+    "Watercolor Paper", 
+    "Photo Paper", 
+ 
+    "Ceramic", 
+    "Porcelain", 
+    "Clay", 
+    "Terracotta", 
+ 
+    "Leather", 
+    "Faux Leather", 
+ 
+    "Fabric", 
+    "Cotton", 
+    "Silk", 
+    "Velvet", 
+    "Linen", 
+    "Polyester", 
+ 
+    "Resin", 
+    "Epoxy Resin", 
+ 
+    "Stone", 
+    "Marble", 
+    "Granite", 
+ 
+    "Concrete", 
+    "Plaster", 
+ 
+    "Foam", 
+    "PVC", 
+    "Vinyl", 
+ 
+    "Burlap", 
+    "Jute", 
+    "Wool", 
+ 
+    "Recycled Materials", 
+    "Mixed Media", 
+    "Natural Materials", 
+ 
+    "Other" 
+ 
+].sort((a, b) => 
+    a.localeCompare(b) 
+); 
+ 
+ 
+const MAX_MATERIALS = 15; 
+ 
+let selectedMaterials = []; 
+ 
+/* ===================================================== 
+   FINISH PICKER 
+===================================================== */ 
+ 
+const availableFinishes = [ 
+ 
+    "Matte", 
+    "Glossy", 
+    "Semi Gloss", 
+    "Satin", 
+    "Metallic", 
+    "Wood Finish", 
+    "Brushed", 
+    "Polished", 
+    "Textured", 
+    "Natural", 
+    "Laminated", 
+    "Varnished", 
+    "High Gloss", 
+    "Soft Touch" ,
+    "Impasto",
+"Rustic",
+"Antique",
+"Distressed",
+"Hand Painted",
+"Gold Leaf",
+"Silver Leaf",
+"Embossed",
+"Relief Texture",
+"Canvas Texture",
+"Raw Natural",
+"Resin Gloss"
+ 
+].sort((a,b)=>a.localeCompare(b)); 
+ 
+let selectedFinish = ""; 
+ 
+const finishPickerButton = 
+    document.getElementById("finishPickerButton"); 
+ 
+const finishDropdown = 
+    document.getElementById("finishDropdown"); 
+ 
+const finishList = 
+    document.getElementById("finishList"); 
+ 
+const finishSearch = 
+    document.getElementById("finishSearch"); 
+ 
+const selectedFinishText = 
+    document.getElementById("selectedFinishText"); 
+ 
+const selectedFinishCount = 
+    document.getElementById("selectedFinishCount"); 
+ 
+const customFinishInput = 
+    document.getElementById("customFinishInput"); 
+ 
+const addCustomFinishBtn = 
+    document.getElementById("addCustomFinishBtn"); 
+ 
+ 
+function renderFinishes(list){ 
+ 
+    finishList.innerHTML=""; 
+ 
+    list.forEach(finish=>{ 
+ 
+        const label=document.createElement("label"); 
+        label.className="finish-option"; 
+ 
+        const radio=document.createElement("input"); 
+        radio.type="radio"; 
+        radio.name="finishRadio"; 
+        radio.value=finish; 
+ 
+        radio.checked=(selectedFinish===finish); 
+ 
+        radio.addEventListener("change",()=>{
+
+    selectedFinish = finish;
+
+    updateFinishDisplay();
+
+    renderFinishes(list);
+
+    // close dropdown after selecting
+    finishDropdown.classList.remove("show");
+
+});
+        const span=document.createElement("span"); 
+        span.textContent=finish; 
+ 
+        label.appendChild(radio); 
+        label.appendChild(span); 
+ 
+        finishList.appendChild(label); 
+ 
+    }); 
+ 
+} 
+ 
+function updateFinishDisplay(){ 
+ 
+    if(!selectedFinish){ 
+ 
+        selectedFinishText.textContent="Select Finish"; 
+        selectedFinishCount.textContent="None"; 
+        return; 
+ 
+    } 
+ 
+    selectedFinishText.textContent=selectedFinish; 
+    selectedFinishCount.textContent="Selected"; 
+ 
+} 
+ 
+finishSearch.addEventListener("input",function(){ 
+ 
+    const search=this.value.toLowerCase(); 
+ 
+    renderFinishes( 
+ 
+        availableFinishes.filter(item=> 
+ 
+            item.toLowerCase().includes(search) 
+ 
+        ) 
+ 
+    ); 
+ 
+}); 
+ 
+finishPickerButton.addEventListener("click", function(e){
+
+    e.stopPropagation();
+
+    finishDropdown.classList.toggle("show");
+
+});
+finishDropdown.addEventListener("click",function(e){  
+ 
+    e.stopPropagation();  
+ 
+});
+document.addEventListener("click",function(e){
+
+    if(!finishPicker.contains(e.target)){
+
+        finishDropdown.classList.remove("show");
 
     }
 
-
-    /* Maximum 15 */
-
-    if(
-        selectedMaterials.length >=
-        MAX_MATERIALS
-    ){
-
-        showToast(
-            "You can select a maximum of 15 materials."
-        );
-
-        return;
-
-    }
-
-
-    /* Duplicate */
-
-    const alreadyExists =
-        selectedMaterials.some(
-            material =>
-                material.toLowerCase() ===
-                value.toLowerCase()
-        );
-
-
-    if(alreadyExists){
-
-        showToast(
-            "This material is already selected."
-        );
-
-        customMaterialInput.focus();
-
-        return;
-
-    }
-
-
-    /* Add custom material */
-
-    selectedMaterials.push(value);
-
-
-    /* Clear */
-
-    customMaterialInput.value = "";
-
-
-    /* Update */
-
-    updateMaterialDisplay();
-
-
-    /* Re-render */
-
-    const search =
-        materialSearch.value
-            .toLowerCase()
-            .trim();
-
-
-    const filtered =
-        availableMaterials.filter(
-            material =>
-                material
-                    .toLowerCase()
-                    .includes(search)
-        );
-
-
-    renderMaterials(filtered);
-
-}
-
-
-/* =====================================================
-   ADD BUTTON
-===================================================== */
-
-addCustomMaterialBtn.addEventListener(
-    "click",
-    function(event){
-
-        event.preventDefault();
-
-        event.stopPropagation();
-
-        addCustomMaterial();
-
-    }
-);
-
-
-/* =====================================================
-   ENTER KEY
-===================================================== */
-
-customMaterialInput.addEventListener(
-    "keydown",
-    function(event){
-
-        if(event.key === "Enter"){
-
-            event.preventDefault();
-
-            addCustomMaterial();
-
-        }
-
-    }
-);
-
-
-/* =====================================================
-   SEARCH MATERIALS
-===================================================== */
-
-materialSearch.addEventListener(
-    "input",
-    function(){
-
-        const search =
-            this.value
-                .toLowerCase()
-                .trim();
-
-
-        const filtered =
-            availableMaterials.filter(
-                material =>
-                    material
-                        .toLowerCase()
-                        .includes(search)
-            );
-
-
-        renderMaterials(filtered);
-
-    }
-);
-
-
-/* =====================================================
-   OPEN / CLOSE
-===================================================== */
-
-materialPickerButton.addEventListener(
-    "click",
-    function(event){
-
-        event.stopPropagation();
-
-        materialDropdown.classList.toggle(
-            "show"
-        );
-
-    }
-);
-
-
-/* =====================================================
-   CLOSE OUTSIDE
-===================================================== */
-
-document.addEventListener(
-    "click",
-    function(event){
-
-        const picker =
-            document.getElementById(
-                "materialPicker"
-            );
-
-
-        if(
-            !picker.contains(event.target)
-        ){
-
-            materialDropdown.classList.remove(
-                "show"
-            );
-
-        }
-
-    }
-);
-
-
-/* =====================================================
-   INITIALIZE
-===================================================== */
-
-renderMaterials(
-    availableMaterials
-);
-
-updateMaterialDisplay();
-descriptionInput.addEventListener(
-    "input",
-    function(){
-
-        const length =
-            this.value.length;
-
-        descriptionCounter.textContent =
-            `${length} / 1000 characters`;
-
-    }
-);
-</script>
-
-
-<script src="toast.js"></script>
-</body>
-
-</html>
+});
+function addCustomFinish(){ 
+ 
+    const value=customFinishInput.value.trim(); 
+ 
+    if(!value){ 
+ 
+        showToast("Please enter a finish."); 
+        return; 
+ 
+    } 
+ 
+    selectedFinish=value; 
+ 
+    customFinishInput.value=""; 
+ 
+    updateFinishDisplay(); 
+ 
+    renderFinishes(availableFinishes); 
+ 
+} 
+ 
+addCustomFinishBtn.addEventListener("click",function(e){ 
+ 
+    e.preventDefault(); 
+    addCustomFinish(); 
+ 
+}); 
+ 
+customFinishInput.addEventListener("keydown",function(e){ 
+ 
+    if(e.key==="Enter"){ 
+ 
+        e.preventDefault(); 
+        addCustomFinish(); 
+ 
+    } 
+ 
+}); 
+ 
+renderFinishes(availableFinishes); 
+updateFinishDisplay(); 
+/* ===================================================== 
+   UPDATE MATERIAL DISPLAY 
+===================================================== */ 
+ 
+function updateMaterialDisplay(){ 
+ 
+    const count = 
+        selectedMaterials.length; 
+ 
+ 
+    selectedMaterialCount.textContent = 
+        `${count} / ${MAX_MATERIALS} selected`; 
+ 
+ 
+    materialLimit.textContent = 
+        count >= MAX_MATERIALS 
+            ? "Maximum 15 materials reached" 
+            : `${MAX_MATERIALS - count} selections remaining`; 
+ 
+ 
+    if(count === 0){ 
+ 
+        selectedMaterialText.textContent = 
+            "Select Materials"; 
+ 
+        return; 
+ 
+    } 
+ 
+ 
+    const names = 
+        selectedMaterials 
+            .slice(0, 3) 
+            .join(", "); 
+ 
+ 
+    if(count > 3){ 
+ 
+        selectedMaterialText.textContent = 
+            `${names} +${count - 3} more`; 
+ 
+    } 
+    else{ 
+ 
+        selectedMaterialText.textContent = 
+            names; 
+ 
+    } 
+ 
+} 
+ 
+ 
+/* ===================================================== 
+   RENDER MATERIALS 
+===================================================== */ 
+ 
+function renderMaterials(materials){ 
+ 
+    materialList.innerHTML = ""; 
+ 
+ 
+    if(!materials.length){ 
+ 
+        materialList.innerHTML = ` 
+            <div style=" 
+                padding:15px; 
+                text-align:center; 
+                opacity:.6; 
+            "> 
+                No materials found. 
+            </div> 
+        `; 
+ 
+        return; 
+ 
+    } 
+ 
+ 
+    materials.forEach(material => { 
+ 
+        const label = 
+            document.createElement("label"); 
+ 
+        label.className = 
+            "material-option"; 
+ 
+ 
+        const checkbox = 
+            document.createElement("input"); 
+ 
+        checkbox.type = 
+            "checkbox"; 
+ 
+        checkbox.value = 
+            material; 
+ 
+ 
+        checkbox.checked = 
+            selectedMaterials.includes(material); 
+ 
+ 
+        /* 
+         * Disable unselected materials 
+         * when maximum is reached 
+         */ 
+ 
+        if( 
+            selectedMaterials.length >= MAX_MATERIALS && 
+            !selectedMaterials.includes(material) 
+        ){ 
+ 
+            checkbox.disabled = true; 
+ 
+            label.classList.add("disabled"); 
+ 
+        } 
+ 
+ 
+        /* ================================================= 
+           CHECKBOX CHANGE 
+        ================================================= */ 
+ 
+        checkbox.addEventListener( 
+            "change", 
+            function(){ 
+ 
+                if(this.checked){ 
+ 
+                    if( 
+                        selectedMaterials.length >= 
+                        MAX_MATERIALS 
+                    ){ 
+ 
+                        this.checked = false; 
+ 
+                        showToast( 
+                            "You can select a maximum of 15 materials." 
+                        ); 
+ 
+                        return; 
+ 
+                    } 
+ 
+ 
+                    if( 
+                        !selectedMaterials.includes(material) 
+                    ){ 
+ 
+                        selectedMaterials.push( 
+                            material 
+                        ); 
+ 
+                    } 
+ 
+                } 
+                else{ 
+ 
+                    selectedMaterials = 
+                        selectedMaterials.filter( 
+                            item => 
+                                item !== material 
+                        ); 
+ 
+                } 
+ 
+ 
+                updateMaterialDisplay(); 
+ 
+ 
+                /* 
+                 * Re-render 
+                 */ 
+ 
+                const currentSearch = 
+                    materialSearch.value 
+                        .toLowerCase() 
+                        .trim(); 
+ 
+ 
+                const filtered = 
+                    availableMaterials.filter( 
+                        item => 
+                            item 
+                                .toLowerCase() 
+                                .includes(currentSearch) 
+                    ); 
+ 
+ 
+                renderMaterials(filtered); 
+ 
+            } 
+        ); 
+ 
+ 
+        const name = 
+            document.createElement("span"); 
+ 
+        name.className = 
+            "material-name"; 
+ 
+        name.textContent = 
+            material; 
+ 
+ 
+        label.appendChild(checkbox); 
+ 
+        label.appendChild(name); 
+ 
+        materialList.appendChild(label); 
+ 
+    }); 
+ 
+} 
+ 
+ 
+/* ===================================================== 
+   ADD CUSTOM MATERIAL 
+===================================================== */ 
+ 
+function addCustomMaterial(){ 
+ 
+    const value = 
+        customMaterialInput.value.trim(); 
+ 
+ 
+    /* Empty */ 
+ 
+    if(!value){ 
+ 
+        showToast( 
+            "Please enter a material name." 
+        ); 
+ 
+        customMaterialInput.focus(); 
+ 
+        return; 
+ 
+    } 
+ 
+ 
+    /* Maximum 15 */ 
+ 
+    if( 
+        selectedMaterials.length >= 
+        MAX_MATERIALS 
+    ){ 
+ 
+        showToast( 
+            "You can select a maximum of 15 materials." 
+        ); 
+ 
+        return; 
+ 
+    } 
+ 
+ 
+    /* Duplicate */ 
+ 
+    const alreadyExists = 
+        selectedMaterials.some( 
+            material => 
+                material.toLowerCase() === 
+                value.toLowerCase() 
+        ); 
+ 
+ 
+    if(alreadyExists){ 
+ 
+        showToast( 
+            "This material is already selected." 
+        ); 
+ 
+        customMaterialInput.focus(); 
+ 
+        return; 
+ 
+    } 
+ 
+ 
+    /* Add custom material */ 
+ 
+    selectedMaterials.push(value); 
+ 
+ 
+    /* Clear */ 
+ 
+    customMaterialInput.value = ""; 
+ 
+ 
+    /* Update */ 
+ 
+    updateMaterialDisplay(); 
+ 
+ 
+    /* Re-render */ 
+ 
+    const search = 
+        materialSearch.value 
+            .toLowerCase() 
+            .trim(); 
+ 
+ 
+    const filtered = 
+        availableMaterials.filter( 
+            material => 
+                material 
+                    .toLowerCase() 
+                    .includes(search) 
+        ); 
+ 
+ 
+    renderMaterials(filtered); 
+ 
+} 
+ 
+ 
+/* ===================================================== 
+   ADD BUTTON 
+===================================================== */ 
+ 
+addCustomMaterialBtn.addEventListener( 
+    "click", 
+    function(event){ 
+ 
+        event.preventDefault(); 
+ 
+        event.stopPropagation(); 
+ 
+        addCustomMaterial(); 
+ 
+    } 
+); 
+ 
+ 
+/* ===================================================== 
+   ENTER KEY 
+===================================================== */ 
+ 
+customMaterialInput.addEventListener( 
+    "keydown", 
+    function(event){ 
+ 
+        if(event.key === "Enter"){ 
+ 
+            event.preventDefault(); 
+ 
+            addCustomMaterial(); 
+ 
+        } 
+ 
+    } 
+); 
+ 
+ 
+/* ===================================================== 
+   SEARCH MATERIALS 
+===================================================== */ 
+ 
+materialSearch.addEventListener( 
+    "input", 
+    function(){ 
+ 
+        const search = 
+            this.value 
+                .toLowerCase() 
+                .trim(); 
+ 
+ 
+        const filtered = 
+            availableMaterials.filter( 
+                material => 
+                    material 
+                        .toLowerCase() 
+                        .includes(search) 
+            ); 
+ 
+ 
+        renderMaterials(filtered); 
+ 
+    } 
+); 
+ 
+ 
+/* ===================================================== 
+   OPEN / CLOSE 
+===================================================== */ 
+ 
+materialPickerButton.addEventListener( 
+    "click", 
+    function(event){ 
+ 
+        event.stopPropagation(); 
+ 
+        materialDropdown.classList.toggle( 
+            "show" 
+        ); 
+ 
+    } 
+); 
+ 
+ 
+/* ===================================================== 
+   CLOSE OUTSIDE 
+===================================================== */ 
+ 
+document.addEventListener( 
+    "click", 
+    function(event){ 
+ 
+        const picker = 
+            document.getElementById( 
+                "materialPicker" 
+            ); 
+ 
+ 
+        if( 
+            !picker.contains(event.target) 
+        ){ 
+ 
+            materialDropdown.classList.remove( 
+                "show" 
+            ); 
+ 
+        } 
+ 
+    } 
+); 
+ 
+ 
+/* ===================================================== 
+   INITIALIZE 
+===================================================== */ 
+ 
+renderMaterials( 
+    availableMaterials 
+); 
+ 
+updateMaterialDisplay(); 
+ 
+descriptionInput.addEventListener( 
+    "input", 
+    function(){ 
+ 
+        const length = 
+            this.value.length; 
+ 
+        descriptionCounter.textContent = 
+            `${length} / 1000 characters`; 
+ 
+    } 
+); 
+/* ===================================================== 
+   AUTO SAVE PRODUCT DRAFT 
+===================================================== */ 
+ 
+const formInputs = document.querySelectorAll( 
+    "input, textarea, select" 
+); 
+ 
+ 
+function saveDraft(){ 
+ 
+    const draft = {}; 
+ 
+    formInputs.forEach(input => { 
+ 
+        if(input.type === "file"){ 
+            return; 
+        } 
+ 
+        draft[input.id] = input.value; 
+ 
+    }); 
+ 
+ 
+    draft.selectedMaterials = selectedMaterials; 
+    draft.selectedColors = selectedColors; 
+    draft.selectedSizes = selectedSizes; 
+ 
+ 
+    localStorage.setItem( 
+        "leangelo_product_draft", 
+        JSON.stringify(draft) 
+    ); 
+ 
+ 
+    console.log("Draft Saved"); 
+ 
+} 
+ 
+ 
+ 
+formInputs.forEach(input => { 
+ 
+    input.addEventListener( 
+        "input", 
+        saveDraft 
+    ); 
+ 
+ 
+    input.addEventListener( 
+        "change", 
+        saveDraft 
+    ); 
+ 
+}); 
+/* ===================================================== 
+   LOAD SAVED DRAFT 
+===================================================== */ 
+ 
+ 
+function loadDraft(){ 
+ 
+    const saved = 
+        localStorage.getItem( 
+            "leangelo_product_draft" 
+        ); 
+ 
+ 
+    if(!saved){ 
+        return; 
+    } 
+ 
+ 
+    const draft = 
+        JSON.parse(saved); 
+ 
+ 
+ 
+    Object.keys(draft).forEach(key=>{ 
+ 
+ 
+        const element = 
+            document.getElementById(key); 
+ 
+ 
+ 
+        if(element){ 
+ 
+            element.value = 
+                draft[key]; 
+ 
+        } 
+ 
+ 
+    }); 
+ 
+ 
+ 
+    if(draft.selectedMaterials){ 
+ 
+        selectedMaterials = 
+            draft.selectedMaterials; 
+ 
+        updateMaterialDisplay(); 
+ 
+    } 
+ 
+ 
+ 
+    if(draft.selectedColors){ 
+ 
+        selectedColors = 
+            draft.selectedColors; 
+ 
+        updateColorCount(); 
+ 
+    } 
+ 
+ 
+ 
+    if(draft.selectedSizes){ 
+ 
+        selectedSizes = 
+            draft.selectedSizes; 
+ 
+        updateSizeDisplay(); 
+ 
+    } 
+    // Restore product type first 
+if (draft.productType) { 
+ 
+    productTypeSelect.value = draft.productType; 
+ 
+    // Fire change event to load categories 
+    productTypeSelect.dispatchEvent( 
+        new Event("change") 
+    ); 
+ 
+} 
+if (draft.category) { 
+ 
+    categorySelect.value = draft.category; 
+ 
+    // Load subcategories 
+    categorySelect.dispatchEvent( 
+        new Event("change") 
+    ); 
+ 
+} 
+if (draft.subcategory) { 
+ 
+    subcategorySelect.value = 
+        draft.subcategory; 
+ 
+} 
+if(draft.selectedFinish){ 
+ 
+    selectedFinish = draft.selectedFinish; 
+    updateFinishDisplay(); 
+ 
+} 
+ 
+ 
+    console.log( 
+        "Draft Restored" 
+    ); 
+ 
+} 
+ 
+ 
+ 
+window.addEventListener( 
+    "load", 
+    loadDraft 
+); 
+ 
+</script> 
+ 
+ 
+<script src="toast.js"></script> 
+</body> 
+ 
+</html> 

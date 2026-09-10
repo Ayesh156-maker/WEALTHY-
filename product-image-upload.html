@@ -841,6 +841,410 @@
             }
 
         }
+        .logo{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    text-decoration:none;
+}
+
+.logo img{
+    width:36px;      /* අවශ්‍ය නම් 30px - 40px අතර වෙනස් කරන්න */
+    height:36px;
+    object-fit:contain;
+}
+.logo{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    text-decoration:none;
+}
+
+.logo img{
+    width:36px;
+    height:36px;
+    object-fit:contain;
+}
+
+.logo-text{
+    font-size:22px;
+    font-weight:700;
+    color:#FFD700;
+    letter-spacing:.5px;
+}
+
+
+.profile-btn{
+    width:45px;
+    height:45px;
+    border:none;
+    border-radius:50%;
+    overflow:hidden;
+    padding:0;
+    cursor:pointer;
+    background:#111;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.profile-btn img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    border-radius:50%;
+}
+.profile-btn{
+    width:45px;
+    height:45px;
+    border:none;
+    border-radius:50%;
+    overflow:hidden;
+    padding:0;
+    cursor:pointer;
+    background:#111;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.profile-btn img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    border-radius:50%;
+}
+/* =====================================================
+   LEANGELO SELLER NAVBAR
+===================================================== */
+
+.seller-navbar{
+    position:sticky;
+    top:0;
+    z-index:9999;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:14px 40px;
+
+    background:rgba(10,10,10,.92);
+    backdrop-filter:blur(18px);
+
+    border-bottom:1px solid rgba(255,215,0,.18);
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,.35);
+}
+
+
+/* LEFT */
+
+.nav-left{
+    display:flex;
+    align-items:center;
+}
+
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    text-decoration:none;
+}
+
+
+.logo img{
+
+    width:36px;
+    height:36px;
+
+    object-fit:contain;
+}
+
+
+.logo-text{
+
+    font-size:22px;
+
+    font-weight:700;
+
+    color:#FFD700;
+
+    letter-spacing:.5px;
+}
+
+
+
+/* CENTER */
+
+.nav-center{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:28px;
+
+}
+
+
+.nav-center a{
+
+    text-decoration:none;
+
+    color:#ddd;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    position:relative;
+
+    transition:.25s;
+
+}
+
+
+.nav-center a:hover,
+.nav-center a.active{
+
+    color:#FFD700;
+
+}
+
+
+.nav-center a::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+
+    bottom:-8px;
+
+    width:0;
+
+    height:2px;
+
+    background:#FFD700;
+
+    transition:.25s;
+
+}
+
+
+.nav-center a:hover::after,
+.nav-center a.active::after{
+
+    width:100%;
+
+}
+
+
+
+/* RIGHT */
+
+.nav-right{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+
+.nav-btn{
+
+    border:none;
+
+    cursor:pointer;
+
+    padding:10px 18px;
+
+    border-radius:10px;
+
+    font-weight:600;
+
+    color:#000;
+
+    background:
+    linear-gradient(
+        135deg,
+        #FFD700,
+        #f4b400
+    );
+
+    transition:.25s;
+
+}
+
+
+.nav-btn:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:
+    0 8px 20px rgba(255,215,0,.35);
+
+}
+
+
+
+.icon-btn{
+
+    width:42px;
+
+    height:42px;
+
+    border:none;
+
+    border-radius:50%;
+
+    cursor:pointer;
+
+    font-size:18px;
+
+    color:#FFD700;
+
+    background:rgba(255,255,255,.06);
+
+    transition:.25s;
+
+}
+
+
+.icon-btn:hover{
+
+    background:#FFD700;
+
+    color:#000;
+
+    transform:scale(1.08);
+
+}
+
+
+
+/* PROFILE */
+
+.profile-btn{
+
+    width:45px;
+
+    height:45px;
+
+    border:none;
+
+    border-radius:50%;
+
+    overflow:hidden;
+
+    padding:0;
+
+    cursor:pointer;
+
+    background:#111;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+}
+
+
+.profile-btn img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+    border-radius:50%;
+
+}
+
+
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+    .seller-navbar{
+
+        flex-direction:column;
+
+        gap:18px;
+
+        padding:20px;
+
+    }
+
+
+    .nav-center{
+
+        flex-wrap:wrap;
+
+        justify-content:center;
+
+        gap:16px;
+
+    }
+
+
+    .nav-right{
+
+        width:100%;
+
+        justify-content:center;
+
+    }
+
+}
+
+
+@media(max-width:600px){
+
+    .logo-text{
+
+        font-size:18px;
+
+    }
+
+
+    .nav-center a{
+
+        font-size:14px;
+
+    }
+
+
+    .nav-btn{
+
+        font-size:14px;
+
+        padding:9px 14px;
+
+    }
+
+
+    .icon-btn{
+
+        width:38px;
+
+        height:38px;
+
+    }
+
+}
 
     </style>
 
@@ -849,22 +1253,65 @@
 
 <body>
 
+<header class="seller-navbar">
 
-<div class="page">
+    <div class="nav-left">
 
-
-    <div class="top-bar">
-
-        <div class="brand">
-            LEANGELO
-        </div>
-
-        <div class="step">
-            STEP 2 / 3
-        </div>
+        <a href="landing.html" class="logo">
+            <img src="https://res.cloudinary.com/dxpizcvi5/image/upload/v1786175381/ChatGPT_Image_Apr_28_2026_05_39_55_PM_ewybbi.png">
+            <span class="logo-text">LeanGelo</span>
+        </a>
 
     </div>
 
+    <nav class="nav-center">
+
+        <a href="seller-dashboard.html">
+            Dashboard
+        </a>
+
+
+        <a
+            href="seller-form.html"
+            class="active"
+        >
+            Add Product
+        </a>
+
+    </nav>
+<div class="nav-right">
+
+    <button
+        type="button"
+        id="saveDraftBtn"
+        class="nav-btn"
+    >
+        💾 Save Draft
+    </button>
+
+    <button
+        type="button"
+        class="icon-btn"
+        title="Notifications"
+    >
+        🔔
+    </button>
+
+    <button
+        type="button"
+        class="profile-btn"
+        title="Profile"
+    >
+        <img
+            id="profileImage"
+            src="https://ui-avatars.com/api/?name=User&background=222&color=fff"
+            alt="Profile"
+        >
+    </button>
+
+</div>
+
+</header>
 
     <div class="upload-card">
 
@@ -1183,7 +1630,12 @@
 /* =====================================================
    FIREBASE
 ===================================================== */
-
+import {
+    getAuth,
+    onAuthStateChanged
+}
+from
+"https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
 import {
     initializeApp
 }
@@ -1227,7 +1679,7 @@ const app =
 const db =
     getFirestore(app);
 
-
+const auth = getAuth(app);
 /* =====================================================
    CLOUDINARY CONFIG
 ===================================================== */
@@ -1347,7 +1799,29 @@ const progressStatus =
         "progressStatus"
     );
 
+onAuthStateChanged(
+    auth,
+    (user)=>{
 
+        if(user){
+
+            if(user.photoURL){
+
+                profileImage.src =
+                    user.photoURL;
+
+            }
+            else{
+
+                profileImage.src =
+                `https://ui-avatars.com/api/?name=${user.displayName || "User"}&background=222&color=fff`;
+
+            }
+
+        }
+
+    }
+);
 /* =====================================================
    VARIABLES
 ===================================================== */

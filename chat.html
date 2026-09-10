@@ -13,24 +13,30 @@
     <!-- FIXED NAVBAR -->
     <header class="chat-navbar">
       <!-- Active User / Chat Info -->
-   <div class="seller-profile" onclick="openSellerPage()">
-    <img id="chatSellerPhoto" src="https://placehold.co/100">
+  <div class="seller-profile" onclick="openSellerPage()">
 
-   <div>
-    <h3 id="chatSellerName">Seller</h3>
+  <img
+    id="chatSellerPhoto"
+    src="https://placehold.co/100"
+    alt="Chat User"
+  >
 
-    <span id="sellerOnlineStatus" class="offline-status">
-        Offline
+  <div>
+
+    <h3 id="chatSellerName">
+      User
+    </h3>
+
+    <span
+      id="sellerOnlineStatus"
+      class="offline-status"
+    >
+      Offline
     </span>
 
+  </div>
+
 </div>
-
-      <!-- Hidden elements for Buyer info reference (DOM reference issue fix) -->
-      <div style="display: none;">
-        <span id="chatBuyerName">You</span>
-        <img id="chatBuyerPhoto" src="https://placehold.co/100" alt="Buyer Avatar">
-      </div>
-
       <button class="back-btn" onclick="history.back()">←</button>
     </header>
 
