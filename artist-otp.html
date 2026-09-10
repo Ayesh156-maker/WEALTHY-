@@ -849,14 +849,16 @@ otpInput.addEventListener(
     }
 );
 
-
 // ======================================================
-// SEND FIRST OTP
+// SEND FIRST OTP ONLY ONCE
 // ======================================================
 
-sendOTPEmail();
-
-
+if (!sessionStorage.getItem("artistOTP")) {
+    sendOTPEmail();
+} else {
+    startOTPTimer();
+    startResendCooldown();
+}
 </script>
 
 
