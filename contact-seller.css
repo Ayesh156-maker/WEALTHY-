@@ -1013,3 +1013,111 @@ body {
 
 }
 
+
+/* ==============================
+   RELATED PRODUCTS
+================================ */
+
+.related-products-section {
+    width: 90%;
+    max-width: 1400px;
+    margin: 50px auto;
+    padding: 30px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.related-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.related-header h2 {
+    margin: 0;
+    font-size: 28px;
+}
+
+.related-header p {
+    margin-top: 6px;
+    opacity: 0.65;
+}
+
+.related-products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 22px;
+}
+
+.related-product-card {
+    overflow: hidden;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.10);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+
+.related-product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+}
+
+.related-product-image {
+    width: 100%;
+    height: 190px;
+    object-fit: cover;
+    display: block;
+}
+
+.related-product-info {
+    padding: 16px;
+}
+
+.related-product-name {
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 8px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.related-product-category {
+    font-size: 13px;
+    opacity: 0.6;
+    margin-bottom: 10px;
+}
+
+.related-product-price {
+    font-size: 19px;
+    font-weight: 700;
+}
+
+.related-view-btn {
+    width: 100%;
+    margin-top: 14px;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.15);
+    color: inherit;
+    transition: 0.2s ease;
+}
+
+.related-view-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.related-loading,
+.no-related-products {
+    text-align: center;
+    opacity: 0.65;
+    padding: 30px;
+}

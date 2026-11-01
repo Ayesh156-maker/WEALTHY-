@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeanGelo Test Data Generator</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            background: #f5f5f5;
+        }
+
+        .box {
+            max-width: 650px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0,0,0,.1);
+        }
+
+        button {
+            padding: 14px 22px;
+            border: 0;
+            border-radius: 8px;
+            background: #111;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #status {
+            margin-top: 20px;
+            white-space: pre-line;
+            line-height: 1.7;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="box">
+
+    <h1>LeanGelo Test Data Generator</h1>
+
+    <p>
+        Generate <b>5,000 products</b> and <b>30 test sellers</b>.
+    </p>
+
+    <button id="generateBtn">
+        Generate 5,000 Products
+    </button>
+
+    <div id="status"></div>
+
+</div>
+
+<script>
+
+const sellers = [
+    {
+        id: "TEST_SELLER_001",
+        name: "Marco",
+        store: "Marco Studio"
+    },
+    {
+        id: "TEST_SELLER_002",
+        name: "Luca",
+        store: "Luca Art House"
+    },
+    {
+        id: "TEST_SELLER_003",
+        name: "Daniel",
+        store: "Daniel Creations"
+    },
+    {
+        id: "TEST_SELLER_004",
+        name: "Alex",
+        store: "Alex Design"
+    },
+    {
+        id: "TEST_SELLER_005",
+        name: "Ryan",
+        store: "Ryan Gallery"
+    },
+    {
+        id: "TEST_SELLER_006",
+        name: "Noah",
+        store: "Noah Artworks"
+    },
+    {
+        id: "TEST_SELLER_007",
+        name: "Ethan",
+        store: "Ethan Studio"
+    },
+    {
+        id: "TEST_SELLER_008",
+        name: "Leo",
+        store: "Leo Designs"
+    },
+    {
+        id: "TEST_SELLER_009",
+        name: "Oliver",
+        store: "Oliver Gallery"
+    },
+    {
+        id: "TEST_SELLER_010",
+        name: "James",
+        store: "James Creations"
+    },
+    {
+        id: "TEST_SELLER_011",
+        name: "Henry",
+        store: "Henry Art"
+    },
+    {
+        id: "TEST_SELLER_012",
+        name: "Oscar",
+        store: "Oscar Studio"
+    },
+    {
+        id: "TEST_SELLER_013",
+        name: "Jack",
+        store: "Jack Designs"
+    },
+    {
+        id: "TEST_SELLER_014",
+        name: "Charlie",
+        store: "Charlie Gallery"
+    },
+    {
+        id: "TEST_SELLER_015",
+        name: "Thomas",
+        store: "Thomas Art House"
+    },
+    {
+        id: "TEST_SELLER_016",
+        name: "William",
+        store: "William Creations"
+    },
+    {
+        id: "TEST_SELLER_017",
+        name: "Arthur",
+        store: "Arthur Studio"
+    },
+    {
+        id: "TEST_SELLER_018",
+        name: "George",
+        store: "George Designs"
+    },
+    {
+        id: "TEST_SELLER_019",
+        name: "Harry",
+        store: "Harry Gallery"
+    },
+    {
+        id: "TEST_SELLER_020",
+        name: "Leo",
+        store: "Leo Art House"
+    },
+    {
+        id: "TEST_SELLER_021",
+        name: "Adam",
+        store: "Adam Studio"
+    },
+    {
+        id: "TEST_SELLER_022",
+        name: "Ben",
+        store: "Ben Designs"
+    },
+    {
+        id: "TEST_SELLER_023",
+        name: "Max",
+        store: "Max Gallery"
+    },
+    {
+        id: "TEST_SELLER_024",
+        name: "Sam",
+        store: "Sam Creations"
+    },
+    {
+        id: "TEST_SELLER_025",
+        name: "Lucas",
+        store: "Lucas Studio"
+    },
+    {
+        id: "TEST_SELLER_026",
+        name: "Mason",
+        store: "Mason Art"
+    },
+    {
+        id: "TEST_SELLER_027",
+        name: "Logan",
+        store: "Logan Designs"
+    },
+    {
+        id: "TEST_SELLER_028",
+        name: "Daniel",
+        store: "Daniel Gallery"
+    },
+    {
+        id: "TEST_SELLER_029",
+        name: "David",
+        store: "David Studio"
+    },
+    {
+        id: "TEST_SELLER_030",
+        name: "Michael",
+        store: "Michael Art House"
+    }
+];
+
+
+const categories = {
+
+    "Automotive": {
+        type: "non-digital",
+        categories: [
+            ["Car Wall Art", "Posters"],
+            ["Car Wall Art", "Canvas"],
+            ["Car Accessories", "Interior"],
+            ["Car Accessories", "Exterior"],
+            ["Automotive Art", "Metal Art"]
+        ],
+        brands: [
+            "Lamborghini",
+            "Ferrari",
+            "Porsche",
+            "McLaren",
+            "Pagani",
+            "Bugatti",
+            "BMW",
+            "Mercedes-Benz",
+            "Audi"
+        ]
+    },
+
+    "Fashion": {
+        type: "non-digital",
+        categories: [
+            ["Fashion", "T-Shirts"],
+            ["Fashion", "Hoodies"],
+            ["Fashion", "Jackets"],
+            ["Accessories", "Bags"],
+            ["Accessories", "Caps"]
+        ],
+        brands: [
+            "Nike",
+            "Adidas",
+            "Puma",
+            "Gucci",
+            "Prada",
+            "Versace",
+            "Louis Vuitton"
+        ]
+    },
+
+    "Home": {
+        type: "non-digital",
+        categories: [
+            ["Home Decor", "Wall Art"],
+            ["Home Decor", "Glass Art"],
+            ["Home Decor", "Wood Art"],
+            ["Home Decor", "Decorations"],
+            ["Furniture", "Tables"],
+            ["Furniture", "Chairs"]
+        ],
+        brands: [
+            "LeanGelo Home",
+            "Modern Living",
+            "Luxury Home",
+            "Artisan Home"
+        ]
+    },
+
+    "Art": {
+        type: "non-digital",
+        categories: [
+            ["Wall Art", "Glass Art"],
+            ["Wall Art", "Canvas Art"],
+            ["Wall Art", "Metal Art"],
+            ["Wall Art", "Paintings"],
+            ["Wall Art", "Posters"],
+            ["Sculpture", "Modern Sculpture"]
+        ],
+        brands: [
+            "PAGANI",
+            "Artisan",
+            "Modern Art",
+            "Luxury Art",
+            "Creative Studio"
+        ]
+    },
+
+    "Gaming": {
+        type: "non-digital",
+        categories: [
+            ["Gaming", "Gaming Posters"],
+            ["Gaming", "Desk Decor"],
+            ["Gaming", "Accessories"],
+            ["Gaming", "Wall Art"]
+        ],
+        brands: [
+            "Razer",
+            "Logitech",
+            "HyperX",
+            "SteelSeries",
+            "Gaming Studio"
+        ]
+    },
+
+    "Sports": {
+        type: "non-digital",
+        categories: [
+            ["Sports", "Football"],
+            ["Sports", "Basketball"],
+            ["Sports", "Motorsport"],
+            ["Sports", "Fitness"],
+            ["Sports", "Sports Art"]
+        ],
+        brands: [
+            "Nike",
+            "Adidas",
+            "Puma",
+            "Red Bull",
+            "Motorsport Studio"
+        ]
+    },
+
+    "Technology": {
+        type: "non-digital",
+        categories: [
+            ["Technology", "Accessories"],
+            ["Technology", "Desk Setup"],
+            ["Technology", "Wall Art"],
+            ["Technology", "Gadgets"]
+        ],
+        brands: [
+            "Apple",
+            "Samsung",
+            "Sony",
+            "Logitech",
+            "Tech Studio"
+        ]
+    }
+};
+
+
+const colors = [
+    "Black",
+    "White",
+    "Red",
+    "Blue",
+    "Green",
+    "Gold",
+    "Silver",
+    "Pink",
+    "Purple",
+    "Grey"
+];
+
+
+const materials = [
+    "Wood",
+    "Glass",
+    "Metal",
+    "Canvas",
+    "Acrylic",
+    "Cotton",
+    "Leather",
+    "Plastic"
+];
+
+
+const finishes = [
+    "Matte",
+    "Glossy",
+    "Metallic",
+    "Smooth",
+    "Textured"
+];
+
+
+const countries = [
+    "Sri Lanka",
+    "Italy",
+    "Japan",
+    "Germany",
+    "France",
+    "United Kingdom",
+    "United States"
+];
+
+
+const shippingOptions = [
+    "1-3 Days",
+    "3-5 Days",
+    "5-7 Days",
+    "7-14 Days"
+];
+
+
+const productNames = [
+    "Luxury Wall Art",
+    "Premium Poster",
+    "Modern Canvas",
+    "Classic Artwork",
+    "Premium Glass Art",
+    "Luxury Car Poster",
+    "Modern Home Decor",
+    "Designer Wall Art",
+    "Premium Metal Art",
+    "Handmade Decoration",
+    "Gaming Wall Poster",
+    "Motorsport Artwork",
+    "Luxury Lifestyle Art",
+    "Minimalist Artwork",
+    "Premium Studio Art"
+];
+
+
+function random(array) {
+    return array[Math.floor(Math.random() * array.length)];
+}
+
+
+function randomNumber(min, max) {
+    return Math.floor(
+        Math.random() * (max - min + 1)
+    ) + min;
+}
+
+
+function createProduct(index) {
+
+    const seller = random(sellers);
+
+    const groupNames = Object.keys(categories);
+
+    const group = random(groupNames);
+
+    const categoryData = categories[group];
+
+    const selectedCategory =
+        random(categoryData.categories);
+
+    const category =
+        selectedCategory[0];
+
+    const subcategory =
+        selectedCategory[1];
+
+    const brand =
+        random(categoryData.brands);
+
+    const color =
+        random(colors);
+
+    const material =
+        random(materials);
+
+    const finish =
+        random(finishes);
+
+    const price =
+        randomNumber(500, 250000);
+
+    const rating =
+        Number((Math.random() * 2 + 3).toFixed(1));
+
+    const reviewCount =
+        randomNumber(0, 250);
+
+
+    const name =
+        `${brand} ${random(productNames)}`;
+
+
+    return {
+
+        name: name,
+
+        brand: brand,
+
+        categoryGroup: "Non-Digital",
+
+        categoryType: categoryData.type,
+
+        category: category,
+
+        subcategory: subcategory,
+
+        tags: [
+            brand,
+            category,
+            subcategory,
+            color,
+            material,
+            group,
+            "luxury",
+            "premium"
+        ],
+
+        price: price,
+
+        rating: rating,
+
+        reviewCount: reviewCount,
+
+        material: material,
+
+        length: randomNumber(20, 150),
+
+        width: randomNumber(20, 150),
+
+        height: randomNumber(20, 100),
+
+        weight: Number(
+            (Math.random() * 8 + 0.5).toFixed(2)
+        ),
+
+        color: color,
+
+        finish: finish,
+
+        frame: random(["Yes", "No"]),
+
+        handmade: random(["Yes", "No"]),
+
+        variantColors: [
+            random(colors),
+            random(colors)
+        ],
+
+        variantSizes: [
+            "Small",
+            "Medium",
+            "Large"
+        ],
+
+        customizable:
+            random(["Yes", "No"]),
+
+        stock:
+            randomNumber(1, 100),
+
+        minOrder: 1,
+
+        shipping:
+            random(shippingOptions),
+
+        country:
+            random(countries),
+
+        freeShipping:
+            random(["Yes", "No"]),
+
+        sellerName:
+            seller.name,
+
+        sellerStoreName:
+            seller.store,
+
+        sellerEmail:
+            `seller${String(
+                sellers.indexOf(seller) + 1
+            ).padStart(2, "0")}@leangelo.test`,
+
+        phone:
+            `070${String(
+                randomNumber(1000000, 9999999)
+            )}`,
+
+        sellerId:
+            seller.id,
+
+        sku:
+            `LG-TEST-${String(index).padStart(5, "0")}`,
+
+        description:
+            `Premium ${subcategory} created for LeanGelo marketplace testing. This test product belongs to the ${group} category and is suitable for testing search, filters, ratings, recommendations and seller systems.`,
+
+        status: "published",
+
+        imageUploaded: true,
+
+        imageUrl:
+            `https://placehold.co/600x400?text=${encodeURIComponent(
+                brand + " " + subcategory
+            )}`,
+
+        productStep: 3,
+
+        earnings: 0,
+
+        orders: 0,
+
+        digitalColor: "",
+
+        digitalFileName: "",
+
+        digitalFileUrl: "",
+
+        digitalHeight: 0,
+
+        digitalWidth: 0,
+
+        isTest: true,
+
+        createdAt:
+            new Date().toISOString(),
+
+        publishedAt:
+            new Date().toISOString()
+    };
+}
+
+
+document
+    .getElementById("generateBtn")
+    .addEventListener("click", () => {
+
+        const status =
+            document.getElementById("status");
+
+        status.textContent =
+            "Generating 5,000 products...\nPlease wait.";
+
+        const products = [];
+
+        for (let i = 1; i <= 5000; i++) {
+
+            products.push(
+                createProduct(i)
+            );
+        }
+
+
+        const data = {
+
+            generatedAt:
+                new Date().toISOString(),
+
+            sellerCount:
+                sellers.length,
+
+            productCount:
+                products.length,
+
+            sellers: sellers,
+
+            products: products
+
+        };
+
+
+        const blob =
+            new Blob(
+                [JSON.stringify(data, null, 2)],
+                {
+                    type: "application/json"
+                }
+            );
+
+
+        const url =
+            URL.createObjectURL(blob);
+
+
+        const a =
+            document.createElement("a");
+
+        a.href = url;
+
+        a.download =
+            "test-products.json";
+
+        a.click();
+
+
+        URL.revokeObjectURL(url);
+
+
+        status.textContent =
+            "✅ Done!\n\n" +
+            "30 test sellers generated.\n" +
+            "5,000 test products generated.\n\n" +
+            "Downloaded: test-products.json\n\n" +
+            "Next: Put test-products.json in your project folder.";
+    });
+
+</script>
+
+</body>
+</html>

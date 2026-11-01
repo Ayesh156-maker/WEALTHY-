@@ -9,10 +9,7 @@ import {
   getDocs,
   addDoc,
   serverTimestamp,
-  orderBy,
-  startAt,
-  endAt,
-  limit
+  runTransaction
 } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
 import {
     getAuth,
@@ -50,20 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("addCartBtn")?.addEventListener("click", addToCart);
   document.getElementById("buyNowBtn")?.addEventListener("click", buyNow);
   document.getElementById("submitReview")?.addEventListener("click", submitReview);
-  document.getElementById("searchInput")
-.addEventListener("input", searchProducts);
 
-document.getElementById("searchBtn")
-.addEventListener("click", () => {
-
-    const value =
-    document.getElementById("searchInput").value;
-
-    if(value.trim()!=""){
-        searchProducts();
-    }
-
-});
 });
 
 async function loadProduct() {
@@ -151,36 +135,139 @@ async function loadReviews() {
 }
 
 async function submitReview() {
+
   const user = auth.currentUser;
+
   if (!user) {
     showToast("Please log in to submit a review.");
     return;
   }
 
-  const rating = Number(document.getElementById("reviewRating").value);
-  const comment = document.getElementById("reviewComment").value.trim();
+  const rating = Number(
+    document.getElementById("reviewRating").value
+  );
+
+  const comment = document
+    .getElementById("reviewComment")
+    .value
+    .trim();
 
   if (!comment) {
     showToast("Please write a comment.");
     return;
   }
 
-  try {
-   await addDoc(collection(db, "reviews"), {
-  productId,
-  userId: user.uid,
-  userEmail: user.email || "Unknown User",
-  rating,
-  comment,
-  createdAt: serverTimestamp()
-});
-
-    document.getElementById("reviewComment").value = "";
-    await loadReviews();
-  } catch (err) {
-    console.error("Review submission error:", err);
-    showToast("Failed to submit review.");
+  if (rating < 1 || rating > 5) {
+    showToast("Please select a rating.");
+    return;
   }
+
+  try {
+
+    const productRef = doc(
+      db,
+      "products",
+      productId
+    );
+
+    const reviewRef = doc(
+      collection(db, "reviews")
+    );
+
+    await runTransaction(db, async (transaction) => {
+
+      const productSnap =
+        await transaction.get(productRef);
+
+      if (!productSnap.exists()) {
+        throw new Error("Product not found");
+      }
+
+      const productData =
+        productSnap.data();
+
+      // Existing total rating
+      const oldRating =
+        Number(productData.rating || 0);
+
+      // Existing number of reviews
+      const oldReviewCount =
+        Number(productData.reviewCount || 0);
+
+      // Add new rating to total
+      const newRating =
+        oldRating + rating;
+
+      // Increase review count
+      const newReviewCount =
+        oldReviewCount + 1;
+
+
+      // -------------------------
+      // Save review
+      // -------------------------
+
+      transaction.set(reviewRef, {
+
+        productId: productId,
+
+        userId: user.uid,
+
+        userName:
+  user.displayName || "Verified Customer",
+
+        rating: rating,
+
+        comment: comment,
+
+        createdAt: serverTimestamp()
+
+      });
+
+
+      // -------------------------
+      // Update product
+      // -------------------------
+
+      transaction.update(productRef, {
+
+        rating: newRating,
+
+        reviewCount: newReviewCount
+
+      });
+
+    });
+
+
+    // Clear comment
+    document.getElementById(
+      "reviewComment"
+    ).value = "";
+
+
+    // Reload reviews
+    await loadReviews();
+
+
+    showToast(
+      "Review submitted successfully."
+    );
+
+
+  } catch (err) {
+
+    console.error(
+      "Review submission error:",
+      err
+    );
+
+    showToast(
+      "Failed to submit review."
+    );
+
+  }
+
 }
 
 window.changeQty = function(change) {
@@ -349,68 +436,7 @@ async function loadRelatedProducts(category) {
   }
 
 }
-async function searchProducts(){
 
-    const keyword =
-    document.getElementById("searchInput")
-    .value.trim();
-
-    const results =
-    document.getElementById("searchResults");
-
-    if(keyword===""){
-        results.innerHTML="";
-        return;
-    }
-
-    const q = query(
-        collection(db,"products"),
-        orderBy("brand"),
-        startAt(keyword),
-        endAt(keyword + "\uf8ff"),
-        limit(8)
-    );
-
-    const snap = await getDocs(q);
-
-    results.innerHTML="";
-
-    if(snap.empty){
-
-        results.innerHTML=
-        "<div class='search-item'>No Products</div>";
-
-        return;
-    }
-
-    snap.forEach(docSnap=>{
-
-        const p=docSnap.data();
-
-        results.innerHTML +=`
-
-        <div class="search-item"
-        onclick="window.location='product.html?id=${docSnap.id}'">
-
-            <img src="${p.imageUrl}">
-
-            <div>
-
-                <strong>${p.brand}</strong>
-
-                <br>
-
-                Rs ${Number(p.price).toLocaleString()}
-
-            </div>
-
-        </div>
-
-        `;
-
-    });
-
-}
 function loadUserProfile(){
 
     const img =

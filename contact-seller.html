@@ -210,11 +210,11 @@
 
 <h3>Seller Information</h3>
 
-<p><strong>Name :</strong> <span id="sellerName"></span></p>
+<p><strong>Artist Name :</strong> <span id="sellerName"></span></p>
 
-<p><strong>Email :</strong> <span id="sellerEmail"></span></p>
 
-<p><strong>Phone :</strong> <span id="sellerPhone"></span></p>
+
+
 
 <p><strong>SKU :</strong> <span id="sku"></span></p>
 
@@ -419,12 +419,26 @@
     </section>
 
 </section>
+<!-- RELATED PRODUCTS -->
+<section class="related-products-section">
 
+    <div class="related-header">
+        <div>
+            <h2>✨ Related Products</h2>
+            <p>You may also like these products</p>
+        </div>
+    </div>
+
+    <div id="relatedProductsContainer" class="related-products-grid">
+        <p class="related-loading">Loading related products...</p>
+    </div>
+
+</section>
     <script type="module" src="contact-seller.js"></script>
     
     <script src="toast.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-
+<script type="module" src="search.js"></script>
 <script src="notification-email.js"></script>
 </body>
 </html>

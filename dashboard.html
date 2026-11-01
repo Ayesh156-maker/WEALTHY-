@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html>
-<head>index.html
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LeanGelo Arts - Seller Dashboard</title>
   <link rel="stylesheet" href="dashboard.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <title>Seller Dashboard</title>
   <script type="module" src="dashboard.js"></script>
 </head>
 
@@ -11,115 +14,281 @@
 
 <div class="layout">
 
-  <div class="sidebar">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
     <div>
       <div class="brand">
-        <a href="index.html"><img src="https://res.cloudinary.com/dxpizcvi5/image/upload/v1778826589/ChatGPT_Image_Apr_28_2026_05_39_55_PM_eucvov.png"></a>
+        <a href="index.html">
+          <img src="https://res.cloudinary.com/dxpizcvi5/image/upload/v1778826589/ChatGPT_Image_Apr_28_2026_05_39_55_PM_eucvov.png" alt="LeanGelo">
+        </a>
         <div>
           <h2>LeanGelo</h2>
           <p>Seller Panel</p>
         </div>
       </div>
 
-      <div class="menu">
-        <div class="store-info">
-    <h2 id="dashboardStoreName" ></h2>
-  </div>
-        <a class="active" href="dashboard.html">🏠 Dashboard</a>
-<a href="products.html">📦 Products</a>
-<a href="orders.html">🛒 Orders</a>
-        <a href="analytics.html">📈 Analytics</a>
-        
-        <a>⚙ Settings</a>
-        <a href="edit-store.html">🏪 My Store</a>
+      <div class="store-info">
+        <span>STORE</span>
+        <h2 id="dashboardStoreName">My Store</h2>
       </div>
+
+      <nav class="menu">
+        <a class="active" href="dashboard.html">🏠 Dashboard</a>
+        <a href="products.html">📦 Products</a>
+        <a href="orders.html">🛒 Orders</a>
+        <a href="analytics.html">📈 Analytics</a>
+        <a href="edit-store.html">🏪 My Store</a>
+        <a href="#">⚙ Settings</a>
+      </nav>
     </div>
 
     <a href="seller-form.html">
       <button class="addBtn" id="addProductBtn">+ Add Product</button>
     </a>
-  </div>
+  </aside>
 
-  <div id="productsSection"></div>
+  <!-- MAIN CONTENT -->
+  <main class="main">
 
-  <div class="main">
+    <!-- TOPBAR -->
+    <header class="topbar" id="dashboardHeader">
+      <img id="dashboardBanner" class="banner-bg" alt="Store Banner">
+      <div class="header-overlay"></div>
 
-   <div class="topbar" id="dashboardHeader">
-
-  <img id="dashboardBanner" class="banner-bg">
-
-  <div class="header-content">
-
-    <div class="user-info">
-      <img id="userPhoto" class="avatar">
-      <div>
-        <div id="userName"></div>
-        <div id="userEmail"></div>
-        
-      </div>
-    </div>
-
-    <button id="loginBtn" class="loginBtn" onclick="googleLogin()">Login</button>
-    <button class="deleteBtn" onclick="logout()">Logout</button>
-
-  </div>
-<div id="userProfile" class="user-profile">
-
-  <img id="userAvatarClick" class="avatar" onclick="toggleProfileMenu()">
-
-  <div id="profileMenu" class="profile-menu">
-
-    <div onclick="openStore()">🏪 My Store</div>
-    <div onclick="goDashboard()">📊 Dashboard</div>
-    <div onclick="logout()">🚪 Logout</div>
-
-  </div>
-
-</div>
-</div>
-    <div class="stats">
-      <div class="card">
-        <h3>Total Products</h3>
-        <div class="num" id="myProducts">0</div>
-      </div>
-      <div class="card">
-        <h3>Total Orders</h3>
-        <div class="num" id="myOrders">0</div>
-      </div>
-      <div class="card">
-        <h3>Total Earnings</h3>
-        <div class="num" id="myEarnings">Rs 0</div>
-      </div>
-    </div>
-
-    <div class="chartContainer">
-      <h2>Sales Analytics</h2>
-      <canvas id="salesChart"></canvas>
-    </div>
-
-    <div class="chartContainer">
-      <h2>Revenue Analytics</h2>
-      <canvas id="salesLineChart"></canvas>
-    </div>
-
-    <h2>📦 My Products</h2>
-    <div class="products" id="myProductList"></div>
-
-    <div class="chartContainer" style="margin-top: 30px;">
-      <h2>💬 Live Messages & Chats</h2>
-      <div id="chatSection" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; margin-top: 15px;">
+      <div class="header-content">
+        <div class="user-info">
+          <img id="userPhoto" class="avatar" src="profile.png" alt="Profile">
+          <div>
+            <div id="userName">Seller</div>
+            <div id="userEmail">Not logged in</div>
+          </div>
         </div>
+
+        <div class="header-actions">
+          <button id="loginBtn" class="loginBtn" onclick="googleLogin()">Login</button>
+
+          <div id="userProfile" class="user-profile">
+            <img id="userAvatarClick" class="avatar" src="profile.png" onclick="toggleProfileMenu()" alt="Profile">
+            <div id="profileMenu" class="profile-menu">
+              <div onclick="openStore()">🏪 My Store</div>
+              <div onclick="goDashboard()">📊 Dashboard</div>
+              <div onclick="logout()">🚪 Logout</div>
+            </div>
+          </div>
+
+          <button class="deleteBtn" onclick="logout()">Logout</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- WELCOME -->
+    <section class="welcome-section">
+      <div>
+        <h1>Welcome back, <span id="welcomeName">Seller</span> 👋</h1>
+        <p>Here's what's happening with your store today.</p>
+      </div>
+
+      <div class="store-status">
+        <span id="storeStatusDot"></span>
+        <span id="storeStatusText">Store Active</span>
+      </div>
+    </section>
+
+    <!-- MAIN STATS -->
+    <section class="stats">
+      <div class="card">
+        <div class="stat-icon">📦</div>
+        <div>
+          <h3>Total Products</h3>
+          <div class="num" id="myProducts">0</div>
+          <small id="productGrowth">Your listed products</small>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="stat-icon">🛒</div>
+        <div>
+          <h3>Total Orders</h3>
+          <div class="num" id="myOrders">0</div>
+          <small id="orderStatusSummary">Orders received</small>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="stat-icon">💰</div>
+        <div>
+          <h3>Total Earnings</h3>
+          <div class="num" id="myEarnings">Rs 0</div>
+          <small>Gross seller revenue</small>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECONDARY STATS -->
+    <section class="mini-stats">
+      <div class="mini-card">
+        <span>📅</span>
+        <div>
+          <small>Today</small>
+          <strong id="todayRevenue">Rs 0</strong>
+        </div>
+      </div>
+
+      <div class="mini-card">
+        <span>📆</span>
+        <div>
+          <small>This Month</small>
+          <strong id="monthRevenue">Rs 0</strong>
+        </div>
+      </div>
+
+      <div class="mini-card">
+        <span>⏳</span>
+        <div>
+          <small>Pending Orders</small>
+          <strong id="pendingOrders">0</strong>
+        </div>
+      </div>
+
+      <div class="mini-card">
+        <span>💬</span>
+        <div>
+          <small>Unread Messages</small>
+          <strong id="msgCount">0</strong>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUICK ACTIONS -->
+    <section class="quick-actions">
+      <h2>⚡ Quick Actions</h2>
+      <div class="quick-grid">
+        <a href="seller-form.html">
+          <div class="quick-card">
+            <span>➕</span>
+            <strong>Add Product</strong>
+            <small>Create a new listing</small>
+          </div>
+        </a>
+        <a href="orders.html">
+          <div class="quick-card">
+            <span>🛒</span>
+            <strong>View Orders</strong>
+            <small>Manage customer orders</small>
+          </div>
+        </a>
+        <a href="analytics.html">
+          <div class="quick-card">
+            <span>📈</span>
+            <strong>Analytics</strong>
+            <small>View sales performance</small>
+          </div>
+        </a>
+        <a href="edit-store.html">
+          <div class="quick-card">
+            <span>🏪</span>
+            <strong>Edit Store</strong>
+            <small>Manage your storefront</small>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- CHARTS GRID -->
+    <div class="charts-grid">
+      <section class="chartContainer">
+        <div class="section-header">
+          <div>
+            <h2>📊 Sales Analytics</h2>
+            <p>Monthly revenue performance</p>
+          </div>
+        </div>
+        <div class="chart-box">
+          <canvas id="salesChart"></canvas>
+        </div>
+      </section>
+
+      <section class="chartContainer">
+        <div class="section-header">
+          <div>
+            <h2>📈 Revenue Trend</h2>
+            <p>Your store revenue over time</p>
+          </div>
+        </div>
+        <div class="chart-box">
+          <canvas id="salesLineChart"></canvas>
+        </div>
+      </section>
     </div>
 
-  </div>
+    <!-- DASHBOARD GRID (Order status, Top Products & Inventory Alerts, Recent Orders) -->
+    <section class="dashboard-grid">
+      <div class="panel">
+        <div class="section-header">
+          <h2>🛒 Order Status</h2>
+        </div>
+        <div class="order-status-list">
+          <div class="status-row"><span>Pending</span><strong id="pendingOrders2">0</strong></div>
+          <div class="status-row"><span>Processing</span><strong id="processingOrders">0</strong></div>
+          <div class="status-row"><span>Shipped</span><strong id="shippedOrders">0</strong></div>
+          <div class="status-row"><span>Completed</span><strong id="completedOrders">0</strong></div>
+          <div class="status-row"><span>Cancelled</span><strong id="cancelledOrders">0</strong></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="section-header">
+          <div>
+            <h2>🏆 Top Products</h2>
+            <p>Your best performing products</p>
+          </div>
+        </div>
+        <div id="topProducts" class="top-products"></div>
+      </div>
+
+      <div class="panel">
+        <div class="section-header">
+          <div>
+            <h2>⚠️ Inventory Alerts</h2>
+            <p>Products that may need attention</p>
+          </div>
+        </div>
+        <div id="lowStockProducts" class="low-stock-list">
+          <div class="empty-state">No inventory alerts</div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- MY PRODUCTS -->
+    <section class="panel">
+      <div class="section-title">
+        <h2>📦 My Products</h2>
+        <a href="products.html" class="view-all-link">View All →</a>
+      </div>
+      <div class="products" id="myProductList"></div>
+    </section>
+
+    <!-- LIVE CHATS -->
+    <section class="panel">
+      <div class="section-header">
+        <div>
+          <h2>💬 Live Messages & Chats</h2>
+          <p>Messages from buyers</p>
+        </div>
+        <span class="unread-badge">0</span>
+      </div>
+      <div id="chatSection" class="chat-grid"></div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <p>© 2026 LeanGelo Seller Center</p>
+    </footer>
+
+  </main>
 
 </div>
 
-  </div>
-</div>
-</div>
-  
- 
-</div>
 </body>
 </html>

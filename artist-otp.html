@@ -120,7 +120,7 @@
 // ======================================================
 
 const EMAILJS_PUBLIC_KEY =
-    "0z-Ke_4pMy9FgPDep";
+    "zZr0jYK2xtQa8uoJ-";
 
 
 const EMAILJS_SERVICE_ID =
@@ -849,16 +849,14 @@ otpInput.addEventListener(
     }
 );
 
+
 // ======================================================
-// SEND FIRST OTP ONLY ONCE
+// SEND FIRST OTP
 // ======================================================
 
-if (!sessionStorage.getItem("artistOTP")) {
-    sendOTPEmail();
-} else {
-    startOTPTimer();
-    startResendCooldown();
-}
+sendOTPEmail();
+
+
 </script>
 
 

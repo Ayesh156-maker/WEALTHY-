@@ -21,7 +21,9 @@ import {
     addDoc,
     serverTimestamp,
     orderBy,
-    onSnapshot
+    onSnapshot,
+    runTransaction,
+    limit
 } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
 
 /* =========================================
@@ -407,48 +409,182 @@ async function submitReview() {
 
         }
 
-        await addDoc(
-            collection(db, "reviews"),
-            {
+        /* =========================================
+           PRODUCT REFERENCE
+        ========================================= */
 
-                productId,
+        const productRef =
+            doc(db, "products", productId);
 
-                userId:
-                    currentUser.uid,
 
-                userName:
-                    currentUser.displayName ||
-                    "Anonymous User",
+        /* =========================================
+           NEW REVIEW DOCUMENT
+        ========================================= */
 
-                userEmail:
-                    currentUser.email ||
-                    "Anonymous",
+        const reviewRef =
+            doc(collection(db, "reviews"));
 
-                userPhoto:
-                    currentUser.photoURL ||
-                    "",
 
-                rating,
+        /* =========================================
+           ATOMIC TRANSACTION
+        ========================================= */
 
-                comment,
+        await runTransaction(db, async (transaction) => {
 
-                createdAt:
-                    serverTimestamp()
+            /* GET CURRENT PRODUCT */
+
+            const productSnap =
+                await transaction.get(productRef);
+
+            if (!productSnap.exists()) {
+
+                throw new Error(
+                    "Product does not exist."
+                );
 
             }
-        );
+
+            const productData =
+                productSnap.data();
+
+
+            /* =========================================
+               CURRENT VALUES
+            ========================================= */
+
+            const oldReviewCount =
+                Number(
+                    productData.reviewCount || 0
+                );
+
+            const oldRating = Number(
+    productData.rating || 0
+);
+
+const newReviewCount = oldReviewCount + 1;
+
+// Total rating එක
+const newRating = oldRating + rating;
+
+
+            /* =========================================
+               CREATE REVIEW
+            ========================================= */
+
+            transaction.set(
+                reviewRef,
+                {
+
+                    productId,
+
+                    userId:
+                        currentUser.uid,
+
+                    userName:
+                        currentUser.displayName ||
+                        "Anonymous User",
+
+                    userEmail:
+                        currentUser.email ||
+                        "Anonymous",
+
+                    userPhoto:
+                        currentUser.photoURL ||
+                        "",
+
+                    rating,
+
+                    comment,
+
+                    createdAt:
+                        serverTimestamp()
+
+                }
+            );
+
+
+            /* =========================================
+               UPDATE PRODUCT
+            ========================================= */
+
+            transaction.update(
+                productRef,
+                {
+
+                    rating:
+                        Number(
+                            newRating.toFixed(1)
+                        ),
+
+                    reviewCount:
+                        newReviewCount
+
+                }
+            );
+
+        });
+
+
+        /* =========================================
+           SUCCESS
+        ========================================= */
 
         showNotification(
             "Review added successfully! ⭐"
         );
 
-        if (commentEl)
-            commentEl.value = "";
 
-        if (ratingEl)
+        if (commentEl) {
+            commentEl.value = "";
+        }
+
+        if (ratingEl) {
             ratingEl.value = "5";
+        }
+
+
+        /* =========================================
+           RELOAD REVIEWS
+        ========================================= */
 
         await loadReviews();
+
+
+        /* =========================================
+           UPDATE LOCAL PRODUCT DATA
+        ========================================= */
+
+        if (product) {
+
+            const oldCount =
+                Number(product.reviewCount || 0);
+
+            const oldRating =
+                Number(product.rating || 0);
+
+            const newCount =
+                oldCount + 1;
+
+            const newAverage =
+                (
+                    (
+                        oldRating *
+                        oldCount
+                    ) +
+                    rating
+                ) /
+                newCount;
+
+            product.reviewCount =
+                newCount;
+
+            product.rating =
+                Number(
+                    newAverage.toFixed(1)
+                );
+
+        }
+
 
     } catch (error) {
 
@@ -460,6 +596,7 @@ async function submitReview() {
         showNotification(
             "Failed to submit review. Please try again."
         );
+
 
     } finally {
 
@@ -477,6 +614,8 @@ async function submitReview() {
     }
 
 }
+
+
 
 
 
@@ -715,18 +854,239 @@ if (sellerId) {
 /* =========================================
    START CHAT
 ========================================= */
+/* =========================================
+   START CHAT
+========================================= */
 
-window.startChat = function () {
+window.startChat = async function () {
+
     if (!productId) {
         showNotification("Product ID not found.");
         return;
     }
 
-    localStorage.setItem("chatProduct", productId);
-    window.location.href = "chat.html";
+    if (!currentUser) {
+        showNotification("Please log in first.");
+        return;
+    }
+
+    if (!product) {
+        showNotification("Product information is still loading...");
+        return;
+    }
+
+    try {
+
+        // ================================
+        // SELLER INFORMATION FROM PRODUCT
+        // ================================
+
+        const sellerId =
+            product.sellerId ||
+            product.artistUID ||
+            product.sellerUID;
+
+        const sellerName =
+            product.sellerName || "Seller";
+
+        const sellerEmail =
+            product.sellerEmail || "";
+
+        // Seller photo
+        const sellerPhoto =
+            product.sellerPhoto ||
+            product.sellerImage ||
+            "https://placehold.co/100";
+
+        if (!sellerId) {
+            showNotification("Seller information not found.");
+            return;
+        }
+
+        // ================================
+        // CHECK EXISTING CHAT
+        // ================================
+
+        const chatsRef =
+            collection(db, "chats");
+
+        const existingChatQuery =
+            query(
+                chatsRef,
+                where("buyerId", "==", currentUser.uid),
+                where("sellerId", "==", sellerId),
+                where("productId", "==", productId),
+                limit(1)
+            );
+
+        const existingChats =
+            await getDocs(existingChatQuery);
+
+        let chatId;
+
+        // ================================
+        // EXISTING CHAT
+        // ================================
+
+        if (!existingChats.empty) {
+
+            chatId =
+                existingChats.docs[0].id;
+
+            // IMPORTANT:
+            // Existing chat එකේ sellerName
+            // update කරන්න
+            const existingChatRef =
+                doc(
+                    db,
+                    "chats",
+                    chatId
+                );
+
+            await runTransaction(
+                db,
+                async (transaction) => {
+
+                    transaction.update(
+                        existingChatRef,
+                        {
+                            sellerName:
+                                sellerName,
+
+                            sellerEmail:
+                                sellerEmail,
+
+                            sellerId:
+                                sellerId,
+
+                            sellerPhoto:
+                                sellerPhoto
+                        }
+                    );
+
+                }
+            );
+
+        }
+
+        // ================================
+        // CREATE NEW CHAT
+        // ================================
+
+        else {
+
+            const chatRef =
+                await addDoc(
+                    chatsRef,
+                    {
+
+                        // ==================
+                        // PRODUCT
+                        // ==================
+
+                        productId:
+                            productId,
+
+                        // ==================
+                        // SELLER
+                        // ==================
+
+                        sellerId:
+                            sellerId,
+
+                        sellerName:
+                            sellerName,
+
+                        sellerEmail:
+                            sellerEmail,
+
+                        sellerPhoto:
+                            sellerPhoto,
+
+                        // ==================
+                        // BUYER
+                        // ==================
+
+                        buyerId:
+                            currentUser.uid,
+
+                        buyerName:
+                            currentUser.displayName ||
+                            currentUser.email?.split("@")[0] ||
+                            "Buyer",
+
+                        buyerEmail:
+                            currentUser.email || "",
+
+                        buyerPhoto:
+                            currentUser.photoURL ||
+                            "https://placehold.co/100",
+
+                        // ==================
+                        // CHAT STATUS
+                        // ==================
+
+                        status:
+                            "active",
+
+                        unreadBuyer:
+                            0,
+
+                        unreadSeller:
+                            0,
+
+                        lastMessage:
+                            "",
+
+                        lastSender:
+                            "",
+
+                        createdAt:
+                            serverTimestamp(),
+
+                        updatedAt:
+                            serverTimestamp()
+
+                    }
+                );
+
+            chatId =
+                chatRef.id;
+        }
+
+        // ================================
+        // SAVE CHAT ID
+        // ================================
+
+        localStorage.setItem(
+            "chatId",
+            chatId
+        );
+
+        localStorage.setItem(
+            "chatProduct",
+            productId
+        );
+
+        // ================================
+        // OPEN CHAT
+        // ================================
+
+        window.location.href =
+            `chat.html?id=${encodeURIComponent(chatId)}`;
+
+    } catch (error) {
+
+        console.error(
+            "Start chat error:",
+            error
+        );
+
+        showNotification(
+            "Unable to start chat. Please try again."
+        );
+    }
 };
-
-
 /* =========================================
    AUTH & INITIALIZATION
 ========================================= */
@@ -1052,9 +1412,8 @@ async function loadReviews() {
                 document.createElement("strong");
 
             user.textContent =
-                review.userName ||
-                review.userEmail ||
-                "Anonymous User";
+    review.userEmail ||
+    "Anonymous User";
 
             const stars =
                 document.createElement("span");
@@ -1163,3 +1522,114 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
+async function loadRelatedProducts(currentProductId, currentCategory) {
+
+    const container = document.getElementById(
+        "relatedProductsContainer"
+    );
+
+    if (!container) return;
+
+    try {
+
+        const productsRef = collection(db, "products");
+
+        const q = query(
+            productsRef,
+            where("category", "==", currentCategory),
+            limit(8)
+        );
+
+        const snapshot = await getDocs(q);
+
+        container.innerHTML = "";
+
+        let count = 0;
+
+        snapshot.forEach((docSnap) => {
+
+            const product = docSnap.data();
+
+            // Current product එක skip කරන්න
+            if (docSnap.id === currentProductId) {
+                return;
+            }
+
+            count++;
+
+            const card = document.createElement("div");
+
+            card.className = "related-product-card";
+
+            card.innerHTML = `
+                <img
+                    class="related-product-image"
+                    src="${product.image || "profile.png"}"
+                    alt="${product.name || "Product"}"
+                >
+
+                <div class="related-product-info">
+
+                    <div class="related-product-name">
+                        ${product.name || "Unnamed Product"}
+                    </div>
+
+                    <div class="related-product-category">
+                        ${product.category || ""}
+                    </div>
+
+                    <div class="related-product-price">
+                        $${Number(product.price || 0).toLocaleString()}
+                    </div>
+
+                    <button class="related-view-btn">
+                        View Product
+                    </button>
+
+                </div>
+            `;
+
+            card.querySelector(".related-view-btn")
+                .addEventListener("click", (e) => {
+
+                    e.stopPropagation();
+
+                    window.location.href =
+                        `contact-seller.html?id=${docSnap.id}`;
+
+                });
+
+            card.addEventListener("click", () => {
+
+                window.location.href =
+                    `contact-seller.html?id=${docSnap.id}`;
+
+            });
+
+            container.appendChild(card);
+        });
+
+        if (count === 0) {
+
+            container.innerHTML = `
+                <p class="no-related-products">
+                    No related products found.
+                </p>
+            `;
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Error loading related products:",
+            error
+        );
+
+        container.innerHTML = `
+            <p class="no-related-products">
+                Unable to load related products.
+            </p>
+        `;
+    }
+}

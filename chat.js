@@ -97,6 +97,7 @@ let sellerOnline = false;
 let sending = false;
 let aiReplyTimer = null;
 
+let shippingTimerEndDate = null;
 const previewBox = document.getElementById("imagePreviewBox");
 const previewImage = document.getElementById("imagePreview");
 const removePreview = document.getElementById("removePreview");
@@ -129,76 +130,412 @@ onAuthStateChanged(auth, async (user) => {
   loadMessages(user);
   listenToChatDoc();
 });
+// ================= SHIPPING DAYS TIMER =================
+
+// ================= DELIVERY COUNTDOWN =================
+
+// ================= DELIVERY COUNTDOWN =================
+
+let shippingTimerInterval = null;
+
+function startShippingDaysTimer() {
+
+    // Stop previous interval
+    if (shippingTimerInterval) {
+        clearInterval(shippingTimerInterval);
+        shippingTimerInterval = null;
+    }
+
+    const daysElement =
+        document.getElementById("shippingDays");
+
+    if (!daysElement) return;
+
+    if (!currentChatData) {
+        daysElement.innerText = "Loading...";
+        return;
+    }
+
+    const shippingEndAt =
+        currentChatData.shippingEndAt;
+
+    if (!shippingEndAt) {
+        daysElement.innerText = "Not started";
+        return;
+    }
+
+    // Convert Firestore Timestamp to Date
+    const endDate =
+        typeof shippingEndAt.toDate === "function"
+            ? shippingEndAt.toDate()
+            : new Date(shippingEndAt);
+
+    if (isNaN(endDate.getTime())) {
+        daysElement.innerText = "Invalid deadline";
+        return;
+    }
+
+    function updateDays() {
+
+        // Always calculate from the actual deadline
+        const now = Date.now();
+        const difference = endDate.getTime() - now;
+
+        if (difference <= 0) {
+
+            daysElement.innerText =
+                "0 Days 0h 0m 0s — Delivery Due";
+
+            daysElement.classList.add("timer-expired");
+
+            if (shippingTimerInterval) {
+                clearInterval(shippingTimerInterval);
+                shippingTimerInterval = null;
+            }
+
+            return;
+        }
+
+        const totalSeconds =
+            Math.floor(difference / 1000);
+
+        const days =
+            Math.floor(totalSeconds / 86400);
+
+        const hours =
+            Math.floor((totalSeconds % 86400) / 3600);
+
+        const minutes =
+            Math.floor((totalSeconds % 3600) / 60);
+
+        const seconds =
+            totalSeconds % 60;
+
+        daysElement.classList.remove("timer-expired");
+
+        daysElement.innerText =
+            `${days} Days ${hours}h ${minutes}m ${seconds}s Remaining`;
+    }
+
+    // Immediately show the correct remaining time
+    updateDays();
+
+    // Update the display every second while the page is open
+    if (endDate.getTime() > Date.now()) {
+        shippingTimerInterval =
+            setInterval(updateDays, 1000);
+    }
+}
+
 
 // ================= LOAD CHAT INFO =================
 async function loadChatInfo(user) {
+
   try {
-    const chatRef = doc(db, "chats", chatId);
-    const snap = await getDoc(chatRef);
+
+    const chatRef =
+      doc(db, "chats", chatId);
+
+    const snap =
+      await getDoc(chatRef);
 
     if (!snap.exists()) {
+
       console.log("Chat not found");
+
       return;
     }
 
-    currentChatData = snap.data();
+    // Get chat document data
+    currentChatData =
+      snap.data();
+
+    // ================= SELLER ONLINE STATUS =================
 
     if (currentChatData.sellerId) {
-      listenSellerStatus(currentChatData.sellerId);
+
+      listenSellerStatus(
+        currentChatData.sellerId
+      );
+
     }
 
-    // ROLE CHECK
+    // ================= ROLE CHECK =================
+
     if (
       currentChatData.sellerEmail &&
-      currentChatData.sellerEmail.toLowerCase() === user.email.toLowerCase()
+      currentChatData.sellerEmail.toLowerCase() ===
+      user.email.toLowerCase()
     ) {
+
       currentRole = "seller";
+
     } else {
+
       currentRole = "buyer";
+
     }
 
-    // BUYER STORE LOGO FETCHING LOGIC
-    let buyerProfileImage = currentChatData.buyerPhoto || "https://placehold.co/100";
+    // ================= BUYER PROFILE IMAGE =================
+
+    let buyerProfileImage =
+      currentChatData.buyerPhoto ||
+      "https://placehold.co/100";
 
     try {
-      const storeRef = doc(db, "stores", user.uid);
-      const storeSnap = await getDoc(storeRef);
-      if (storeSnap.exists() && storeSnap.data().logo) {
-        buyerProfileImage = storeSnap.data().logo;
+
+      const storeRef =
+        doc(
+          db,
+          "stores",
+          user.uid
+        );
+
+      const storeSnap =
+        await getDoc(storeRef);
+
+      if (
+        storeSnap.exists() &&
+        storeSnap.data().logo
+      ) {
+
+        buyerProfileImage =
+          storeSnap.data().logo;
+
       }
+
     } catch (e) {
-      console.log("Error fetching buyer store logo:", e);
+
+      console.log(
+        "Error fetching buyer store logo:",
+        e
+      );
+
     }
 
-    // DISPLAY OTHER USER PROFILE IN HEADER
-    const sellerNameEl = document.getElementById("chatSellerName");
-    const sellerPhotoEl = document.getElementById("chatSellerPhoto");
+    // ================= HEADER ELEMENTS =================
+
+    const sellerNameEl =
+      document.getElementById(
+        "chatSellerName"
+      );
+
+    const sellerPhotoEl =
+      document.getElementById(
+        "chatSellerPhoto"
+      );
+
+
+    // =====================================================
+    // SELLER VIEW
+    // Seller is looking at the BUYER
+    // =====================================================
 
     if (currentRole === "seller") {
-      if (sellerNameEl) sellerNameEl.innerText = currentChatData.buyerName || "Buyer";
-      if (sellerPhotoEl) sellerPhotoEl.src = buyerProfileImage;
-    } else {
-      if (sellerNameEl) sellerNameEl.innerText = currentChatData.sellerName || "Seller";
-      if (sellerPhotoEl) sellerPhotoEl.src = currentChatData.sellerPhoto || "https://placehold.co/100";
+
+      if (sellerNameEl) {
+
+        sellerNameEl.innerText =
+          currentChatData.buyerName ||
+          "Buyer";
+
+      }
+
+      if (sellerPhotoEl) {
+
+        sellerPhotoEl.src =
+          buyerProfileImage;
+
+      }
+
     }
 
-    // UPDATE BUYER HIDDEN FIELDS / SIDEBAR
-    const buyerNameEl = document.getElementById("chatBuyerName");
-    const buyerPhotoEl = document.getElementById("chatBuyerPhoto");
-    if (buyerNameEl) buyerNameEl.innerText = currentChatData.buyerName || "You";
-    if (buyerPhotoEl) buyerPhotoEl.src = buyerProfileImage;
 
+    // =====================================================
+    // BUYER VIEW
+    // Buyer is looking at the SELLER
+    // =====================================================
+
+    else {
+
+      // -----------------------------------------------
+      // DEFAULT VALUE FROM CHAT DOCUMENT
+      // -----------------------------------------------
+
+      let actualSellerName =
+        currentChatData.sellerName ||
+        "Seller";
+
+      let actualSellerPhoto =
+        currentChatData.sellerPhoto ||
+        "https://placehold.co/100";
+
+
+      // -----------------------------------------------
+      // GET STORE DATA
+      // stores/{sellerId}
+      // -----------------------------------------------
+
+      if (currentChatData.sellerId) {
+
+        try {
+
+          const storeRef =
+            doc(
+              db,
+              "stores",
+              currentChatData.sellerId
+            );
+
+          const storeSnap =
+            await getDoc(storeRef);
+
+
+          if (storeSnap.exists()) {
+
+            const storeData =
+              storeSnap.data();
+
+            console.log(
+              "CHAT STORE DATA:",
+              storeData
+            );
+
+
+            // Store name is the main name
+            if (storeData.name) {
+
+              actualSellerName =
+                storeData.name;
+
+            }
+
+
+            // Store logo
+            if (storeData.logo) {
+
+              actualSellerPhoto =
+                storeData.logo;
+
+            }
+
+          }
+
+        } catch (error) {
+
+          console.error(
+            "Error getting seller store:",
+            error
+          );
+
+        }
+
+      }
+
+
+      // -----------------------------------------------
+      // DISPLAY SELLER NAME
+      // -----------------------------------------------
+
+      if (sellerNameEl) {
+
+        sellerNameEl.innerText =
+          actualSellerName;
+
+      }
+
+
+      // -----------------------------------------------
+      // DISPLAY SELLER PHOTO
+      // -----------------------------------------------
+
+      if (sellerPhotoEl) {
+
+        sellerPhotoEl.src =
+          actualSellerPhoto;
+
+      }
+
+
+      // -----------------------------------------------
+      // KEEP CURRENT CHAT DATA UPDATED
+      // -----------------------------------------------
+
+      currentChatData.sellerName =
+        actualSellerName;
+
+      currentChatData.sellerPhoto =
+        actualSellerPhoto;
+
+    }
+
+
+    // =====================================================
+    // BUYER SIDEBAR / HIDDEN PROFILE
+    // =====================================================
+
+    const buyerNameEl =
+      document.getElementById(
+        "chatBuyerName"
+      );
+
+    const buyerPhotoEl =
+      document.getElementById(
+        "chatBuyerPhoto"
+      );
+
+
+    if (buyerNameEl) {
+
+      buyerNameEl.innerText =
+        currentChatData.buyerName ||
+        "You";
+
+    }
+
+
+    if (buyerPhotoEl) {
+
+      buyerPhotoEl.src =
+        buyerProfileImage;
+
+    }
+
+
+    // =====================================================
     // RESET UNREAD COUNT
-    if (currentRole === "seller") {
-      await updateDoc(chatRef, { unreadSeller: 0 });
-    } else {
-      await updateDoc(chatRef, { unreadBuyer: 0 });
-    }
-  } catch (err) {
-    console.error("Error loading chat info:", err);
-  }
-}
+    // =====================================================
 
+    if (currentRole === "seller") {
+
+      await updateDoc(
+        chatRef,
+        {
+          unreadSeller: 0
+        }
+      );
+
+    } else {
+
+      await updateDoc(
+        chatRef,
+        {
+          unreadBuyer: 0
+        }
+      );
+
+    }
+
+  } catch (err) {
+
+    console.error(
+      "Error loading chat info:",
+      err
+    );
+
+  }
+
+}
 // ================= LOAD MESSAGES =================
 function loadMessages(user) {
   if (!messagesDiv) return;
@@ -1028,46 +1365,139 @@ if (chatId) {
 }
 
 // ================= DELIVERY SYSTEM =================
+// ================= DELIVERY SYSTEM =================
 const deliverBtn = document.getElementById("deliverBtn");
 const approveBtn = document.getElementById("approveBtn");
 
 function updateDeliveryUI() {
+
+  // Chat data තාම load වෙලා නැත්නම්
   if (!currentChatData) return;
 
-  const statusBox = document.getElementById("deliveryStatus");
-  const fileBox = document.getElementById("deliveryFileBox");
+  const statusBox =
+    document.getElementById("deliveryStatus");
+
+  const fileBox =
+    document.getElementById("deliveryFileBox");
+
+  const daysElement =
+    document.getElementById("shippingDays");
 
   if (!statusBox || !fileBox) return;
 
-  if (deliverBtn) deliverBtn.style.display = "none";
-  if (approveBtn) approveBtn.style.display = "none";
+  // Current delivery status
+  const status =
+    currentChatData.status || "active";
+
+  // Buttons reset
+  if (deliverBtn) {
+    deliverBtn.style.display = "none";
+  }
+
+  if (approveBtn) {
+    approveBtn.style.display = "none";
+  }
+
+  // Delivery file reset
   fileBox.innerHTML = "";
 
-  const status = currentChatData.status || "active";
-
+  // ================= ACTIVE =================
   if (status === "active") {
-    statusBox.innerHTML = "🟡 Project In Progress";
-    if (currentRole === "seller" && deliverBtn) {
+
+    statusBox.innerHTML =
+      "🟡 Project In Progress";
+
+    // Seller can deliver
+    if (
+      currentRole === "seller" &&
+      deliverBtn
+    ) {
       deliverBtn.style.display = "block";
     }
-  } else if (status === "delivered") {
-    statusBox.innerHTML = "📦 Project Delivered";
-    if (currentRole === "buyer" && approveBtn) {
+
+    // Start countdown
+    startShippingDaysTimer();
+
+  }
+
+  // ================= DELIVERED =================
+  else if (status === "delivered") {
+
+    statusBox.innerHTML =
+      "📦 Project Delivered";
+
+    // Buyer can approve
+    if (
+      currentRole === "buyer" &&
+      approveBtn
+    ) {
       approveBtn.style.display = "block";
     }
 
+    // Stop shipping timer
+    if (shippingTimerInterval) {
+
+      clearInterval(
+        shippingTimerInterval
+      );
+
+      shippingTimerInterval = null;
+    }
+
+    if (daysElement) {
+      daysElement.innerText =
+        "Project Delivered";
+
+      daysElement.classList.remove(
+        "timer-expired"
+      );
+    }
+
+    // Show delivered file
     if (currentChatData.deliveryFile) {
+
       fileBox.innerHTML = `
-        <a href="${currentChatData.deliveryFile}" target="_blank">
+        <a
+          href="${currentChatData.deliveryFile}"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           📥 Download Final Project
         </a>
       `;
     }
-  } else if (status === "completed") {
-    statusBox.innerHTML = "✅ Order Completed";
-  }
-}
 
+  }
+
+  // ================= COMPLETED =================
+  else if (status === "completed") {
+
+    statusBox.innerHTML =
+      "✅ Order Completed";
+
+    // Stop shipping timer
+    if (shippingTimerInterval) {
+
+      clearInterval(
+        shippingTimerInterval
+      );
+
+      shippingTimerInterval = null;
+    }
+
+    if (daysElement) {
+
+      daysElement.innerText =
+        "Order Completed";
+
+      daysElement.classList.remove(
+        "timer-expired"
+      );
+    }
+
+  }
+
+}
 async function deliverProject() {
   const picker = document.createElement("input");
   picker.type = "file";
@@ -1140,13 +1570,30 @@ function listenToChatDoc() {
 
   if (unsubscribeChatDoc) unsubscribeChatDoc();
 
-  unsubscribeChatDoc = onSnapshot(doc(db, "chats", chatId), (snapshot) => {
-    if (!snapshot.exists()) return;
-    currentChatData = snapshot.data();
-    updateDeliveryUI();
-  }, (err) => {
-    console.error("Error listening to chat doc:", err);
-  });
+  unsubscribeChatDoc = onSnapshot(
+    doc(db, "chats", chatId),
+    (snapshot) => {
+
+        if (!snapshot.exists()) return;
+
+        currentChatData =
+            snapshot.data();
+
+        updateDeliveryUI();
+
+        // Start / update shipping timer
+        startShippingDaysTimer();
+
+    },
+    (err) => {
+
+        console.error(
+            "Error listening to chat doc:",
+            err
+        );
+
+    }
+);
 }
 
 // ================= SELLER PRESENCE LISTENER =================

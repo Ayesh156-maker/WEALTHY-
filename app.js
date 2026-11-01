@@ -24,7 +24,9 @@ import {
     increment,
     query,
     orderBy,
-    onSnapshot
+    onSnapshot,
+    limit,
+    startAfter
 } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
 import {
   getDatabase
@@ -366,7 +368,17 @@ async function updateUserStatus(user,status){
  );
 
 }
+// ================= PRODUCT PAGINATION =================
+
 let allProducts = [];
+
+const PRODUCTS_PER_PAGE = 24;
+
+let lastProductDoc = null;
+
+let loadingProducts = false;
+
+let allProductsLoaded = false;
 let recentSearches =
 JSON.parse(localStorage.getItem("recentSearches") || "[]");
 // ================= CART =================
@@ -913,70 +925,187 @@ window.goCheckoutPage = () => {
   window.location.href = "checkout.html";
 };
 
-// ================= CONTACT SELLER (non-digital → chat.html) =================
-window.contactSeller = async (sellerEmail, productId) => {
-showLoading();
-  if (!auth.currentUser) {
-    showToast("Please login first");
-    return;
-  }
+// ================= CONTACT SELLER =================
+// Creates a SEPARATE chat for each product
 
-  const buyer = auth.currentUser;
+window.contactSeller = async function (sellerEmail, productId) {
 
-  // Product එක හොයනවා
-  const product = allProducts.find(p => p.id === productId);
+    if (!auth.currentUser) {
+        showToast("Please login first");
+        return;
+    }
 
-  if (!product) {
-    showToast("Product not found");
-    return;
-  }
+    if (!sellerEmail || !productId) {
+        showToast("Seller or product information missing.");
+        return;
+    }
 
-  const buyerEmail = buyer.email;
-  const chatId = `${productId}_${buyerEmail}_${sellerEmail}`;
-console.log(product);
-  await setDoc(
-    doc(db, "chats", chatId),
-    {
+    showLoading();
 
-      // Buyer
-      buyerId: buyer.uid,
-      buyerEmail: buyer.email,
-      buyerName: buyer.displayName || "",
-      buyerPhoto: buyer.photoURL || "",
+    try {
 
-      // Seller
-      sellerEmail: sellerEmail,
-      sellerName: product.storeName || product.sellerName || "",
-      sellerPhoto: product.storeLogo || product.sellerPhoto || "",
-      sellerId: product.sellerId || "",
+        const buyer = auth.currentUser;
 
-      // Product
-      productId: product.id,
-      productName: product.brand,
-      productImage: product.imageUrl || "",
-      price: Number(product.price),
+        // ================= FIND PRODUCT =================
 
-      // Chat
-      lastMessage: "",
-      unreadBuyer: 0,
-      unreadSeller: 0,
-      status: "active",
-      createdAt: serverTimestamp(),
-      updatedAt: serverTimestamp()
+        const product = allProducts.find(
+            p => p.id === productId
+        );
 
-    },
-    { merge: true }
-  );
+        if (!product) {
+            hideLoading();
+            showToast("Product not found.");
+            return;
+        }
 
-  localStorage.setItem("chatId", chatId);
+        // ================= CREATE UNIQUE CHAT ID =================
+        // Product ID is included, so every product has its own chat.
 
-setTimeout(()=>{
+        const chatRef = doc(
+            collection(db, "chats")
+        );
 
-    window.location.href="chat.html";
+        const chatId = chatRef.id;
+        // ================= SHIPPING COUNTDOWN =================
 
-},1200);
+// Product එකේ shipping days field එක
+const shippingDays = Number(
+    product.shippingDays ||
+    product.deliveryDays ||
+    product.shippingTime ||
+    0
+);
+
+// Contact Seller කළ මොහොතේ countdown එක start වෙනවා
+let shippingEndAt = null;
+
+if (shippingDays > 0) {
+    shippingEndAt = new Date(
+        Date.now() + shippingDays * 24 * 60 * 60 * 1000
+    );
+}
+
+
+        // ================= CHAT DATA =================
+
+        await setDoc(chatRef, {
+
+            // Buyer
+            buyerId: buyer.uid,
+            buyerEmail: buyer.email || "",
+            buyerName: buyer.displayName || "Buyer",
+            buyerPhoto: buyer.photoURL || "",
+
+            // Seller
+            sellerId: product.sellerId || "",
+            sellerEmail: sellerEmail || "",
+            sellerName:
+                product.storeName ||
+                product.sellerName ||
+                "Seller",
+
+            sellerPhoto:
+                product.storeLogo ||
+                product.sellerPhoto ||
+                "",
+
+            // ================= PRODUCT =================
+
+            productId: product.id,
+
+            productName:
+                product.brand ||
+                product.name ||
+                "Product",
+
+            productImage:
+                product.imageUrl ||
+                product.image ||
+                product.originalImage ||
+                "",
+
+            price:
+                Number(product.price || 0),
+
+            category:
+                product.category || "",
+
+
+            // ================= CHAT =================
+
+            lastMessage: "",
+
+            lastMessageAt: null,
+
+            unreadBuyer: 0,
+
+            unreadSeller: 0,
+
+            status: "active",
+            shippingDays: shippingDays,
+shippingStartAt: serverTimestamp(),
+shippingEndAt: shippingEndAt,
+
+createdAt: serverTimestamp(),
+updatedAt: serverTimestamp(),
+
+            createdAt: serverTimestamp(),
+
+            updatedAt: serverTimestamp()
+
+        });
+
+
+        // ================= SAVE CURRENT CHAT =================
+
+        localStorage.setItem(
+            "chatId",
+            chatId
+        );
+
+
+        // Save product ID too
+        localStorage.setItem(
+            "chatProductId",
+            product.id
+        );
+
+
+        console.log(
+            "✅ New product chat created:",
+            chatId
+        );
+
+        console.log(
+            "🛍️ Product:",
+            product.brand
+        );
+
+
+        // ================= OPEN CHAT =================
+
+        window.location.href =
+            `chat.html?chatId=${encodeURIComponent(chatId)}`;
+
+    }
+    catch (error) {
+
+        console.error(
+            "❌ Chat creation error:",
+            error
+        );
+
+        hideLoading();
+
+        showToast(
+            "Unable to create chat."
+        );
+
+    }
 
 };
+
+
 // ================= RENDER PRODUCTS =================
 // ================= RENDER PRODUCTS =================
 const digitalCategories = [
@@ -1008,18 +1137,19 @@ const digitalCategories = [
     "modern-abstract",
     "surreal-art"
 ];
-function renderProducts(list) {
+function renderProducts(list, append = false) {
 
     const productsGrid =
         document.getElementById("productsGrid");
 
     if (!productsGrid) return;
 
-    productsGrid.innerHTML = "";
+    // First load / filter
+    if (!append) {
+        productsGrid.innerHTML = "";
+    }
 
     list.forEach((p) => {
-      console.log("CATEGORY =", p.category);
-console.log("PRODUCT =", p);
 
         let actionButton = "";
 
@@ -1033,10 +1163,10 @@ console.log("PRODUCT =", p);
 
                         addToCart(
                             ${JSON.stringify(p.brand)},
-                            ${Number(p.price)},
+                            ${Number(p.price || 0)},
                             ${JSON.stringify(p.sellerEmail || p.email || "")},
                             ${JSON.stringify(p.id)},
-                            ${JSON.stringify(p.categoryType)},
+                            ${JSON.stringify(p.categoryType || "")},
                             ${JSON.stringify(p.downloadUrl || "")},
                             ${JSON.stringify(p.imageUrl || p.image || p.originalImage || "")}
                         )
@@ -1055,9 +1185,9 @@ console.log("PRODUCT =", p);
                         event.stopPropagation();
 
                         contactSeller(
- ${JSON.stringify(p.sellerEmail || "")},
- ${JSON.stringify(p.id)}
-)
+                            ${JSON.stringify(p.sellerEmail || "")},
+                            ${JSON.stringify(p.id)}
+                        )
                     '
                 >
                     💬 Contact Seller
@@ -1066,9 +1196,6 @@ console.log("PRODUCT =", p);
 
         }
 
-
-        // ================= WISHLIST BUTTON =================
-
         const isWishlisted =
             wishlistIds.has(p.id);
 
@@ -1076,29 +1203,32 @@ console.log("PRODUCT =", p);
             isWishlisted ? "❤️" : "🤍";
 
 
-        productsGrid.innerHTML += `
+        productsGrid.insertAdjacentHTML(
+            "beforeend",
+
+            `
 
             <div
                 class="product-card glass"
-              onclick="${
-    isDigitalProduct(p)
-    ? `openProductPage('${p.id}')`
-    : `openContactSellerPage('${p.id}')`
-}"
+                onclick="${
+                    isDigitalProduct(p)
+                    ? `openProductPage('${p.id}')`
+                    : `openContactSellerPage('${p.id}')`
+                }"
             >
 
                 <div class="product-image">
 
-                   <img
-    src="${p.imageUrl || p.image || p.originalImage || ""}"
-    onerror="
-        this.onerror=null;
-        this.src='https://via.placeholder.com/300x200?text=No+Image';
-    "
-    alt="${p.brand || p.name || "Product"}"
->
-
-                    <!-- WISHLIST -->
+                    <img
+                        src="${p.imageUrl || p.image || p.originalImage || ""}"
+                        loading="lazy"
+                        decoding="async"
+                        onerror="
+                            this.onerror=null;
+                            this.src='https://via.placeholder.com/300x200?text=No+Image';
+                        "
+                        alt="${p.brand || p.name || "Product"}"
+                    >
 
                     <button
                         class="wishlist-btn ${
@@ -1120,7 +1250,7 @@ console.log("PRODUCT =", p);
                 <div class="product-info">
 
                     <h2>
-                        ${p.brand || "Product"}
+                        ${p.brand || p.name || "Product"}
                     </h2>
 
                     <p>
@@ -1130,7 +1260,7 @@ console.log("PRODUCT =", p);
                     <div class="price-row">
 
                         <span class="price">
-                            Rs ${p.price || 0}
+                            Rs ${Number(p.price || 0).toLocaleString()}
                         </span>
 
                     </div>
@@ -1141,7 +1271,8 @@ console.log("PRODUCT =", p);
 
             </div>
 
-        `;
+            `
+        );
 
     });
 
@@ -1191,60 +1322,131 @@ function smartMatch(product, keyword){
 
     return words.some(word=>word.startsWith(keyword));
 }
-function getSearchScore(product, keyword){ 
+function getSearchScore(product, keyword) {
 
-    keyword = keyword.toLowerCase().trim(); 
+    keyword = String(keyword || "").toLowerCase().trim();
 
-    let score = 0; 
+    let score = 0;
 
-    const brand = (product.brand || "").toLowerCase();
-    const description = (product.description || "").toLowerCase();
-    const tags = (product.tags || "").toLowerCase();
-    const category = (product.category || "").toLowerCase();
-    const seller = (product.storeName || product.sellerName || "").toLowerCase();
+    const brand =
+        (product.brand || "").toLowerCase();
+
+    const description =
+        (product.description || "").toLowerCase();
+
+    const tags =
+        Array.isArray(product.tags)
+            ? product.tags.join(" ").toLowerCase()
+            : String(product.tags || "").toLowerCase();
+
+    const category =
+        (product.category || "").toLowerCase();
+
+    const seller =
+        (
+            product.storeName ||
+            product.sellerName ||
+            ""
+        ).toLowerCase();
 
 
-    if(brand === keyword) score += 100;
-    if(brand.startsWith(keyword)) score += 70;
-    if(brand.includes(keyword)) score += 50;
+    // =========================
+    // SEARCH RELEVANCE
+    // =========================
 
-    if(tags.includes(keyword)) score += 35;
-    if(category.includes(keyword)) score += 30;
-    if(seller.includes(keyword)) score += 25;
-    if(description.includes(keyword)) score += 15;
+    if (keyword) {
+
+        if (brand === keyword)
+            score += 100;
+
+        if (brand.startsWith(keyword))
+            score += 70;
+
+        if (brand.includes(keyword))
+            score += 50;
+
+        if (tags.includes(keyword))
+            score += 35;
+
+        if (category.includes(keyword))
+            score += 30;
+
+        if (seller.includes(keyword))
+            score += 25;
+
+        if (description.includes(keyword))
+            score += 15;
+
+    }
 
 
-    // ⭐ CART POPULARITY BOOST
-    const cartCount = Number(product.cartCount || 0);
+    // =========================
+    // CART POPULARITY
+    // =========================
+
+    const cartCount =
+        Number(product.cartCount || 0);
 
     score += cartCount * 10;
 
 
-    return score; 
+    // =========================
+    // ⭐ RATING
+    // =========================
+
+    const rating =
+        Number(product.rating || 0);
+
+    score += rating * 12;
+
+
+    // =========================
+    // 💬 REVIEW COUNT
+    // =========================
+
+    const reviewCount =
+        Number(product.reviewCount || 0);
+
+    score += Math.min(reviewCount * 3, 60);
+
+
+    // =========================
+    // 🔥 QUALITY BOOST
+    // =========================
+
+    if (rating >= 4.5 && reviewCount >= 10) {
+
+        score += 40;
+
+    } else if (rating >= 4 && reviewCount >= 5) {
+
+        score += 20;
+
+    }
+
+
+    return score;
 }
 // ================= FILTER / SEARCH =================
 window.filterProducts = () => {
 
     const searchValue =
         (document.getElementById("searchInput")?.value || "")
-        .toLowerCase()
-        .trim();
-
-
-    // NEW CATEGORY DROPDOWN VALUE
-    const categoryValue =
-        String(window.selectedCategory || "")
-        .toLowerCase()
-        .trim();
-
-
-    const filtered = allProducts.filter(product => {
-
-        const productCategory =
-            String(product.category || "")
             .toLowerCase()
             .trim();
 
+
+    const categoryValue =
+        String(window.selectedCategory || "")
+            .toLowerCase()
+            .trim();
+
+
+    // =====================================================
+    // FILTER PRODUCTS
+    // =====================================================
+
+    let filtered = allProducts.filter(product => {
 
         // =========================
         // SEARCH MATCH
@@ -1259,140 +1461,179 @@ window.filterProducts = () => {
         // CATEGORY MATCH
         // =========================
 
-     // =========================
-// CATEGORY MATCH
-// =========================
+        let matchesCategory = true;
 
-// =========================
-// CATEGORY MATCH
-// =========================
 
-let matchesCategory = true;
+        if (categoryValue !== "") {
 
-if (categoryValue !== "") {
-
-    const productCategory = String(product.category || "")
-        .trim()
-        .toLowerCase();
-
-    const selectedCategory = String(window.selectedCategory || "")
-        .trim()
-        .toLowerCase();
-
-    // ==========================================
-    // DIGITAL ART MAIN CATEGORY
-    // ==========================================
-
-    if (selectedCategory === "digital-art") {
-
-        const digitalArtCategories = [
-
-            "digital art",
-            "ai art",
-            "digital paintings",
-            "digital illustrations",
-            "digital drawings",
-            "digital sketches",
-            "3d digital art",
-            "digital concept art",
-            "digital character art",
-            "digital fantasy art",
-            "digital surreal art"
-
-        ];
-
-        matchesCategory =
-            digitalArtCategories.includes(productCategory);
-
-    }
-
-    // ==========================================
-    // OTHER MAIN CATEGORY
-    // ==========================================
-
-    else {
-
-        // Convert selected ID to readable category
-        const selectedMain =
-            Object.values(CATEGORY_DATA).find(
-                category => category.id === selectedCategory
-            );
-
-        if (selectedMain) {
-
-            // Main category itself
-            const mainName =
-                Object.keys(CATEGORY_DATA).find(
-                    key =>
-                        CATEGORY_DATA[key].id === selectedCategory
-                );
-
-            const cleanMainName =
-                String(mainName || "")
-                    .replace(/^[^\w]+/g, "")
+            const productCategory =
+                String(product.category || "")
                     .trim()
                     .toLowerCase();
 
-            // Check main category
-            if (productCategory === cleanMainName) {
 
-                matchesCategory = true;
+            const selectedCategory =
+                String(window.selectedCategory || "")
+                    .trim()
+                    .toLowerCase();
 
-            } else {
 
-                // Check sub categories
+            // ==========================================
+            // DIGITAL ART MAIN CATEGORY
+            // ==========================================
+
+            if (selectedCategory === "digital-art") {
+
+                const digitalArtCategories = [
+
+                    "digital art",
+                    "ai art",
+                    "digital paintings",
+                    "digital illustrations",
+                    "digital drawings",
+                    "digital sketches",
+                    "3d digital art",
+                    "digital concept art",
+                    "digital character art",
+                    "digital fantasy art",
+                    "digital surreal art"
+
+                ];
+
+
                 matchesCategory =
-                    selectedMain.children.some(
-                        ([icon, name, id]) => {
+                    digitalArtCategories.includes(
+                        productCategory
+                    );
 
-                            return (
-                                id.toLowerCase() === productCategory ||
-                                name.toLowerCase() === productCategory
+            }
+
+
+            // ==========================================
+            // OTHER MAIN CATEGORY
+            // ==========================================
+
+            else {
+
+                const selectedMain =
+                    Object.values(CATEGORY_DATA)
+                        .find(
+                            category =>
+                                category.id === selectedCategory
+                        );
+
+
+                if (selectedMain) {
+
+                    // Main category name
+                    const mainName =
+                        Object.keys(CATEGORY_DATA)
+                            .find(
+                                key =>
+                                    CATEGORY_DATA[key].id ===
+                                    selectedCategory
                             );
 
-                        }
-                    );
+
+                    const cleanMainName =
+                        String(mainName || "")
+                            .replace(/^[^\w]+/g, "")
+                            .trim()
+                            .toLowerCase();
+
+
+                    // =========================
+                    // MAIN CATEGORY
+                    // =========================
+
+                    if (
+                        productCategory === cleanMainName
+                    ) {
+
+                        matchesCategory = true;
+
+                    }
+
+                    // =========================
+                    // SUB CATEGORY
+                    // =========================
+
+                    else {
+
+                        matchesCategory =
+                            selectedMain.children.some(
+                                ([icon, name, id]) => {
+
+                                    return (
+                                        id.toLowerCase() ===
+                                            productCategory ||
+
+                                        name.toLowerCase() ===
+                                            productCategory
+                                    );
+
+                                }
+                            );
+
+                    }
+
+                }
+
+
+                // ==========================================
+                // SELECTED SUB CATEGORY
+                // ==========================================
+
+                else {
+
+                    const selectedSub =
+                        Object.values(CATEGORY_DATA)
+                            .flatMap(
+                                category =>
+                                    category.children
+                            )
+                            .find(
+                                ([icon, name, id]) =>
+                                    id.toLowerCase() ===
+                                    selectedCategory
+                            );
+
+
+                    if (selectedSub) {
+
+                        const [
+                            icon,
+                            name,
+                            id
+                        ] = selectedSub;
+
+
+                        matchesCategory =
+                            productCategory ===
+                                name.toLowerCase() ||
+
+                            productCategory ===
+                                id.toLowerCase();
+
+                    }
+
+                    else {
+
+                        matchesCategory =
+                            productCategory ===
+                            selectedCategory;
+
+                    }
+
+                }
 
             }
 
         }
 
-        // ==========================================
-        // SUB CATEGORY
-        // ==========================================
 
-        else {
-
-            const selectedSub =
-                Object.values(CATEGORY_DATA)
-                    .flatMap(category => category.children)
-                    .find(
-                        ([icon, name, id]) =>
-                            id.toLowerCase() === selectedCategory
-                    );
-
-            if (selectedSub) {
-
-                const [icon, name, id] = selectedSub;
-
-                matchesCategory =
-                    productCategory === name.toLowerCase() ||
-                    productCategory === id.toLowerCase();
-
-            } else {
-
-                matchesCategory =
-                    productCategory === selectedCategory;
-
-            }
-
-        }
-
-    }
-
-}
         // =========================
-        // FINAL MATCH
+        // FINAL FILTER
         // =========================
 
         return (
@@ -1403,27 +1644,147 @@ if (categoryValue !== "") {
     });
 
 
-    // =========================
+    // =====================================================
+    // RANK SEARCH RESULTS
+    // =====================================================
+
+    filtered.sort((a, b) => {
+
+        const scoreA =
+            getSearchScore(
+                a,
+                searchValue
+            );
+
+        const scoreB =
+            getSearchScore(
+                b,
+                searchValue
+            );
+
+
+        return scoreB - scoreA;
+
+    });
+
+
+    // =====================================================
     // RENDER
-    // =========================
+    // =====================================================
 
     renderProducts(filtered);
 
 };
 
 // ================= LOAD PRODUCTS =================
-async function loadProducts() {
+// ================= LOAD PRODUCTS WITH PAGINATION =================
+
+async function loadProducts(reset = false) {
+
+    if (loadingProducts) return;
+
+    if (allProductsLoaded && !reset) return;
+
+    loadingProducts = true;
+
+
     try {
 
-        const snapshot = await getDocs(
-            collection(db, "products")
-        );
+        // ================= RESET =================
 
-        allProducts = [];
+        if (reset) {
+
+            allProducts = [];
+
+            lastProductDoc = null;
+
+            allProductsLoaded = false;
+
+            const productsGrid =
+                document.getElementById("productsGrid");
+
+            if (productsGrid) {
+                productsGrid.innerHTML = "";
+            }
+
+        }
+
+
+        // ================= FIRESTORE QUERY =================
+
+        const productsRef =
+            collection(db, "products");
+
+
+        let productsQuery;
+
+
+        if (lastProductDoc) {
+
+            productsQuery = query(
+
+                productsRef,
+
+                orderBy("createdAt", "desc"),
+
+                startAfter(lastProductDoc),
+
+                limit(PRODUCTS_PER_PAGE)
+
+            );
+
+        } else {
+
+            productsQuery = query(
+
+                productsRef,
+
+                orderBy("createdAt", "desc"),
+
+                limit(PRODUCTS_PER_PAGE)
+
+            );
+
+        }
+
+
+        // ================= GET PRODUCTS =================
+
+        const snapshot =
+            await getDocs(productsQuery);
+
+
+        // ================= NO MORE PRODUCTS =================
+
+        if (snapshot.empty) {
+
+            allProductsLoaded = true;
+
+            console.log(
+                "✅ All LeanGelo products loaded."
+            );
+
+            return;
+
+        }
+
+
+        // ================= SAVE LAST DOCUMENT =================
+
+        lastProductDoc =
+            snapshot.docs[snapshot.docs.length - 1];
+
+
+        // ================= CONVERT PRODUCTS =================
+
+        const newProducts = [];
+
 
         snapshot.forEach((docSnap) => {
 
-            const data = docSnap.data();
+            const data =
+                docSnap.data();
+
 
             const imageUrl =
                 data.imageUrl ||
@@ -1433,13 +1794,13 @@ async function loadProducts() {
                 data.photoURL ||
                 "";
 
-            allProducts.push({
+
+            const product = {
 
                 id: docSnap.id,
 
                 ...data,
 
-                // ⭐ MAIN PRODUCT IMAGE
                 imageUrl: imageUrl,
 
                 category:
@@ -1447,26 +1808,107 @@ async function loadProducts() {
                         .trim()
                         .toLowerCase()
 
-            });
+            };
+
+
+            newProducts.push(product);
 
         });
 
-        if (auth.currentUser) {
-            await loadWishlist();
+
+        // ================= ADD TO GLOBAL ARRAY =================
+
+        allProducts.push(...newProducts);
+
+
+        // ================= CHECK LAST PAGE =================
+
+        if (
+            snapshot.docs.length <
+            PRODUCTS_PER_PAGE
+        ) {
+
+            allProductsLoaded = true;
+
         }
 
-        renderProducts(allProducts);
 
-    } catch (err) {
+        // ================= RENDER =================
 
-        console.error(
-            "loadProducts error:",
-            err
+        renderProducts(
+            newProducts,
+            true
         );
 
+
+        // ================= WISHLIST =================
+
+        if (auth.currentUser) {
+
+            await loadWishlist();
+
+        }
+
+
+        console.log(
+            `✅ Loaded ${newProducts.length} products`
+        );
+
+        console.log(
+            `📦 Total loaded: ${allProducts.length}`
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "❌ Product loading error:",
+            error
+        );
+
+    } finally {
+
+        loadingProducts = false;
+
     }
+
 }
 loadProducts();
+// ================= INFINITE SCROLL =================
+
+window.addEventListener(
+    "scroll",
+    () => {
+
+        if (loadingProducts) return;
+
+        if (allProductsLoaded) return;
+
+
+        const scrollPosition =
+            window.innerHeight +
+            window.scrollY;
+
+
+        const pageHeight =
+            document.documentElement.scrollHeight;
+
+
+        // Bottom එකට 800px ඇතුළත ආවම
+        if (
+            scrollPosition >=
+            pageHeight - 800
+        ) {
+
+            loadProducts();
+
+        }
+
+    },
+    {
+        passive: true
+    }
+);
 window.goOrders = () => {
     window.location.href = "orders-buyer.html";
 };
@@ -1606,11 +2048,10 @@ onMessage(messaging, (payload) => {
 
 // ================= SERVICE WORKER =================
 if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("/firebase-messaging-sw.js")
+  navigator.serviceWorker.register("./firebase-messaging-sw.js")
     .then(() => console.log("SW registered"))
     .catch(err => console.error("SW error:", err));
 }
-
 // ================= DOM READY =================
 document.addEventListener("DOMContentLoaded", () => {
 buildCategoryDropdown();

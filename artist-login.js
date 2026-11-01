@@ -45,53 +45,60 @@ const db = getFirestore(app);
 
 // ================= GOOGLE LOGIN =================
 
+// ================= GOOGLE LOGIN =================
+
 const googleBtn = document.getElementById("googleLogin");
 
-if(googleBtn){
+if (googleBtn) {
 
-googleBtn.addEventListener("click", async()=>{
+    googleBtn.addEventListener("click", async () => {
 
-const provider = new GoogleAuthProvider();
+        const provider = new GoogleAuthProvider();
 
-try{
+        try {
 
-const result = await signInWithPopup(auth,provider);
+            const result = await signInWithPopup(auth, provider);
 
-const user = result.user;
+            const user = result.user;
 
-await setDoc(
-doc(db,"artists",user.uid),
-{
-uid:user.uid,
-name:user.displayName,
-email:user.email,
-profilePhoto:user.photoURL,
-status:"pending",
-createdAt:serverTimestamp()
-},
-{
-merge:true
+            // Google account authenticated successfully
+            console.log("Google User:", user.email);
+
+            // Create / update artist document
+            await setDoc(
+                doc(db, "artists", user.uid),
+                {
+                    uid: user.uid,
+                    name: user.displayName || "",
+                    email: user.email,
+                    profilePhoto: user.photoURL || "",
+                    status: "pending",
+                    createdAt: serverTimestamp()
+                },
+                {
+                    merge: true
+                }
+            );
+
+            showToast("Google account verified successfully!");
+
+            // Go to artist page
+            setTimeout(() => {
+                window.location.href = "artist.html";
+            }, 1000);
+
+        }
+
+        catch (error) {
+
+            console.log(error);
+            showToast(error.message);
+
+        }
+
+    });
+
 }
-);
-
-showToast("Google Login Successful!");
-
-window.location.href="dashboard.html";
-
-}
-
-catch(error){
-
-console.log(error);
-
-showToast(error.message);
-
-}
-
-});
-
-}
-
 
 // ================= EMAIL LOGIN =================
 
